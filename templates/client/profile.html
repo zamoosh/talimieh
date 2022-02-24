@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{% static "assets/css/datepicker.css" %}"/>
+    <link rel="stylesheet" href="{% static "assets/css/persianDatepicker-default.css" %}"/>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static "assets/js/datepicker.js" %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#birth_date").persianDatepicker();
+            $("#pass_issue_date").persianDatepicker();
+            $("#pass_expiration").persianDatepicker();
+        });
+    </script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="card-aside-wrap">
+                                            <div class="card-inner card-inner-lg">
+                                                <div class="nk-block-head nk-block-head-lg">
+                                                    <div class="nk-block-between">
+                                                        <div class="nk-block-head-content"><h4 class="nk-block-title">
+                                                            پروفایل کاربری</h4>
+                                                            <div class="nk-block-des"><p>مشخصات فردی و اطلاعات
+                                                                کاربری</p></div>
+                                                        </div>
+                                                        <div class="nk-block-head-content align-self-start d-lg-none"><a
+                                                                href="#" class="toggle btn btn-icon btn-trigger mt-n1"
+                                                                data-target="userAside"><em
+                                                                class="icon ni ni-menu-alt-r"></em></a></div>
+                                                    </div>
+                                                </div>
+                                                <div class="nk-block">
+                                                    <div class="nk-data data-list">
+                                                        <form method="post">
+                                                            {% csrf_token %}
+                                                            <div class="row g-4">
+                                                                <div class="col-lg-6">
+                                                                    <label class="form-label"
+                                                                           for="full-name-1">ملیت</label>
+                                                                    <div class="row">
+                                                                        <div class="g col-lg-6">
+                                                                            <div class="custom-control custom-control-sm custom-radio">
+                                                                                <input type="radio"
+                                                                                       {% if request.user.nationality == 0 %}checked{% endif %}
+                                                                                       class="custom-control-input"
+                                                                                       name="nationality" value="arabic"
+                                                                                       id="customRadio7"><label
+                                                                                    class="custom-control-label"
+                                                                                    for="customRadio7">عراق</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="g col-lg-6">
+                                                                            <div class="custom-control custom-control-sm custom-radio">
+                                                                                <input type="radio"
+                                                                                       {% if request.user.nationality %}checked{% endif %}
+                                                                                       class="custom-control-input"
+                                                                                       name="nationality"
+                                                                                       value="afghanistan"
+                                                                                       id="customRadio8"><label
+                                                                                    class="custom-control-label"
+                                                                                    for="customRadio8">افغانستان</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="first_name">نام</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="first_name" type="text"
+                                                                                class="form-control"
+                                                                                id="first_name"
+                                                                                value="{{ request.user.first_name }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="last_name">نام
+                                                                        خانوادگی</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="last_name" type="text"
+                                                                                class="form-control"
+                                                                                id="last_name"
+                                                                                value="{{ request.user.last_name }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="father_name">نام
+                                                                        پدر</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="father_name" type="text"
+                                                                                class="form-control"
+                                                                                id="father_name"
+                                                                                value="{% if request.user.father_name %}{{ request.user.father_name }}{% endif %}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="ancestor_name">نام
+                                                                        جد</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="ancestor_name" type="text"
+                                                                                class="form-control"
+                                                                                id="ancestor_name"
+                                                                                value="{% if request.user.ancestor_name %}{{ request.user.ancestor_name }}{% endif %}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="nick_name">لقب</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="nick_name" type="text"
+                                                                                class="form-control"
+                                                                                id="nick_name"
+                                                                                value="{% if request.user.nick_name %}{{ request.user.nick_name }}{% endif %}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="email">ایمیل
+                                                                    </label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="email" type="email"
+                                                                                class="form-control"
+                                                                                id="email"
+                                                                                value="{{ request.user.email }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="phone">تلفن
+                                                                        همراه
+                                                                    </label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                type="text" disabled=""
+                                                                                class="form-control"
+                                                                                id="phone"
+                                                                                value="{{ request.user.cellphone }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="pass_number">شماره
+                                                                        پاسپورت</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="pass_number" type="text"
+                                                                                class="form-control"
+                                                                                id="pass_number"
+                                                                                value="{% if request.user.pass_number %}{{ request.user.pass_number }}{% endif %}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="birth_date">تاریخ
+                                                                        ولادت</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="birth_date" type="text"
+                                                                                class="form-control date-picker"
+                                                                                data-date-format="yyyy-mm-dd"
+                                                                                value="{{ request.user.birth_date }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="pass_issue_date">تاریخ
+                                                                        صدور پاس</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="pass_issue_date" type="text"
+                                                                                class="form-control date-picker"
+                                                                                data-date-format="yyyy-mm-dd"
+                                                                                value="{{ request.user.pass_issue_date }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="pass_expiration">تاریخ
+                                                                        انقضای پاس</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="pass_expiration" type="text"
+                                                                                class="form-control date-picker"
+                                                                                data-date-format="yyyy-mm-dd"
+                                                                                value="{{ request.user.pass_expiration }}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="place_birth">محل
+                                                                        ولادت</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="place_birth" type="text"
+                                                                                class="form-control"
+                                                                                id="place_birth"
+                                                                                value="{% if request.user.place_birth %}{{ request.user.place_birth }}{% endif %}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="place_issue">محل
+                                                                        صدور</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="place_issue" type="text"
+                                                                                class="form-control"
+                                                                                id="place_issue"
+                                                                                value="{% if request.user.place_issue %}{{ request.user.place_issue }}{% endif %}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group"><label class="form-label"
+                                                                                                   for="whatsapp">شماره
+                                                                        واتساپ</label>
+                                                                        <div class="form-control-wrap"><input
+                                                                                name="whatsapp" type="text"
+                                                                                class="form-control"
+                                                                                id="whatsapp"
+                                                                                value="{% if request.user.whatsapp %}{{ request.user.whatsapp }}{% endif %}">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <button type="submit"
+                                                                                class="btn float-right btn-lg btn-primary">
+                                                                            ذخیره اطلاعات
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
+                                                 data-content="userAside" data-toggle-screen="lg"
+                                                 data-toggle-overlay="true">
+                                                <div class="card-inner-group" data-simplebar>
+                                                    <div class="card-inner">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-primary">
+                                                                <span>{{ request.user.first_name.0 }}</span></div>
+                                                            <div class="user-info"><span
+                                                                    class="lead-text">{% if request.user.first_name %}
+                                                                {{ request.user.first_name }}
+                                                                {{ request.user.last_name }}{% else %}
+                                                                {{ request.user.cellphone }}{% endif %}</span><span
+                                                                    class="sub-text">{{ request.user.email }}</span>
+                                                            </div>
+                                                            <div class="user-action">
+                                                                <div class="dropdown"><a
+                                                                        class="btn btn-icon btn-trigger mr-n2"
+                                                                        data-toggle="dropdown" href="#"><em
+                                                                        class="icon ni ni-more-v"></em></a>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li><a href="#"><em
+                                                                                    class="icon ni ni-edit-fill"></em><span>تغییر ایمیل</span></a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-inner">
+                                                        <div class="user-account-info py-0"><h6
+                                                                class="overline-title-alt">
+                                                            شماره دانشجویی</h6>
+                                                            <div class="user-balance">00000000</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-inner p-0">
+                                                        <ul class="link-list-menu">
+                                                            <li><a class="active"
+                                                                   href="{% url 'client:profile' %}"><em
+                                                                    class="icon ni ni-user-fill-c"></em><span>اطلاعات کاربری</span></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

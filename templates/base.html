@@ -1,0 +1,18 @@
+<!DOCTYPE html>{% load static %}
+<html lang="fa" class="js">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{% static "images/favicon.png" %}">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "assets/css/dashlite.rtl.css" %}">
+    <link id="skin-default" rel="stylesheet" href="{% static "assets/css/theme.css" %}">
+    {% block css %}{% endblock %}
+</head>
+<body {% block bodyclass %}{% endblock %} dir="rtl">
+{% block body %}{% endblock %}
+<script src="{% static "assets/js/bundle.js" %}"></script>
+<script src="{% static "assets/js/scripts.js" %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

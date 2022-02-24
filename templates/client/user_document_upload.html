@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}بارگذاری مدارک دانشجویی - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card p-5">
+                                        {% if result %}
+                                            <div class="alert alert-success alert-icon"><em class="icon ni ni-check-circle"></em>
+                                                فایل با موفقیت آپلود شد .
+                                                <a class="float-right" href="{% url 'client:user_document' %}">بازگشت</a>
+                                            </div>
+                                        {% endif %}
+                                        <form method="POST" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="title">
+                                                            عنوان فایل
+                                                        </label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text"
+                                                                   data-msg="Required"
+                                                                   class="form-control required"
+                                                                   id="title"
+                                                                   name="title"
+                                                            ></div>
+                                                    </div>
+                                                </div>
+                                                    <div class="col-6 mb-5">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="customMultipleFiles">
+                                                                آپلود عکس
+                                                            </label>
+                                                            <div class="form-control-wrap">
+                                                                <div class="custom-file">
+                                                                    <input type="file" name="owner_upload"
+                                                                           multipleclass="custom-file-input"
+                                                                           id="owner_upload" class="form-control-lg">
+                                                                    <label class="custom-file-label"
+                                                                           for="owner_upload">
+                                                                        عکس
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                                        <button type="submit"
+                                                                                class="btn float-right btn-lg btn-primary">
+                                                                            ثبت مدارک
+                                                                        </button>
+                                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

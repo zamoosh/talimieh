@@ -1,0 +1,32 @@
+/*!
+ * Theme Name: Novin Themplate
+ * Package : Novin Themplate
+ * Author: Morteza Davoodi
+ * Author URI: http://novinparva.com
+ * Version	 :	3.0.0
+ * Updated	 :	01.01.2022
+**/
+@font-face { font-family: 'IRANSansXFaNum-Regular'; src: url('../fonts/Woff/IRANSansXFaNum-Regular.woff'); }
+@font-face { font-family: 'IRANSansXFaNum-Bold'; src: url('../fonts/Woff/IRANSansXFaNum-Bold.woff'); }
+*{
+    font-family: IRANSansXFaNum-Regular;
+    letter-spacing: 0 !important;
+}
+.overline-title-alt{
+    letter-spacing: 0 !important;
+}
+.btn.btn-secondary.buttons-pdf.buttons-html5 {
+  display: none;
+}
+.degree-field {
+  width: 28%;
+  margin-bottom: 30px;
+}
+.show_degrees .degrees-li {
+  width: 33%;
+  float: right;
+}
+.open-modal{
+    color: #9d72ff !important;
+    cursor: pointer;
+}

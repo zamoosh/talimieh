@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}ترم - نسل تعلیمیه{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
+    <script>
+        $.ajax({
+            url: '{% url 'educational:get_year' %}',
+            type: "GET",
+            send: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (data) {
+                data.forEach(function (element) {
+                    $("#term").append($('<option>', {value: element['id'], text: element['year']}))
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    </script>
+    <script>
+        var modalDiv = $("#modal-div");
+        $(".open-modal").on("click", function () {
+            $.ajax({
+                url: $(this).attr("data-url"),
+                success: function (data) {
+                    modalDiv.html(data);
+                    $("#show_degree").modal();
+                    $("#show_degrees").empty();
+                    data.forEach(function (element) {
+                        $("#uni_name").empty();
+                        $("#uni_name").append(`<span> ${element.uni} </span>`);
+                        $("#show_degrees").append(`<div class="degrees-li pb-2">${element.title}<span id="degree_icon"></span></div>`)
+                        if (element.bors){
+                            $("#degree_icon").empty();
+                            $("#degree_icon").append(`(بورسیه)`)
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="nk-block nk-block-lg">
+                                            <div class="card card-preview">
+                                                {% if error %}
+                                                    <div class="alert m-5 alert-warning alert-icon"><em
+                                                            class="icon ni ni-alert-circle"></em> این سال قبلا ثبت شده
+                                                        است .
+                                                    </div>
+                                                {% endif %}
+                                                {% if remove %}
+                                                    <div class="alert m-5 alert-success alert-icon"><em
+                                                            class="icon ni ni-check-circle"></em> سال تحصیلی حذف شد .
+                                                    </div>
+                                                {% endif %}
+                                                {% if create %}
+                                                    <div class="alert m-5 alert-success alert-icon"><em
+                                                            class="icon ni ni-check-circle"></em> سال ثبت شد .
+                                                    </div>
+                                                {% endif %}
+                                                <div class="btn-top-uni">
+                                                    <a href="{% url 'educational:new_semester' %}"
+                                                       class="btn btn-secondary mr-4 mt-3 float-sm-right">ثبت دانشگاه
+                                                        جدید در ترم</a>
+                                                </div>
+                                                <div class="card-inner">
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <table class="datatable-init-export nowrap table"
+                                                                       data-export-title="خروجی" id="unitable">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>دانشگاه</th>
+                                                                        <th>رشته ها</th>
+                                                                        <th></th>
+
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody id="uni">
+                                                                    {% for uni_semester in uni_semesters %}
+                                                                        <tr>
+                                                                            <td>{{ uni_semester.uni_name }}</td>
+                                                                            <td><a class="open-modal"
+                                                                                   data-url="{% if uni_semester %}{% url 'educational:get_degree' uni_semester.id %}{% endif %}">مشاهده
+                                                                                رشته ها</a></td>
+                                                                            <td class="nk-tb-col nk-tb-col-tools">
+                                                                                <ul class="nk-tb-actions gx-1">
+                                                                                    <li>
+                                                                                        <div class="drodown">
+                                                                                            <a href=""
+                                                                                               class="dropdown-toggle btn btn-icon btn-trigger"
+                                                                                               data-toggle="dropdown">
+                                                                                                <em class="icon ni ni-more-h"></em>
+                                                                                            </a>
+                                                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                                                <ul class="link-list-opt no-bdr">
+                                                                                                    <li>
+                                                                                                        <a href="{% url 'educational:year_semester' %}?remove={{ year_semester.id }}"><em
+                                                                                                                class="icon ni ni-delete"></em><span>حذف این دانشگاه</span></a>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="modal fade show" tabindex="-1" id="show_degree" style="display: none; padding-right: 12px;"
+         aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><h6 class="modal-title">
+                    رشته های دانشگاه :
+                    <span id="uni_name"></span>
+                </h6><a href="#" class="close" data-dismiss="modal" aria-label="Close"><em
+                        class="icon ni ni-cross"></em></a></div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'educational:year_semester' %}">
+                        {% csrf_token %}
+                        <div class="show_degrees" id="show_degrees"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

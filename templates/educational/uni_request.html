@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}درخواست دانشگاه - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+    <script>
+        $.ajax({
+            url: '{% url 'educational:get_uni' %}',
+            type: "GET",
+            send: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (data) {
+                data.forEach(function (element) {
+                    $("#collage").append($('<option>', {value: element['id'], text: element['title']}))
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        $("#collage").change(function () {
+                /*+ str + element.id +*/
+                let url = "{% url 'educational:get_degree' 0 %}";
+                var conceptName = $('#collage').val();
+                var furl = conceptName;
+                var de = '/educational/get_degree/api/'
+                $.ajax({
+                    url: de + furl + '/',
+                    type: "GET",
+                    send: function (xhr) {
+                    },
+                    success: function (data) {
+                        $("#degree").empty();
+                        data.forEach(function (element) {
+                            $("#degree").append($('<option>', {value: element['id'], text: element['title']}))
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+    </script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card p-5">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <div class="row gy-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="moadel">
+                                                            معدل
+                                                        </label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text"
+                                                                   data-msg="Required"
+                                                                   class="form-control form-control-lg required"
+                                                                   id="moadel"
+                                                                   name="moadel"
+                                                            ></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="reshte">
+                                                            رشته
+                                                        </label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text"
+                                                                   data-msg="Required"
+                                                                   class="form-control form-control-lg required"
+                                                                   id="reshte"
+                                                                   name="reshte"
+                                                            ></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="old_uni">
+                                                            دانشگاه سابق
+                                                        </label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text"
+                                                                   data-msg="Required"
+                                                                   class="form-control form-control-lg required"
+                                                                   id="old_uni"
+                                                                   name="old_uni"
+                                                            ></div>
+                                                    </div>
+                                                </div>
+                                                <hr class="preview-hr">
+                                                <div class="col-lg-4">
+                                                    <div class="form-group"><label class="form-label">دانشگاه</label>
+                                                        <div class="form-control-wrap"><select data-ui="lg" class="form-select"
+                                                                                               data-search="on" name="collage" id="collage">
+                                                            <option value="default_option">انتخاب دانشگاه</option>
+                                                        </select></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="study">
+                                                            مقطع
+                                                        </label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text"
+                                                                   data-msg="Required"
+                                                                   class="form-control form-control-lg required"
+                                                                   id="study"
+                                                                   name="study"
+                                                            ></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group"><label class="form-label">رشته</label>
+                                                        <div class="form-control-wrap"><select data-ui="lg" name="degree" id="degree" class="form-select"
+                                                                                               data-search="on">
+                                                            <option value="default_option">انتخاب رشته</option>
+                                                        </select></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <button type="submit"
+                                                                class="btn float-right btn-lg btn-primary">
+                                                            ثبت اطلاعات
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

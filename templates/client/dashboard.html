@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}داشبورد - نسل تعلیمیه{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-general has-sidebar"{% endblock %}
+{% block body %}
+    <div class="nk-content ">
+        <div class="nk-app-root">
+            <div class="nk-main ">
+                {% include 'menu.html' %}
+                <div class="nk-wrap ">
+                    {% include 'header.html' %}
+                    <div class="nk-content ">
+                        <div class="container-fluid">
+                            <div class="nk-content-inner">
+                                <div class="nk-content-body">
+                                    <div class="nk-block-head nk-block-head-sm">
+                                        <div class="nk-block-between">
+                                            <div class="nk-block-head-content"><h3 class="nk-block-title page-title">
+                                                حساب کاربری </h3>
+                                                <div class="nk-block-des text-soft"><p>خوش آمدید {{ request.user.first_name }} {{ request.user.last_name }}
+                                                    </p></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block">
+                                        <div class="row g-gs">
+                                            <div class="col-xxl-3">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-inner">
+                                                                <div class="card-title-group align-start mb-2">
+                                                                    <div class="card-title"><h6 class="title">آمار ثبت نام</h6>
+                                                                        <p>تمامی ثبت نام شدگان فعال سیستم</p>
+                                                                    </div>
+                                                                    <div class="card-tools"><em
+                                                                            class="card-hint icon ni ni-help-fill"
+                                                                            data-toggle="tooltip" data-placement="left"
+                                                                            title="فقط دانشجویان"></em></div>
+                                                                </div>
+                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                        <div class="nk-sale-data"><span
+                                                                                class="amount">{{ registered }}
+                                                                            <span class="sub-title">نفر</span></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="nk-sales-ck sales-revenue">
+                                                                        <canvas class="student-enrole"
+                                                                                id="enrolement"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-3">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-inner">
+                                                                <div class="card-title-group align-start mb-2">
+                                                                    <div class="card-title"><h6 class="title">ترم فعال</h6>
+                                                                        <p>تا کنون 12 ترم ایجاد شده است</p>
+                                                                    </div>
+                                                                    <div class="card-tools"><em
+                                                                            class="card-hint icon ni ni-help-fill"
+                                                                            data-toggle="tooltip" data-placement="left"
+                                                                            title="ترم بهمن ماه"></em></div>
+                                                                </div>
+                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                        <div class="nk-sale-data"><span
+                                                                                class="amount">{{ year.title }} / {{ year.parent.title }}
+                                                                            <span class="sub-title"></span></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="nk-sales-ck sales-revenue">
+                                                                        <canvas class="student-enrole"
+                                                                                id="enrolement"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-3">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-inner">
+                                                                <div class="card-title-group align-start mb-2">
+                                                                    <div class="card-title"><h6 class="title">دانشگاه های فعال ترم</h6>
+                                                                        <p>15 دانشگاه در این ترم ثبت نشده است</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                        <div class="nk-sale-data"><span
+                                                                                class="amount">{{ uni }}
+                                                                            <span class="sub-title">دانشگاه</span></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="nk-sales-ck sales-revenue">
+                                                                        <canvas class="student-enrole"
+                                                                                id="enrolement"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-3">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-inner">
+                                                                <div class="card-title-group align-start mb-2">
+                                                                    <div class="card-title"><h6 class="title">درخواست ها</h6>
+                                                                        <p>تا کنون به 12 پاسخ داده شده است</p>
+                                                                    </div>
+                                                                    <div class="card-tools"><em
+                                                                            class="card-hint icon ni ni-help-fill"
+                                                                            data-toggle="tooltip" data-placement="left"
+                                                                            title="درخواست های فعال"></em></div>
+                                                                </div>
+                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                        <div class="nk-sale-data"><span
+                                                                                class="amount">0
+                                                                            <span class="sub-title">درخواست</span></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="nk-sales-ck sales-revenue">
+                                                                        <canvas class="student-enrole"
+                                                                                id="enrolement"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

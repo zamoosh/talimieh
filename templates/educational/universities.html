@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}دانشگاه ها - نسل تعلیمیه{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="nk-block nk-block-lg">
+                                            <div class="card card-preview">
+                                                {% if error %}
+                                                    <div class="alert m-5 alert-warning alert-icon"><em class="icon ni ni-alert-circle"></em> این دانشگاه قبلا ثبت شده است . </div>
+                                                {% endif %}
+                                                {% if remove %}
+                                                    <div class="alert m-5 alert-success alert-icon"><em class="icon ni ni-check-circle"></em> دانشگاه حذف شد . </div>
+                                                {% endif %}
+                                                {% if create %}
+                                                    <div class="alert m-5 alert-success alert-icon"><em class="icon ni ni-check-circle"></em> دانشگاه ثبت شد . </div>
+                                                {% endif %}
+                                                <div class="btn-top-uni">
+                                                    <a href="#" class="btn btn-secondary mr-4 mt-3 float-sm-right" data-toggle="modal" data-target="#modalDefault">افزودن
+                                                        دانشگاه</a>
+                                                    <!--a href="#" class="btn btn-light mr-1 mt-3 float-sm-right"
+                                                       data-toggle="modal" data-target="#modalDefault">افزودن مقطع و
+                                                        رشته</a-->
+                                                </div>
+                                                <div class="card-inner">
+                                                    <table class="datatable-init-export nowrap table"
+                                                           data-export-title="خروجی" id="unitable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>نام دانشگاه</th>
+                                                            <th>مدارک مورد نیاز</th>
+                                                            <th>توضیحات</th>
+                                                            <th></th>
+
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="uni">
+                                                        {% for university in universitys %}
+                                                        <tr>
+                                                            <td>{{ university.uni_name }}</td>
+                                                            <td>{% if university.document %}{{ university.document }}{% endif %}</td>
+                                                            <td>{% if university.comment %}{{ university.comment }}{% endif %}</td>
+                                                            <td class="nk-tb-col nk-tb-col-tools">
+                                                                <ul class="nk-tb-actions gx-1">
+                                                                <li>
+                                                                    <div class="drodown">
+                                                                        <a href="" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown">
+                                                                            <em class="icon ni ni-more-h"></em>
+                                                                        </a>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li><a href="{% url 'educational:universities' %}?remove={{ university.id }}"><em class="icon ni ni-delete"></em><span>حذف</span></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            </td>
+                                                        </tr>
+
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="modal fade show" tabindex="-1" id="modalDefault" style="display: none; padding-right: 12px;"
+         aria-modal="true" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">
+                    افزودن مقطع و رشته
+                </h5><a href="#" class="close" data-dismiss="modal" aria-label="Close"><em class="icon ni ni-cross"></em></a></div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'educational:universities' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <input type="text"
+                                       class="form-control form-control-lg form-control-outlined"
+                                       id="university" name="university">
+                                <label class="form-label-outlined" for="university">
+                                    نام دانشگاه
+                                </label></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <label class="form-label-outlined" for="uni_comment">
+                                    توضیحات دانشگاه
+                                </label>
+                                <textarea class="form-control form-control-lg form-control-outlined"
+                                       id="uni_comment" name="uni_comment"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <label class="form-label-outlined" for="uni_doc">
+                                    مدارک مورد نیاز
+                                </label>
+                                <textarea class="form-control form-control-lg form-control-outlined"
+                                       id="uni_doc" name="uni_doc"></textarea>
+                            </div>
+                        </div>
+                        <!--div class="form-group">
+                            <div class="form-control-wrap"><select class="form-select"
+                                                                   data-ui="lg"
+                                                                   id="degree"
+                                                                   data-search="on" name="degree">
+                                <option value="default_option">مقطع</option>
+                            </select><label class="form-label-outlined"
+                                            for="degree">مقطع</label></div>
+                        </div-->
+                        <div class="form-group">
+                            <button type="submit" id="degree_submit" class="btn btn-light float-right">
+                                ذخیره
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

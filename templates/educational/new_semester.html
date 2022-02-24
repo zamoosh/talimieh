@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{% static "assets/css/datepicker.css" %}"/>
+    <link rel="stylesheet" href="{% static "assets/css/persianDatepicker-default.css" %}"/>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static "assets/js/datepicker.js" %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#").persianDatepicker();
+        });
+    </script>
+    <script>
+        $.ajax({
+            url: '{% url 'educational:get_uni' %}',
+            type: "GET",
+            send: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (data) {
+                data.forEach(function (element) {
+                    $("#uni").append($('<option>', {value: element['id'], text: element['title']}))
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    </script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="card-aside-wrap">
+                                            <div class="card-inner card-inner-lg">
+                                                <div class="nk-block-head nk-block-head-lg">
+                                                    <div class="nk-block-between">
+                                                        <div class="nk-block-head-content"><h4 class="nk-block-title">
+                                                            انتخاب دانشگاه</h4>
+                                                            <div class="nk-block-des"><p>رشته، ترم، هزینه ها</p></div>
+                                                        </div>
+                                                        <div class="nk-block-head-content align-self-start d-lg-none"><a
+                                                                href="#" class="toggle btn btn-icon btn-trigger mt-n1"
+                                                                data-target="userAside"><em
+                                                                class="icon ni ni-menu-alt-r"></em></a></div>
+                                                    </div>
+                                                </div>
+                                                <div class="nk-block">
+                                                    <div class="nk-data data-list">
+                                                        <form method="post">
+                                                            {% csrf_token %}
+                                                            <div class="row g-4">
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap"><select
+                                                                                class="form-select"
+                                                                                data-ui="lg"
+                                                                                id="uni"
+                                                                                data-search="on" name="uni">
+                                                                            <option value="">دانشگاه</option>
+                                                                        </select><label class="form-label-outlined"
+                                                                                        for="degree">دانشگاه</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <div class="degree">
+                                                                        <ul>
+                                                                            {% for degree_field in degree_fields %}
+                                                                                 <li class="custom-control degree-field custom-checkbox mr-5">
+                                                                                     <input type="checkbox" class="custom-control-input" name="degree_list" value="{{ degree_field.id }}" id="{{ degree_field.id }}">
+                                                                                     <label class="custom-control-label" for="{{ degree_field.id }}">{{ degree_field.title }}</label>
+                                                                                 </li>
+                                                                            {% endfor %}
+                                                                    </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <button type="submit"
+                                                                                class="btn float-right btn-lg btn-primary">
+                                                                            ثبت اطلاعات
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

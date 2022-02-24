@@ -1,0 +1,5 @@
+django==4.0.2
+pillow
+django_jalali
+mysqlclient
+unidecode
