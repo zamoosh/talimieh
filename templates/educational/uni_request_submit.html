@@ -14,7 +14,7 @@
             },
             success: function (data) {
                 data.forEach(function (element) {
-                    $("#show_doc").append($('<li class="custom-control degree-field custom-checkbox mr-5"><input type="checkbox" class="custom-control-input" name="degree_list" value="' + element.id + '" id="' + element.id + '"><label class="custom-control-label" for="' + element.id + '">"' + element.title + '"</label></li>'))
+                    $("#show_doc").append($(`<li class="custom-control degree-field custom-checkbox mr-5"><img src="${element.image}" alt="image"><input type="checkbox" class="custom-control-input" name="degree_list" value="${element.id}" id="${element.id}"><label class="custom-control-label" for="${element.id}">${element.title}"</label></li><br />`))
                 });
             },
             error: function (error) {
@@ -36,7 +36,8 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card p-5">
-                                        <form action="#">
+                                        <form action="{% url 'client:user_document_upload' %}" method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
                                             <div class="row gy-3">
                                                 <div>مدارک مورد نیاز برای رشته و دانشگاه :</div>
                                                 {{ uni_dic.document }}
@@ -51,6 +52,11 @@
                                                             class="btn float-right btn-lg btn-primary">
                                                         ثبت اطلاعات
                                                     </button>
+                                                    <label for="owner_upload" class="">
+                                                        آپلود مدارک
+                                                    </label>
+                                                    <input name="owner_upload" type="file" class="btn float-left btn-lg btn-primary" required>
+                                                    <input name="title" type="text" class="btn float-left btn-lg btn-primary" required>
                                                 </div>
                                             </div>
                                         </form>
