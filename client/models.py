@@ -45,4 +45,13 @@ class Owner_document(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to=owner_image)
 
     def save(self, *args, **kwargs):
-        super(Owner_document, self).save()
+        if self.image:
+            if not self.id:
+                img = self.image
+                self.image = None
+                super(Owner_document, self).save()
+                self.image = img
+            super(Owner_document, self).save()
+
+    def __str__(self):
+        return self.owner.first_name

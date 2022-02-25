@@ -22,54 +22,47 @@
                                 <div class="nk-block">
                                     <div class="card p-5">
                                         {% if result %}
-                                            <div class="alert alert-success alert-icon"><em class="icon ni ni-check-circle"></em>
+                                            <div class="alert alert-success alert-icon"><em
+                                                    class="icon ni ni-check-circle"></em>
                                                 فایل با موفقیت آپلود شد .
-                                                <a class="float-right" href="{% url 'client:user_document' %}">بازگشت</a>
+                                                <a class="float-right"
+                                                   href="{% url 'client:user_document' %}">بازگشت</a>
                                             </div>
                                         {% endif %}
-                                        <form method="POST" enctype="multipart/form-data">
+                                        <form method="POST">
                                             {% csrf_token %}
                                             <div class="col-12">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="title">
-                                                            عنوان فایل
-                                                        </label>
-                                                        <div class="form-control-wrap">
-                                                            <input type="text"
-                                                                   data-msg="Required"
-                                                                   class="form-control required"
-                                                                   id="title"
-                                                                   name="title"
-                                                            ></div>
-                                                    </div>
-                                                </div>
-                                                    <div class="col-6 mb-5">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="customMultipleFiles">
-                                                                آپلود عکس
+                                                            <label class="form-label" for="title">
+                                                                عنوان فایل
                                                             </label>
                                                             <div class="form-control-wrap">
+                                                                <input type="text"
+                                                                       data-msg="Required"
+                                                                       class="form-control required"
+                                                                       id="title"
+                                                                       name="title"
+                                                                ></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 mb-5">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
                                                                 <div class="custom-file">
-                                                                    <input type="file" name="owner_upload"
-                                                                           multipleclass="custom-file-input"
-                                                                           id="owner_upload" class="form-control-lg">
-                                                                    <label class="custom-file-label"
-                                                                           for="owner_upload">
-                                                                        عکس
-                                                                    </label>
+                                                                    <img src="{{ document.image.url }}">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-group">
-                                                                        <button type="submit"
-                                                                                class="btn float-right btn-lg btn-primary">
-                                                                            ثبت مدارک
-                                                                        </button>
-                                                                    </div>
+                                                            <button type="submit"
+                                                                    class="btn float-right btn-lg btn-primary">
+                                                                ثبت مدارک
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
