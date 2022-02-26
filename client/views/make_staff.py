@@ -1,3 +1,4 @@
+from django.urls import reverse
 from .imports import *
 from django.shortcuts import get_object_or_404, redirect
 from client.models import User
@@ -11,4 +12,4 @@ def make_staff(request, u_id):
         else:
             u.is_staff = True
         u.save()
-    return redirect('/accounts/create-new-user/')
+    return redirect(reverse('client:users'))

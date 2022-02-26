@@ -20,6 +20,11 @@
                                     <div class="card">
                                         <div class="nk-block nk-block-lg">
                                             <div class="card card-preview">
+                                                <div class="btn-top-uni">
+                                                    <a href="#" class="btn btn-secondary mr-4 mt-3 float-sm-right"
+                                                       data-toggle="modal" data-target="#create_year">ایجاد کاربر
+                                                        جدید</a>
+                                                </div>
                                                 <div class="card-inner">
                                                     <div class="col-12">
                                                         <div class="row">
@@ -44,14 +49,12 @@
                                                                             <td>{{ user.username }}</td>
                                                                             <td>
                                                                                 {% if user.is_staff %}
-                                                                                    <label>
-                                                                                        <input type="checkbox" checked
-                                                                                               disabled>
-                                                                                    </label>
+                                                                                    <input type="checkbox" checked
+                                                                                           disabled
+                                                                                           style="cursor: default;">
                                                                                 {% else %}
-                                                                                    <label>
-                                                                                        <input type="checkbox" disabled>
-                                                                                    </label>
+                                                                                    <input type="checkbox" disabled
+                                                                                           style="cursor: default;">
                                                                                 {% endif %}
                                                                             </td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
@@ -85,6 +88,74 @@
                                                                     {% endfor %}
                                                                     </tbody>
                                                                 </table>
+                                                                <div class="modal fade show" tabindex="-1"
+                                                                     id="create_year"
+                                                                     style="display: none; padding-right: 12px;"
+                                                                     aria-modal="true" role="dialog">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header"><h5
+                                                                                    class="modal-title">
+                                                                                ایجاد کاربر جدید
+                                                                            </h5><a href="#" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close"><em
+                                                                                    class="icon ni ni-cross"></em></a>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form method="POST"
+                                                                                      action="{% url 'client:create_new_user' %}">
+                                                                                    {% csrf_token %}
+                                                                                    <div class="form-group">
+                                                                                        <div class="form-control-wrap">
+                                                                                            <input type="text"
+                                                                                                   class="form-control form-control-lg form-control-outlined"
+                                                                                                   id="name"
+                                                                                                   name="name">
+                                                                                            <label class="form-label-outlined"
+                                                                                                   for="name">
+                                                                                                نام
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <div class="form-control-wrap">
+                                                                                            <input type="text"
+                                                                                                   class="form-control form-control-lg form-control-outlined"
+                                                                                                   id="last_name"
+                                                                                                   name="last_name">
+                                                                                            <label class="form-label-outlined"
+                                                                                                   for="last_name">
+                                                                                                نام خانوادگی
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <div class="form-control-wrap">
+                                                                                            <input type="text"
+                                                                                                   class="form-control form-control-lg form-control-outlined"
+                                                                                                   id="cellphone"
+                                                                                                   name="cellphone">
+                                                                                            <label class="form-label-outlined"
+                                                                                                   for="cellphone">
+                                                                                                شماره تماس (به عنوان رمز
+                                                                                                ورود استفاده می‌شود)
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <input type="submit"
+                                                                                               class="btn btn-light float-right"
+                                                                                               value="ذخیره">
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
