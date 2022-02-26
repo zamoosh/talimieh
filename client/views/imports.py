@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import render
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, HttpResponse
 import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
