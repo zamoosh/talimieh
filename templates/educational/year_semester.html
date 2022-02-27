@@ -54,6 +54,15 @@
                                                     </div>
                                                 {% endif %}
                                                 <div class="btn-top-uni">
+                                                    {% if msg %}
+                                                        <div class="example-alert">
+                                                            <div class="alert alert-danger alert-icon"><em
+                                                                    class="icon ni ni-cross-circle"></em>
+                                                                شما بیش از یک ترم فعال دارید! (فقط میتوانید یک ترم فعال
+                                                                داشته باشید)
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
                                                     <a href="#" class="btn btn-secondary mr-4 mt-3 float-sm-right"
                                                        data-toggle="modal" data-target="#create_year">ایجاد سال
                                                         تحصیلی/ترم</a>
@@ -68,7 +77,8 @@
                                                                     <tr>
                                                                         <th>سال تحصیلی</th>
                                                                         <th>ترم</th>
-                                                                        <th></th>
+                                                                        <th>وضعیت ترم</th>
+                                                                        <th>فعال کردن ترم</th>
 
                                                                     </tr>
                                                                     </thead>
@@ -77,24 +87,41 @@
                                                                         <tr>
                                                                             <td>{{ year_semester.title }}</td>
                                                                             <td>{{ year_semester.parent.title }}</td>
-                                                                            <td class="nk-tb-col nk-tb-col-tools">
+                                                                            {% if  year_semester.status %}
+                                                                                <td>
+                                                                                    <em class="icon ni ni-check-circle text-success"
+                                                                                        style="font-size: 1.475rem"></em>
+                                                                                </td>
+                                                                            {% else %}
+                                                                                <td>
+                                                                                    <em class="icon ni ni-cross-circle text-danger"
+                                                                                        style="font-size: 1.475rem"></em>
+                                                                                </td>
+                                                                            {% endif %}
+                                                                            <td>
                                                                                 <ul class="nk-tb-actions gx-1">
                                                                                     <li>
-                                                                                        <div class="drodown">
-                                                                                            <a href=""
-                                                                                               class="dropdown-toggle btn btn-icon btn-trigger"
-                                                                                               data-toggle="dropdown">
-                                                                                                <em class="icon ni ni-more-h"></em>
-                                                                                            </a>
-                                                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                                                <ul class="link-list-opt no-bdr">
-                                                                                                    <li>
-                                                                                                        <a href="{% url 'educational:year_semester' %}?remove={{ year_semester.id }}"><em
-                                                                                                                class="icon ni ni-delete"></em><span>حذف</span></a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </div>
+                                                                                        {% if year_semester.status %}
+                                                                                            <form action="{% url 'educational:term_status' year_semester.id %}"
+                                                                                                  method="post">
+                                                                                                {% csrf_token %}
+                                                                                                <input type="submit"
+                                                                                                       class="btn btn-light"
+                                                                                                       value="غیرفعال کردن ترم">
+                                                                                            </form>
+                                                                                        {% else %}
+                                                                                            <form action="{% url 'educational:term_status' year_semester.id %}"
+                                                                                                  method="post">
+                                                                                                {% csrf_token %}
+                                                                                                <input type="hidden"
+                                                                                                       name="id"
+                                                                                                       value="{{ year_semester.status }}"
+                                                                                                       id="member">
+                                                                                                <input type="submit"
+                                                                                                       class="btn btn-light"
+                                                                                                       value="فعال کردن ترم">
+                                                                                            </form>
+                                                                                        {% endif %}
                                                                                     </li>
                                                                                 </ul>
                                                                             </td>

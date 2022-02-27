@@ -13,7 +13,13 @@ class Universities(models.Model):
 class Year_semester(models.Model):
     title = models.CharField(max_length=4)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=False)
+
+    def get_status(self):
+        return self.status
+
+    def __str__(self):
+        return f'{self.title} -> {self.status}'
 
 
 class Degree_field_study(models.Model):

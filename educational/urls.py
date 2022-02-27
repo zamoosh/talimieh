@@ -8,6 +8,7 @@ urlpatterns = [
 
     path('year-semester/', year_semester, name="year_semester"),
     path('year_semester/api/', get_year, name="get_year"),
+    path('term_status/<int:t_id>', term_status, name="term_status"),
 
     path('degree-field-study/', degree_field_study, name="degree_field_study"),
 

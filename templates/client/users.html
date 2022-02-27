@@ -21,8 +21,9 @@
                                         <div class="nk-block nk-block-lg">
                                             <div class="card card-preview">
                                                 <div class="btn-top-uni">
-                                                    <a href="#" class="btn btn-secondary mr-4 mt-3 float-sm-right"
-                                                       data-toggle="modal" data-target="#create_year">ایجاد کاربر
+                                                    <a href="#" class="btn mt-3 float-sm-right"
+                                                       data-toggle="modal" data-target="#create_year"
+                                                           style="margin-left: 3.6rem">ایجاد کاربر
                                                         جدید</a>
                                                 </div>
                                                 <div class="card-inner">
@@ -49,12 +50,11 @@
                                                                             <td>{{ user.username }}</td>
                                                                             <td>
                                                                                 {% if user.is_staff %}
-                                                                                    <input type="checkbox" checked
-                                                                                           disabled
-                                                                                           style="cursor: default;">
+                                                                                    <em class="icon ni ni-check-circle text-success"
+                                                                                        style="font-size: 1.475rem"></em>
                                                                                 {% else %}
-                                                                                    <input type="checkbox" disabled
-                                                                                           style="cursor: default;">
+                                                                                    <em class="icon ni ni-cross-circle text-danger"
+                                                                                        style="font-size: 1.475rem"></em>
                                                                                 {% endif %}
                                                                             </td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
@@ -65,7 +65,7 @@
                                                                                                   method="post">
                                                                                                 {% csrf_token %}
                                                                                                 <input type="submit"
-                                                                                                       class="btn btn-secondary"
+                                                                                                       class="btn btn-light"
                                                                                                        value="ارتقا به مدیریت">
                                                                                             </form>
                                                                                         {% else %}
@@ -77,7 +77,7 @@
                                                                                                        value="{{ user.id }}"
                                                                                                        id="member">
                                                                                                 <input type="submit"
-                                                                                                       class="btn btn-secondary"
+                                                                                                       class="btn btn-light"
                                                                                                        value="تنزیل به عضویت">
                                                                                             </form>
                                                                                         {% endif %}
