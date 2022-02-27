@@ -1,7 +1,8 @@
 <div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">{% load static %}
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand"><a href="{% url 'index' %}" class="logo-link nk-sidebar-logo"><img
-                class="logo-light logo-img" src="{% static "images/logo-dark.png" %}" srcset="{% static "images/logo-dark.png" %}"
+                class="logo-light logo-img" src="{% static "images/logo-dark.png" %}"
+                srcset="{% static "images/logo-dark.png" %}"
                 alt="logo"><img class="logo-dark logo-img" src="{% static "images/logo-dark.png" %}"
                                 srcset="{% static "images/logo-dark.png" %}" alt="logo-dark"><img
                 class="logo-small logo-img logo-img-small" src="{% static "images/logo-dark.png" %}"
@@ -16,28 +17,34 @@
             <div class="nk-sidebar-menu" data-simplebar>
                 <ul class="nk-menu">
                     {% if request.user.is_staff %}
-                    <li class="nk-menu-heading"><h6 class="overline-title text-primary-alt">مدیریت</h6></li>
-                    <li class="nk-menu-item"><a href="{% url 'educational:universities' %}" class="nk-menu-link"><span
-                            class="nk-menu-icon"><em class="icon ni ni-home"></em></span><span
-                            class="nk-menu-text">دانشگاه ها</span></a></li>
-                    <li class="nk-menu-item"><a href="{% url 'educational:year_semester' %}" class="nk-menu-link"><span
-                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                            class="nk-menu-text">سال تحصیلی</span></a></li>
-                    <li class="nk-menu-item"><a href="{% url 'educational:degree_field_study' %}" class="nk-menu-link"><span
-                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                            class="nk-menu-text">رشته ها</span></a></li>
-                    <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span
-                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                            class="nk-menu-text">درخواست ها</span></a></li>
-                    <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span
-                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                            class="nk-menu-text">کارت ها</span></a></li>
-                    <li class="nk-menu-item"><a href="{% url 'educational:semesters' %}" class="nk-menu-link"><span
-                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                            class="nk-menu-text">ایجاد ترم جدید</span></a></li>
-                    <li class="nk-menu-item"><a href="{% url 'client:users' %}" class="nk-menu-link"><span
-                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                            class="nk-menu-text">ایجاد مدیر جدید</span></a></li>
+                        <li class="nk-menu-heading"><h6 class="overline-title text-primary-alt">مدیریت</h6></li>
+                        <li class="nk-menu-item"><a href="{% url 'educational:universities' %}"
+                                                    class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-home"></em></span><span
+                                class="nk-menu-text">دانشگاه ها</span></a></li>
+                        <li class="nk-menu-item"><a href="{% url 'educational:year_semester' %}"
+                                                    class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                                class="nk-menu-text">سال تحصیلی</span></a></li>
+                        <li class="nk-menu-item"><a href="{% url 'educational:degree_field_study' %}"
+                                                    class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                                class="nk-menu-text">رشته ها</span></a></li>
+                        <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                                class="nk-menu-text">درخواست ها</span></a></li>
+                        <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                                class="nk-menu-text">کارت ها</span></a></li>
+                        <li class="nk-menu-item"><a href="{% url 'educational:semesters' %}" class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                                class="nk-menu-text">ایجاد ترم جدید</span></a></li>
+                        <li class="nk-menu-item"><a href="{% url 'client:users' %}" class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                                class="nk-menu-text">ایجاد مدیر جدید</span></a></li>
+                        <li class="nk-menu-item"><a href="{% url 'educational:reports' %}" class="nk-menu-link"><span
+                                class="nk-menu-icon"><em class="icon ni ni-bar-chart"></em></span><span
+                                class="nk-menu-text">گزارشات</span></a></li>
 
                     {% endif %}
                     <li class="nk-menu-heading"><h6 class="overline-title text-primary-alt">دانشجویان</h6></li>

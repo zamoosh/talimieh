@@ -33,7 +33,7 @@ class Semester(models.Model):
     degree_field_study = models.ForeignKey(Degree_field_study, on_delete=models.CASCADE)
     year_semester = models.ForeignKey(Year_semester, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
-    scholarship = models.BooleanField(default=True)
+    scholarship = models.BooleanField(default=False)
     expert_price = models.CharField(max_length=25)
     entrance_price = models.CharField(max_length=25)
 
@@ -44,3 +44,5 @@ class Educational_request(models.Model):
     former_university = models.CharField(max_length=25, blank=True, null=True)
     college = models.ForeignKey(Semester, on_delete=models.CASCADE)
     document = models.ForeignKey(Owner_document, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+    sent = models.BooleanField(default=False)

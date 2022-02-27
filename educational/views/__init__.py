@@ -5,3 +5,5 @@ from .degree_field_study import *
 from .semesters import *
 from .uni_request import *
 from .term_status import term_status
+from .reports import reports
+from .edit_university import edit_university

@@ -31,7 +31,7 @@ def submit_semester(request):
         context['university'] = Universities.objects.get(id=context['uni'])
         context['degree_fields'] = Degree_field_study.objects.filter(id__in=context['degree_list'])
         context['year'] = Year_semester.objects.get(year_semester__status=True)
-        context['term'] = Year_semester.objects.get(parent=context['year'])
+        context['term'] = Year_semester.objects.get(parent=context['year'], status=True)
         if request.method == "POST":
             detail = {}
             for i in request.POST.items():
