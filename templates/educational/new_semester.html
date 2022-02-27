@@ -21,6 +21,12 @@
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             success: function (data) {
+                for (const element of data) {
+                    console.log(element['status'])
+                    if (element['status'])
+                        continue;
+                    $("#uni").append($('<option>', {value: element['id'], text: element['title']}))
+                }
                 data.forEach(function (element) {
                     $("#uni").append($('<option>', {value: element['id'], text: element['title']}))
                 });

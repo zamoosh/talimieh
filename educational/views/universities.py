@@ -17,6 +17,7 @@ def universities(request):
             university.uni_name = context['req']['university']
             university.document = context['req']['uni_doc']
             university.comment = context['req']['uni_comment']
+            university.status = True
             university.save()
             context['create'] = True
     if 'remove' in request.GET:

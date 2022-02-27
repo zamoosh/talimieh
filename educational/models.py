@@ -9,6 +9,9 @@ class Universities(models.Model):
     document = models.TextField(null=True, blank=True)
     status = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.uni_name
+
 
 class Year_semester(models.Model):
     title = models.CharField(max_length=4)
@@ -27,6 +30,9 @@ class Degree_field_study(models.Model):
     document = models.TextField(null=True, blank=True)
     status = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Semester(models.Model):
     university = models.ForeignKey(Universities, on_delete=models.CASCADE)
@@ -36,6 +42,9 @@ class Semester(models.Model):
     scholarship = models.BooleanField(default=False)
     expert_price = models.CharField(max_length=25)
     entrance_price = models.CharField(max_length=25)
+
+    def __str__(self):
+        return f'{self.university.uni_name} {self.degree_field_study.title}'
 
 
 class Educational_request(models.Model):

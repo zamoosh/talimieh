@@ -53,6 +53,7 @@ def submit_semester(request):
                     detail[i[0][len('expert_price_'):]]['expert_price'] = i[1]
             for i in context['degree_fields']:
                 if str(i.id) in detail:
+                    uni = Universities.objects.get(id=context['university'].id)
                     semester = Semester()
                     semester.university_id = context['university'].id
                     semester.degree_field_study_id = i.id
@@ -61,6 +62,9 @@ def submit_semester(request):
                     semester.expert_price = detail[str(i.id)]['expert_price']
                     semester.entrance_price = detail[str(i.id)]['entrance_price']
                     semester.scholarship = detail[str(i.id)]['scholarship']
+                    semester.university.status = False
+                    uni.status = False
+                    uni.save()
                     semester.save()
             return HttpResponseRedirect(reverse('educational:semesters'))
     return render(request, 'educational/submit_semester.html', context)
