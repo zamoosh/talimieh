@@ -35,7 +35,7 @@ class Degree_field_study(models.Model):
 
 
 class Semester(models.Model):
-    university = models.ForeignKey(Universities, on_delete=models.CASCADE)
+    university = models.ForeignKey(Universities, on_delete=models.CASCADE, null=True)
     degree_field_study = models.ForeignKey(Degree_field_study, on_delete=models.CASCADE)
     year_semester = models.ForeignKey(Year_semester, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
@@ -44,7 +44,7 @@ class Semester(models.Model):
     entrance_price = models.CharField(max_length=25)
 
     def __str__(self):
-        return f'{self.university.uni_name} {self.degree_field_study.title}'
+        return self.degree_field_study.title
 
 
 class Educational_request(models.Model):

@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('uni-reqest/', uni_request, name="uni_request"),
     path('uni-reqest-submit/', uni_request_submit, name="uni_request_submit"),
-    path('uni-edit/<int:u_id>', edit_university, name='uni_edit'),
+    path('uni-edit/<int:u_id>', edit_university_terms, name='uni_edit_terms'),
 
     path('reports/', reports, name='reports'),
 ]
