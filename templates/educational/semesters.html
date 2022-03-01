@@ -34,7 +34,7 @@
                         $("#uni_name").empty();
                         $("#uni_name").append(`<span> ${element.uni} </span>`);
                         $("#show_degrees").append(`<div class="degrees-li pb-2">${element.title}<span id="degree_icon"></span></div>`)
-                        if (element.bors){
+                        if (element.bors) {
                             $("#degree_icon").empty();
                             $("#degree_icon").append(`(بورسیه)`)
                         }
@@ -90,8 +90,8 @@
                                                                     <tr>
                                                                         <th>دانشگاه</th>
                                                                         <th>رشته ها</th>
+                                                                        <th>ویرایش ترم</th>
                                                                         <th></th>
-
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody id="uni">
@@ -99,8 +99,18 @@
                                                                         <tr>
                                                                             <td>{{ uni_semester.uni_name }}</td>
                                                                             <td><a class="open-modal"
-                                                                                   data-url="{% if uni_semester %}{% url 'educational:get_degree' uni_semester.id %}{% endif %}">مشاهده
+                                                                                   data-url="
+
+
+
+                                                                                           
+                                                                                           
+                                                                                           {% if uni_semester %}{% url 'educational:get_degree' uni_semester.id %}{% endif %}">مشاهده
                                                                                 رشته ها</a></td>
+                                                                            <td>
+                                                                                <a href="{% url 'educational:uni_edit_terms' uni_semester.id %}"
+                                                                                   class="btn btn-outline-light">ویرایش</a>
+                                                                            </td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
                                                                                 <ul class="nk-tb-actions gx-1">
                                                                                     <li>
@@ -123,7 +133,6 @@
                                                                                 </ul>
                                                                             </td>
                                                                         </tr>
-
                                                                     {% endfor %}
                                                                     </tbody>
                                                                 </table>

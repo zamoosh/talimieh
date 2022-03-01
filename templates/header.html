@@ -133,7 +133,10 @@
                             <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
                             <div class="user-info d-none d-xl-block">
                                 <!--div class="user-status user-status-unverified"></div-->
-                                <div class="user-name dropdown-indicator">{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.cellphone }}{% endif %}</div>
+                                <div class="user-name dropdown-indicator">
+                                    {% if request.user.first_name %}{{ request.user.first_name }}
+                                        {{ request.user.last_name }}{% else %}
+                                        {{ request.user.cellphone }}{% endif %}</div>
                             </div>
                         </div>
                     </a>
@@ -142,13 +145,14 @@
                                 <div class="user-card">
                                     <div class="user-avatar"><span>{{ request.user.first_name.0 }}</span></div>
                                     <div class="user-info"><span
-                                            class="lead-text">{{ request.user.cellphone }}</span><span class="sub-text">{{ request.user.email }}</span>
+                                            class="lead-text">{{ request.user.cellphone }}</span><span
+                                            class="sub-text">{{ request.user.email }}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
-                                    <li><a href="/demo2/user-profile-regular.html"><em
+                                    <li><a href="{% url 'client:profile' %}"><em
                                             class="icon ni ni-user-alt"></em><span>پروفایل</span></a>
                                     </li>
                                     <li><a href="/demo2/user-profile-setting.html"><em

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+
+
+                                        <div class="nk-block nk-block-lg">
+                                            <div class="card card-preview">
+                                                <div class="card-inner">
+                                                    <div class="row g-gs">
+                                                        <div class="col-sm-6">
+                                                            <div class="card text-white bg-gray">
+                                                                <div class="card-header">تعداد درخواست‌ها</div>
+                                                                <div class="card-inner"><h5 class="card-title"></h5>
+                                                                    <p class="card-text">{{ request_number }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <br/>
+                                        <br/>
+
+                                        <div class="col-md-12">
+                                            <div class="card card-preview">
+                                                <div class="card-inner">
+                                                    <div class="card-head text-center"><h6 class="title">Pie Chart</h6>
+                                                    </div>
+                                                    <div class="nk-ck-sm">
+                                                        <div class="chartjs-size-monitor">
+                                                            <div class="chartjs-size-monitor-expand">
+                                                                <div class=""></div>
+                                                            </div>
+                                                            <div class="chartjs-size-monitor-shrink">
+                                                                <div class=""></div>
+                                                            </div>
+                                                        </div>
+                                                        <canvas class="pie-chart chartjs-render-monitor"
+                                                                id="pieChartData"
+                                                                style="display: block; width: 252px; height: 180px;"
+                                                                width="252" height="180"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->

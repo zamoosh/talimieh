@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}ایجاد مدیر جدید - نسل تعلیمیه{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="nk-block nk-block-lg">
+                                            <div class="card card-preview">
+                                                <div class="btn-top-uni">
+                                                    <a href="#" class="btn mt-3 float-sm-right"
+                                                       data-toggle="modal" data-target="#create_year"
+                                                           style="margin-left: 3.6rem">ایجاد کاربر
+                                                        جدید</a>
+                                                </div>
+                                                <div class="card-inner">
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <table class="datatable-init-export nowrap table"
+                                                                       data-export-title="خروجی" id="unitable">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>نام کاربر</th>
+                                                                        <th>نام خانوادگی</th>
+                                                                        <th>شناسه کاربری</th>
+                                                                        <th>مدیر</th>
+                                                                        <th></th>
+
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody id="uni">
+                                                                    {% for user in users %}
+                                                                        <tr>
+                                                                            <td>{{ user.first_name }}</td>
+                                                                            <td>{{ user.last_name }}</td>
+                                                                            <td>{{ user.username }}</td>
+                                                                            <td>
+                                                                                {% if user.is_staff %}
+                                                                                    <em class="icon ni ni-check-circle text-success"
+                                                                                        style="font-size: 1.475rem"></em>
+                                                                                {% else %}
+                                                                                    <em class="icon ni ni-cross-circle text-danger"
+                                                                                        style="font-size: 1.475rem"></em>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td class="nk-tb-col nk-tb-col-tools">
+                                                                                <ul class="nk-tb-actions gx-1">
+                                                                                    <li>
+                                                                                        {% if not user.is_staff %}
+                                                                                            <form action="{% url 'client:make_staff' user.id %}"
+                                                                                                  method="post">
+                                                                                                {% csrf_token %}
+                                                                                                <input type="submit"
+                                                                                                       class="btn btn-light"
+                                                                                                       value="ارتقا به مدیریت">
+                                                                                            </form>
+                                                                                        {% else %}
+                                                                                            <form action="{% url 'client:make_staff' user.id %}"
+                                                                                                  method="post">
+                                                                                                {% csrf_token %}
+                                                                                                <input type="hidden"
+                                                                                                       name="id"
+                                                                                                       value="{{ user.id }}"
+                                                                                                       id="member">
+                                                                                                <input type="submit"
+                                                                                                       class="btn btn-light"
+                                                                                                       value="تنزیل به عضویت">
+                                                                                            </form>
+                                                                                        {% endif %}
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="modal fade show" tabindex="-1"
+                                                                     id="create_year"
+                                                                     style="display: none; padding-right: 12px;"
+                                                                     aria-modal="true" role="dialog">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header"><h5
+                                                                                    class="modal-title">
+                                                                                ایجاد کاربر جدید
+                                                                            </h5><a href="#" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close"><em
+                                                                                    class="icon ni ni-cross"></em></a>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form method="POST"
+                                                                                      action="{% url 'client:create_new_user' %}">
+                                                                                    {% csrf_token %}
+                                                                                    <div class="form-group">
+                                                                                        <div class="form-control-wrap">
+                                                                                            <input type="text"
+                                                                                                   class="form-control form-control-lg form-control-outlined"
+                                                                                                   id="name"
+                                                                                                   name="name">
+                                                                                            <label class="form-label-outlined"
+                                                                                                   for="name">
+                                                                                                نام
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <div class="form-control-wrap">
+                                                                                            <input type="text"
+                                                                                                   class="form-control form-control-lg form-control-outlined"
+                                                                                                   id="last_name"
+                                                                                                   name="last_name">
+                                                                                            <label class="form-label-outlined"
+                                                                                                   for="last_name">
+                                                                                                نام خانوادگی
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <div class="form-control-wrap">
+                                                                                            <input type="text"
+                                                                                                   class="form-control form-control-lg form-control-outlined"
+                                                                                                   id="cellphone"
+                                                                                                   name="cellphone">
+                                                                                            <label class="form-label-outlined"
+                                                                                                   for="cellphone">
+                                                                                                شماره تماس (به عنوان رمز
+                                                                                                ورود استفاده می‌شود)
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <input type="submit"
+                                                                                               class="btn btn-light float-right"
+                                                                                               value="ذخیره">
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="modal fade show" tabindex="-1" id="create_year" style="display: none; padding-right: 12px;"
+         aria-modal="true" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">
+                    ایجاد سال تحصیلی
+                </h5><a href="#" class="close" data-dismiss="modal" aria-label="Close"><em
+                        class="icon ni ni-cross"></em></a></div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'educational:degree_field_study' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <input type="text"
+                                       class="form-control form-control-lg form-control-outlined"
+                                       id="title" name="title">
+                                <label class="form-label-outlined" for="title">
+                                    نام کاربر
+                                </label></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <label class="form-label-outlined" for=doc">
+                                    نام خانوادگی
+                                </label>
+                                <textarea class="form-control form-control-lg form-control-outlined"
+                                          id="doc" name="doc"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="degree_submit" class="btn btn-light float-right">
+                                ذخیره
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

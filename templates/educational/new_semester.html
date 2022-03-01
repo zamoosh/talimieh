@@ -21,6 +21,12 @@
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             success: function (data) {
+                for (const element of data) {
+                    console.log(element['status'])
+                    if (element['status'])
+                        continue;
+                    $("#uni").append($('<option>', {value: element['id'], text: element['title']}))
+                }
                 data.forEach(function (element) {
                     $("#uni").append($('<option>', {value: element['id'], text: element['title']}))
                 });
@@ -65,14 +71,15 @@
                                                             <div class="row g-4">
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
-                                                                        <div class="form-control-wrap"><select
-                                                                                class="form-select"
-                                                                                data-ui="lg"
-                                                                                id="uni"
-                                                                                data-search="on" name="uni">
-                                                                            <option value="">دانشگاه</option>
-                                                                        </select><label class="form-label-outlined"
-                                                                                        for="degree">دانشگاه</label>
+                                                                        <div class="form-control-wrap">
+                                                                            <select
+                                                                                    class="form-select"
+                                                                                    data-ui="lg"
+                                                                                    id="uni"
+                                                                                    data-search="on" name="uni">
+                                                                                <option value="">دانشگاه</option>
+                                                                            </select><label class="form-label-outlined"
+                                                                                            for="degree">دانشگاه</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -80,12 +87,17 @@
                                                                     <div class="degree">
                                                                         <ul>
                                                                             {% for degree_field in degree_fields %}
-                                                                                 <li class="custom-control degree-field custom-checkbox mr-5">
-                                                                                     <input type="checkbox" class="custom-control-input" name="degree_list" value="{{ degree_field.id }}" id="{{ degree_field.id }}">
-                                                                                     <label class="custom-control-label" for="{{ degree_field.id }}">{{ degree_field.title }}</label>
-                                                                                 </li>
+                                                                                <li class="custom-control degree-field custom-checkbox mr-5">
+                                                                                    <input type="checkbox"
+                                                                                           class="custom-control-input"
+                                                                                           name="degree_list"
+                                                                                           value="{{ degree_field.id }}"
+                                                                                           id="{{ degree_field.id }}">
+                                                                                    <label class="custom-control-label"
+                                                                                           for="{{ degree_field.id }}">{{ degree_field.title }}</label>
+                                                                                </li>
                                                                             {% endfor %}
-                                                                    </ul>
+                                                                        </ul>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
