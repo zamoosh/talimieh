@@ -3,7 +3,7 @@ from .imports import *
 
 def uni_request(request):
     context = {}
-    context['educational_request'] = Educational_request.objects.all()
+    context['educational_request'] = EducationalRequest.objects.all()
     if request.method == 'POST':
         context['request'] = {}
         context['request']['moadel'] = request.POST.get('moadel', '').strip()

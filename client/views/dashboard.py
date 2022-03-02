@@ -5,7 +5,7 @@ from .imports import *
 def dashboard(request):
     context = {}
     context['registered'] = len(User.objects.filter(is_active=True,is_staff=False))
-    context['year'] = Year_semester.objects.last()
+    context['year'] = YearSemester.objects.last()
     context['uni'] = len(Universities.objects.filter(status=True))
 
     return render(request, 'client/dashboard.html', context)
