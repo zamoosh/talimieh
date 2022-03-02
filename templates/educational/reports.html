@@ -6,7 +6,65 @@
 
 {% endblock %}
 {% block js %}
+    <script src="{% static "assets/js/example-chart.js" %}"></script>
+    <script>
+        var pieChartData = {
+            labels: ["Send", "Receive", "Withdraw"],
+            dataUnit: "BTC",
+            legend: !1,
+            datasets: [{borderColor: "#fff", background: ["#b695ff", "#f4aaa4", "#8feac5"], data: [5, 80, 125]}]
+        };
 
+        function pieChart(selector, set_data) {
+            var $selector = $(selector || ".pie-chart");
+            $selector.each(function () {
+                for (var $self = $(this), _self_id = $self.attr("id"), _get_data = void 0 === set_data ? eval(_self_id) : set_data, selectCanvas = document.getElementById(_self_id).getContext("2d"), chart_data = [], i = 0; i < _get_data.datasets.length; i++) chart_data.push({
+                    backgroundColor: _get_data.datasets[i].background,
+                    borderWidth: 2,
+                    borderColor: _get_data.datasets[i].borderColor,
+                    hoverBorderColor: _get_data.datasets[i].borderColor,
+                    data: _get_data.datasets[i].data
+                });
+                var chart = new Chart(selectCanvas, {
+                    type: "pie",
+                    data: {labels: _get_data.labels, datasets: chart_data},
+                    options: {
+                        legend: {
+                            display: _get_data.legend || !1,
+                            rtl: NioApp.State.isRTL,
+                            labels: {boxWidth: 12, padding: 20, fontColor: "#6783b8"}
+                        },
+                        rotation: -.2,
+                        maintainAspectRatio: !1,
+                        tooltips: {
+                            enabled: !0,
+                            rtl: NioApp.State.isRTL,
+                            callbacks: {
+                                title: function (a, t) {
+                                    return t.labels[a[0].index]
+                                }, label: function (a, t) {
+                                    return t.datasets[a.datasetIndex].data[a.index] + " " + _get_data.dataUnit
+                                }
+                            },
+                            backgroundColor: "#eff6ff",
+                            titleFontSize: 13,
+                            titleFontColor: "#6783b8",
+                            titleMarginBottom: 6,
+                            bodyFontColor: "#9eaecf",
+                            bodyFontSize: 12,
+                            bodySpacing: 4,
+                            yPadding: 10,
+                            xPadding: 10,
+                            footerMarginTop: 0,
+                            displayColors: !1
+                        }
+                    }
+                })
+            })
+        }
+
+        pieChart();
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}

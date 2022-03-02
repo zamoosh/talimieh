@@ -56,10 +56,25 @@ def submit_semester(request):
                 if str(i.id) in detail:
                     if i.semester_set.filter(~Q(university=None)):
                         for item in i.semester_set.filter(~Q(university=None)):
-                            item.expert_price = detail[str(i.id)]['expert_price']
-                            item.entrance_price = detail[str(i.id)]['entrance_price']
-                            item.scholarship = detail[str(i.id)]['scholarship']
-                            item.save()
+                            if item.university.id == context['uni']:
+                                item.expert_price = detail[str(i.id)]['expert_price']
+                                item.entrance_price = detail[str(i.id)]['entrance_price']
+                                item.scholarship = detail[str(i.id)]['scholarship']
+                                item.save()
+                            else:
+                                uni = Universities.objects.get(id=context['uni'])
+                                semester = Semester()
+                                semester.university_id = context['university'].id
+                                semester.degree_field_study_id = i.id
+                                semester.year_semester_id = context['term'].id
+                                semester.status = True
+                                semester.expert_price = detail[str(i.id)]['expert_price']
+                                semester.entrance_price = detail[str(i.id)]['entrance_price']
+                                semester.scholarship = detail[str(i.id)]['scholarship']
+                                semester.university.status = True
+                                uni.status = True
+                                uni.save()
+                                semester.save()
                     else:
                         uni = Universities.objects.get(id=context['uni'])
                         semester = Semester()
@@ -70,8 +85,8 @@ def submit_semester(request):
                         semester.expert_price = detail[str(i.id)]['expert_price']
                         semester.entrance_price = detail[str(i.id)]['entrance_price']
                         semester.scholarship = detail[str(i.id)]['scholarship']
-                        semester.university.status = False
-                        uni.status = False
+                        semester.university.status = True
+                        uni.status = True
                         uni.save()
                         semester.save()
             return HttpResponseRedirect(reverse('educational:semesters'))
