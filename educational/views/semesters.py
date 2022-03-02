@@ -62,7 +62,7 @@ def submit_semester(request):
                                 item.scholarship = detail[str(i.id)]['scholarship']
                                 item.save()
                             else:
-                                uni = Universities.objects.get(id=context['uni'])
+                                # uni = Universities.objects.get(id=context['uni'])
                                 semester = Semester()
                                 semester.university_id = context['university'].id
                                 semester.degree_field_study_id = i.id
@@ -72,11 +72,11 @@ def submit_semester(request):
                                 semester.entrance_price = detail[str(i.id)]['entrance_price']
                                 semester.scholarship = detail[str(i.id)]['scholarship']
                                 semester.university.status = True
-                                uni.status = True
-                                uni.save()
+                                # uni.status = True
+                                # uni.save()
                                 semester.save()
                     else:
-                        uni = Universities.objects.get(id=context['uni'])
+                        # uni = Universities.objects.get(id=context['uni'])
                         semester = Semester()
                         semester.university_id = context['university'].id
                         semester.degree_field_study_id = i.id
@@ -86,8 +86,11 @@ def submit_semester(request):
                         semester.entrance_price = detail[str(i.id)]['entrance_price']
                         semester.scholarship = detail[str(i.id)]['scholarship']
                         semester.university.status = True
-                        uni.status = True
-                        uni.save()
+                        # uni.status = True
+                        # uni.save()
                         semester.save()
             return HttpResponseRedirect(reverse('educational:semesters'))
+        uni = Universities.objects.get(id=context['uni'])
+        uni.status = False
+        uni.save()
     return render(request, 'educational/submit_semester.html', context)
