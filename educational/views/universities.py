@@ -4,7 +4,7 @@ from client.models import *
 
 def universities(request):
     context = {}
-    context['universitys'] = Universities.objects.filter(status=True).order_by('-id')
+    context['universitys'] = Universities.objects.filter(semester__in=Semester.objects.all()).order_by('-id')
     if request.method == "POST":
         context['req'] = {}
         context['req']['university'] = request.POST.get('university', '').strip()
@@ -27,8 +27,4 @@ def universities(request):
             context['remove'] = True
         except (Universities.DoesNotExist, Exception):
             return render(request, 'educational/universities.html', context)
-        # context['rmuniversity'] = Universities.objects.get(id=int(request.GET.get('remove')))
-        # context['rmuniversity'].status = 0
-        # context['rmuniversity'].save()
-        # context['remove'] = True
     return render(request, 'educational/universities.html', context)
