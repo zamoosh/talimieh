@@ -14,7 +14,7 @@ urlpatterns = [
     path('user-document-upload/', user_document_upload, name="user_document_upload"),
     path('get-document/api/', get_document, name="get_document"),
     path('users/', users, name='users'),
-    path('make-staff/<int:u_id>/', make_staff, name='make_staff'),
+    path('make-staff/', user_perms, name='user_perms'),
     path('create-new-user/', create_new_user, name='create_new_user'),
 ]
 

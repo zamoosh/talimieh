@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
-{% block title %}ایجاد مدیر جدید - نسل تعلیمیه{% endblock %}
+{% block title %}پنل مدیریت اعضا - نسل تعلیمیه{% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
 {% endblock %}
@@ -23,7 +23,7 @@
                                                 <div class="btn-top-uni">
                                                     <a href="#" class="btn mt-3 float-sm-right"
                                                        data-toggle="modal" data-target="#create_year"
-                                                           style="margin-left: 3.6rem">ایجاد کاربر
+                                                       style="margin-left: 3.6rem">ایجاد کاربر
                                                         جدید</a>
                                                 </div>
                                                 <div class="card-inner">
@@ -60,27 +60,13 @@
                                                                             <td class="nk-tb-col nk-tb-col-tools">
                                                                                 <ul class="nk-tb-actions gx-1">
                                                                                     <li>
-                                                                                        {% if not user.is_staff %}
-                                                                                            <form action="{% url 'client:make_staff' user.id %}"
-                                                                                                  method="post">
-                                                                                                {% csrf_token %}
-                                                                                                <input type="submit"
-                                                                                                       class="btn btn-light"
-                                                                                                       value="ارتقا به مدیریت">
-                                                                                            </form>
-                                                                                        {% else %}
-                                                                                            <form action="{% url 'client:make_staff' user.id %}"
-                                                                                                  method="post">
-                                                                                                {% csrf_token %}
-                                                                                                <input type="hidden"
-                                                                                                       name="id"
-                                                                                                       value="{{ user.id }}"
-                                                                                                       id="member">
-                                                                                                <input type="submit"
-                                                                                                       class="btn btn-light"
-                                                                                                       value="تنزیل به عضویت">
-                                                                                            </form>
-                                                                                        {% endif %}
+                                                                                        <form action="{% url 'client:user_perms' %}?user_id={{ user.id }}"
+                                                                                              method="get">
+                                                                                            {% csrf_token %}
+                                                                                            <input type="submit"
+                                                                                                   class="btn btn-lighter"
+                                                                                                   value="تنظیم مسئولیت">
+                                                                                        </form>
                                                                                     </li>
                                                                                 </ul>
                                                                             </td>

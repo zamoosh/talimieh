@@ -22,5 +22,4 @@ def uni_request_submit(request):
     if 'e_request' in request.session:
         context = request.session['e_request']
         context['uni_dic'] = Universities.objects.get(id=context['collage']).document
-
     return render(request, 'educational/uni_request_submit.html', context)

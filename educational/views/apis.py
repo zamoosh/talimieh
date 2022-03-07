@@ -18,6 +18,14 @@ def get_uni(request):
 
 
 @login_required
+def uni_has_semester(request):
+    context = []
+    for i in Universities.objects.filter(semester__isnull=False):
+        context.append({'id': i.pk, 'title': i.uni_name, 'status': i.status})
+    return JsonResponse(context, safe=False)
+
+
+@login_required
 def get_degree(request, t_id):
     context = []
     for i in Semester.objects.filter(university=t_id):
