@@ -38,11 +38,22 @@ class User(AbstractUser):
             except:
                 pass
 
+    class Meta:
+        permissions = [
+            ('can_send_request', 'can send request? (documents must be accepted!)')
+        ]
+
 
 class Owner_document(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
     image = models.ImageField(blank=True, null=True, upload_to=owner_image)
+
+    class Meta:
+        permissions = [
+            ('can_accept_primary', 'can accept the primary document?'),
+            ('can_accept_after_primary', 'can accept other document after primaries?')
+        ]
 
     def save(self, *args, **kwargs):
         if self.image:

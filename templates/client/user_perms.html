@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+
+
+                                        <div class="card-aside-wrap" data-select2-id="8">
+                                            <div class="card-inner card-inner-lg" data-select2-id="7">
+                                                <div class="nk-block-head nk-block-head-lg">
+                                                    <div class="nk-block-between">
+                                                        <div class="nk-block-head-content">
+                                                            <h4 class="nk-block-title">
+                                                                {% if user.first_name %}
+                                                                    کاربر {{ user.first_name }}
+                                                                {% else %}
+                                                                    کاربر {{ user }}
+                                                                {% endif %}
+                                                            </h4>
+                                                        </div>
+                                                        <div class="nk-block-head-content align-self-start d-lg-none"><a
+                                                                href="#" class="toggle btn btn-icon btn-trigger mt-n1"
+                                                                data-target="userAside"><em
+                                                                class="icon ni ni-menu-alt-r"></em></a></div>
+                                                    </div>
+                                                </div>
+                                                <div class="nk-block" data-select2-id="6">
+                                                    <div class="nk-data data-list" data-select2-id="5">
+
+
+                                                        <table class="table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">ردیف</th>
+                                                                <th scope="col">نام گروه</th>
+                                                                <th scope="col">وضعیت</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for group in groups %}
+                                                                <tr>
+                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                    <td>{{ group.name }}</td>
+                                                                    <td>
+                                                                        <form action="{% url 'client:user_set_perms' group.id user.id %}"
+                                                                              method="post">
+                                                                            {% csrf_token %}
+                                                                            {% if user in group.user_set.all %}
+                                                                                <input class="btn btn-lighter"
+                                                                                       type="submit"
+                                                                                       value="del"
+                                                                                       name="{{ group.id }}">
+                                                                            {% else %}
+                                                                                <input class="btn btn-lighter"
+                                                                                       type="submit"
+                                                                                       value="set"
+                                                                                       name="{{ group.id }}">
+                                                                            {% endif %}
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->

@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group, Permission
 from educational.models import YearSemester
 
 User = get_user_model()
