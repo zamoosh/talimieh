@@ -24,4 +24,6 @@ urlpatterns = [
     path('uni-edit/<int:u_id>', edit_university_terms, name='uni_edit_terms'),
 
     path('reports/', reports, name='reports'),
+
+    # path('request/')
 ]
