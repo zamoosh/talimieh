@@ -8,7 +8,7 @@
 {% block js %}
     <script>
         $.ajax({
-            url: '{% url 'educational:get_uni' %}',
+            url: '{% url 'educational:uni_has_semester' %}',
             type: "GET",
             send: function (xhr) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);

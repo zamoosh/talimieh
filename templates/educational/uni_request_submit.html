@@ -3,9 +3,32 @@
 {% load jformat %}
 {% block title %}درخواست دانشگاه - نسل تعلیمیه{% endblock %}
 {% block css %}
+    <style>
+        .document-image {
+            width: 80px;
+        }
+
+        .table-row {
+            vertical-align: middle !important;
+        }
+    </style>
 {% endblock %}
 {% block js %}
     <script>
+        function buttonLoader() {
+            let checkboxArr = document.getElementsByTagName('input');
+            let fileInput = document.getElementById('file');
+            let counter = 0;
+            for (const inp of checkboxArr) {
+                if (inp.checked || (fileInput.value.length !== 0))
+                    counter += 1;
+            }
+            if (counter === 0)
+                document.getElementById('submit').disabled = true;
+            else if (counter !== 0)
+                document.getElementById('submit').disabled = false;
+        }
+
         $.ajax({
             url: '{% url 'client:get_document' %}',
             type: "GET",
@@ -13,14 +36,34 @@
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             success: function (data) {
+                let i = 1;
                 data.forEach(function (element) {
-                    $("#show_doc").append($(`<li class="custom-control degree-field custom-checkbox mr-5"><img src="${element.image}" alt="image"><input type="checkbox" class="custom-control-input" name="degree_list" value="${element.id}" id="${element.id}"><label class="custom-control-label" for="${element.id}">${element.title}"</label></li><br />`))
+                    $("#table-body-row").append(`
+                    <tr>
+                        <th scope="row" class="table-row">${i}</th>
+                        <td class="table-row"><img src="${element.image}" alt="image" class="document-image"></td>
+                        <td class="table-row">${element.title}</td>
+                        <td class="table-row">
+                            <input type="checkbox" name="document">
+                        </td>
+                    </tr>
+                    `)
+                    i++;
                 });
             },
             error: function (error) {
                 console.log(error);
             }
         });
+        window.onload = function () {
+            buttonLoader();
+        }
+        window.onclick = function () {
+            buttonLoader();
+        }
+        window.addEventListener('change', function () {
+            buttonLoader();
+        })
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -36,27 +79,42 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card p-5">
-                                        <form action="{% url 'client:user_document_upload' %}" method="post" enctype="multipart/form-data">
+                                        <form action="{% url 'client:user_document_upload' %}" method="post"
+                                              enctype="multipart/form-data">
                                             {% csrf_token %}
                                             <div class="row gy-3">
                                                 <div>مدارک مورد نیاز برای رشته و دانشگاه :</div>
                                                 {{ uni_dic.document }}
                                                 <div class="col-12">
                                                     <span class="pt-5">مدارک شما :</span>
-                                                    <div id="show_doc" class="pt-3"></div>
+
+                                                    <div class="card card-preview">
+                                                        <div class="card-inner">
+                                                            <table class="table">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">ردیف</th>
+                                                                    <th scope="col">تصویر مدرک</th>
+                                                                    <th scope="col">عنوان مدرک</th>
+                                                                    <th scope="col">انتخاب</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody id="table-body-row">
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <button type="submit"
+                                                    <button type="submit" id="submit"
                                                             class="btn float-right btn-lg btn-primary">
                                                         ثبت اطلاعات
                                                     </button>
-                                                    <label for="owner_upload" class="">
-                                                        آپلود مدارک
-                                                    </label>
-                                                    <input name="owner_upload" type="file" class="btn float-left btn-lg btn-primary" required>
-                                                    <input name="title" type="text" class="btn float-left btn-lg btn-primary" required>
+                                                    <input class="btn btn-lighter" type="file" name="owner_upload"
+                                                           id="file">
                                                 </div>
                                             </div>
                                         </form>

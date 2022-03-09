@@ -17,6 +17,7 @@ urlpatterns = [
     path('submit-semester/', submit_semester, name="submit_semester"),
     path('uni/api/', get_uni, name="get_uni"),
     path('get_degree/api/<int:t_id>/', get_degree, name="get_degree"),
+    path('uni/api/has-semester/', uni_has_semester, name='uni_has_semester'),
 
     path('uni-reqest/', uni_request, name="uni_request"),
     path('uni-reqest-submit/', uni_request_submit, name="uni_request_submit"),
