@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from .imports import *
 from educational.models import *
 
@@ -11,11 +13,10 @@ def semesters(request):
 
 def new_semester(request):
     context = {}
-    context['degree_fields'] = Degree_field_study.objects.filter(status=True)
+    context['degree_fields'] = DegreeFieldStudy.objects.filter(status=True)
     if request.method == 'POST':
         context['request'] = {}
         context['request']['uni'] = request.POST.get('uni', '').strip()
-        print(context['request']['uni'])
         context['request']['degree_list'] = request.POST.getlist('degree_list')
         request.session['degrees'] = context['request']
         return HttpResponseRedirect(reverse('educational:submit_semester'))
@@ -29,9 +30,9 @@ def submit_semester(request):
         context['degree_list'] = context['degree_list']
         context['uni'] = context['uni']
         context['university'] = Universities.objects.get(id=context['uni'])
-        context['degree_fields'] = Degree_field_study.objects.filter(id__in=context['degree_list'])
-        context['year'] = Year_semester.objects.get(year_semester__status=True)
-        context['term'] = Year_semester.objects.get(parent=context['year'], status=True)
+        context['degree_fields'] = DegreeFieldStudy.objects.filter(id__in=context['degree_list'])
+        context['year'] = YearSemester.objects.get(yearsemester__status=True)
+        context['term'] = YearSemester.objects.get(parent=context['year'], status=True)
         if request.method == "POST":
             detail = {}
             for i in request.POST.items():
@@ -53,18 +54,25 @@ def submit_semester(request):
                     detail[i[0][len('expert_price_'):]]['expert_price'] = i[1]
             for i in context['degree_fields']:
                 if str(i.id) in detail:
-                    uni = Universities.objects.get(id=context['university'].id)
-                    semester = Semester()
-                    semester.university_id = context['university'].id
-                    semester.degree_field_study_id = i.id
-                    semester.year_semester_id = context['term'].id
-                    semester.status = True
-                    semester.expert_price = detail[str(i.id)]['expert_price']
-                    semester.entrance_price = detail[str(i.id)]['entrance_price']
-                    semester.scholarship = detail[str(i.id)]['scholarship']
-                    semester.university.status = False
-                    uni.status = False
-                    uni.save()
-                    semester.save()
+                    if i.semester_set.filter(~Q(university=None)):
+                        for item in i.semester_set.filter(~Q(university=None)):
+                            item.expert_price = detail[str(i.id)]['expert_price']
+                            item.entrance_price = detail[str(i.id)]['entrance_price']
+                            item.scholarship = detail[str(i.id)]['scholarship']
+                            item.save()
+                    else:
+                        uni = Universities.objects.get(id=context['uni'])
+                        semester = Semester()
+                        semester.university_id = context['university'].id
+                        semester.degree_field_study_id = i.id
+                        semester.year_semester_id = context['term'].id
+                        semester.status = True
+                        semester.expert_price = detail[str(i.id)]['expert_price']
+                        semester.entrance_price = detail[str(i.id)]['entrance_price']
+                        semester.scholarship = detail[str(i.id)]['scholarship']
+                        semester.university.status = False
+                        uni.status = False
+                        uni.save()
+                        semester.save()
             return HttpResponseRedirect(reverse('educational:semesters'))
     return render(request, 'educational/submit_semester.html', context)

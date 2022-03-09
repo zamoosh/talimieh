@@ -62,7 +62,7 @@
                                                 <div class="nk-block" data-select2-id="6">
                                                     <div class="nk-data data-list" data-select2-id="5">
                                                         <form method="post" data-select2-id="4"
-                                                              action="{% url 'educational:uni_edit_terms' uni.id %}">
+                                                              action="{% url 'educational:uni_edit_terms' request.uni %}">
                                                             {% csrf_token %}
                                                             <div class="row g-4">
                                                                 <div class="col-lg-6">
@@ -103,39 +103,33 @@
                                                                             {#                                                                                {% endif %}#}
                                                                             {##}
                                                                             {#                                                                            {% endfor %}#}
-
                                                                             {% for field in all_fields %}
-                                                                                {% for uni_term in uni_terms %}
-                                                                                    {% if uni_term in field.semester_set.all %}
-
-                                                                                        <li class="custom-control degree-field custom-checkbox mr-5">
-                                                                                            <input type="checkbox"
-                                                                                                   checked
-                                                                                                   class="custom-control-input"
-                                                                                                   name="semester"
-                                                                                                   value="{{ uni_term.id }}"
-                                                                                                   id="{{ uni_term.id }}">
-                                                                                            <label class="custom-control-label"
-                                                                                                   for="{{ uni_term.id }}">
-                                                                                                {{ uni_term }}
-                                                                                            </label>
-                                                                                        </li>
-
-                                                                                    {% else %}
-                                                                                        <li class="custom-control degree-field custom-checkbox mr-5">
-                                                                                            <input type="checkbox"
-                                                                                                   class="custom-control-input"
-                                                                                                   name="semester"
-                                                                                                   value="{{ field.id }}"
-                                                                                                   id="{{ field.id }}">
-                                                                                            <label class="custom-control-label"
-                                                                                                   for="{{ field.id }}">
-                                                                                                {{ field }}
-                                                                                            </label>
-                                                                                        </li>
-
-                                                                                    {% endif %}
-                                                                                {% endfor %}
+                                                                                {% if field in degree_selected %}
+                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">
+                                                                                        <input type="checkbox"
+                                                                                               checked
+                                                                                               class="custom-control-input"
+                                                                                               name="degree"
+                                                                                               value="{{ field.id }}"
+                                                                                               id="{{ field.id }}">
+                                                                                        <label class="custom-control-label"
+                                                                                               for="{{ field.id }}">
+                                                                                            {{ field }}
+                                                                                        </label>
+                                                                                    </li>
+                                                                                {% else %}
+                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">
+                                                                                        <input type="checkbox"
+                                                                                               class="custom-control-input"
+                                                                                               name="degree"
+                                                                                               value="{{ field.id }}"
+                                                                                               id="{{ field.id }}">
+                                                                                        <label class="custom-control-label"
+                                                                                               for="{{ field.id }}">
+                                                                                            {{ field }}
+                                                                                        </label>
+                                                                                    </li>
+                                                                                {% endif %}
                                                                             {% endfor %}
 
 

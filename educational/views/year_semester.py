@@ -3,16 +3,16 @@ from .imports import *
 
 @login_required()
 def year_semester(request):
-    context = {'year_semesters': Year_semester.objects.all()}
+    context = {'year_semesters': YearSemester.objects.all()}
     if request.method == "POST":
         context['req'] = {'year': request.POST.get('year', '').strip(), 'term': request.POST.get('term', '').strip()}
-        semester_year = Year_semester()
+        semester_year = YearSemester()
         semester_year.title = context['req']['year']
         if context['req']['term']:
             semester_year.parent_id = context['req']['term']
         semester_year.save()
     counter = 0
-    for item in Year_semester.objects.all():
+    for item in YearSemester.objects.all():
         if counter > 1:
             break
         if hasattr(item.parent, 'title'):
@@ -23,8 +23,8 @@ def year_semester(request):
         return render(request, 'educational/year_semester.html', context)
     if 'remove' in request.GET:
         try:
-            y = Year_semester.objects.get(id=int(request.GET.get('remove')))
+            y = YearSemester.objects.get(id=int(request.GET.get('remove')))
             y.delete()
-        except (Year_semester.DoesNotExist, Exception):
+        except (YearSemester.DoesNotExist, Exception):
             return render(request, 'educational/year_semester.html', context)
     return render(request, 'educational/year_semester.html', context)

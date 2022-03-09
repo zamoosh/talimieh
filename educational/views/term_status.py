@@ -3,7 +3,7 @@ from client.views.imports import *
 
 def term_status(request, t_id):
     if request.method == 'POST':
-        term = Year_semester.objects.get(id=t_id)
+        term = YearSemester.objects.get(id=t_id)
         if term.status:
             term.status = False
         else:

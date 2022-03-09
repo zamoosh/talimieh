@@ -4,7 +4,7 @@ from .imports import *
 @login_required
 def get_year(request, term=None):
     context = []
-    for i in Year_semester.objects.filter(parent=term):
+    for i in YearSemester.objects.filter(parent=term):
         context.append({'id': i.pk, 'year': i.title})
     return JsonResponse(context, safe=False)
 
