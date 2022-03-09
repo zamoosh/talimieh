@@ -1,13 +1,8 @@
-from django.db import models
 from .imports import *
 
 
 def profile_image(instance, filename):
     return "%s/%s/%s" % ('profile', instance.id, filename)
-
-
-def owner_image(instance, filename):
-    return "%s/%s/%s" % ('document', instance.id, filename)
 
 
 class User(AbstractUser):
@@ -35,34 +30,10 @@ class User(AbstractUser):
             try:
                 img = Image.open(self.profile_image)
                 img.save(self.profile_image.path, quality=95)
-            except:
+            except (Exception, Exception):
                 pass
 
     class Meta:
         permissions = [
             ('can_send_request', 'can send request? (documents must be accepted!)')
         ]
-
-
-class Owner_document(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=25)
-    image = models.ImageField(blank=True, null=True, upload_to=owner_image)
-
-    class Meta:
-        permissions = [
-            ('can_accept_primary', 'can accept the primary document?'),
-            ('can_accept_after_primary', 'can accept other document after primaries?')
-        ]
-
-    def save(self, *args, **kwargs):
-        if self.image:
-            if not self.id:
-                img = self.image
-                self.image = None
-                super(Owner_document, self).save()
-                self.image = img
-            super(Owner_document, self).save()
-
-    def __str__(self):
-        return self.owner.first_name

@@ -1,5 +1,4 @@
 from .imports import *
-from client.models import *
 
 
 class Universities(models.Model):
@@ -51,6 +50,35 @@ class EducationalRequest(models.Model):
     field_study = models.CharField(max_length=25, blank=True, null=True)
     former_university = models.CharField(max_length=25, blank=True, null=True)
     college = models.ForeignKey(Semester, on_delete=models.CASCADE)
-    document = models.ForeignKey(Owner_document, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     status = models.BooleanField(default=False)
     sent = models.BooleanField(default=False)
+
+
+def owner_image(instance, filename):
+    return "%s/%s/%s" % ('document', instance.id, filename)
+
+
+class OwnerDocument(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=25)
+    image = models.ImageField(blank=True, null=True, upload_to=owner_image)
+    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
+
+    class Meta:
+        permissions = [
+            ('can_accept_primary', 'can accept the primary document?'),
+            ('can_accept_after_primary', 'can accept other document after primaries?')
+        ]
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            if not self.id:
+                img = self.image
+                self.image = None
+                super(OwnerDocument, self).save()
+                self.image = img
+            super(OwnerDocument, self).save()
+
+    def __str__(self):
+        return f' {str(self.id)} {self.title} {self.user.first_name} {self.user.last_name} {str(self.user.id)}'
