@@ -1,10 +1,9 @@
 from .imports import *
-from client.models import *
 
 
 def universities(request):
-    context = {}
-    context['universitys'] = Universities.objects.filter(semester__in=Semester.objects.all()).order_by('-id')
+    # context = {'universities': Universities.objects.filter(semester__in=Semester.objects.all()).order_by('-id')}
+    context = {'universities': Universities.objects.all().order_by('-id')}
     if request.method == "POST":
         context['req'] = {}
         context['req']['university'] = request.POST.get('university', '').strip()
