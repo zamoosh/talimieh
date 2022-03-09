@@ -14,8 +14,9 @@ urlpatterns = [
     path('user-document-upload/', user_document_upload, name="user_document_upload"),
     path('get-document/api/', get_document, name="get_document"),
     path('users/', users, name='users'),
-    path('make-staff/', user_perms, name='user_perms'),
+    path('user-perms/<int:u_id>/', user_perms, name='user_perms'),
     path('create-new-user/', create_new_user, name='create_new_user'),
+    path('user-set-perms/<int:g_id>/<int:u_id>/', user_set_perms, name='user_set_perms'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
