@@ -50,7 +50,7 @@
                                                     <div class="nk-block-between">
                                                         <div class="nk-block-head-content">
                                                             <h4 class="nk-block-title">
-                                                                دانشگاه {{ uni.uni_name }}
+                                                                دانشگاه {{ university.uni_name }}
                                                             </h4>
                                                         </div>
                                                         <div class="nk-block-head-content align-self-start d-lg-none"><a
@@ -62,7 +62,7 @@
                                                 <div class="nk-block" data-select2-id="6">
                                                     <div class="nk-data data-list" data-select2-id="5">
                                                         <form method="post" data-select2-id="4"
-                                                              action="{% url 'educational:uni_edit_terms' request.uni %}">
+                                                              action="{% url 'educational:uni_edit_terms' university.id %}">
                                                             {% csrf_token %}
                                                             <div class="row g-4">
                                                                 <div class="col-lg-6">
@@ -73,36 +73,6 @@
                                                                     <div class="degree">
                                                                         <ul>
 
-
-                                                                            {#                                                                            {% for field in fields %}#}
-                                                                            {#                                                                                {% if field in uni_semester_set %}#}
-                                                                            {#                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">#}
-                                                                            {#                                                                                        <input type="checkbox"#}
-                                                                            {#                                                                                               checked#}
-                                                                            {#                                                                                               class="custom-control-input"#}
-                                                                            {#                                                                                               name="semester"#}
-                                                                            {#                                                                                               value="{{ field.id }}"#}
-                                                                            {#                                                                                               id="{{ field.id }}">#}
-                                                                            {#                                                                                        <label class="custom-control-label"#}
-                                                                            {#                                                                                               for="{{ field.id }}">#}
-                                                                            {#                                                                                            {{ field }}#}
-                                                                            {#                                                                                        </label>#}
-                                                                            {#                                                                                    </li>#}
-                                                                            {#                                                                                {% else %}#}
-                                                                            {#                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">#}
-                                                                            {#                                                                                        <input type="checkbox"#}
-                                                                            {#                                                                                               class="custom-control-input"#}
-                                                                            {#                                                                                               name="semester"#}
-                                                                            {#                                                                                               value="{{ field.id }}"#}
-                                                                            {#                                                                                               id="{{ field.id }}">#}
-                                                                            {#                                                                                        <label class="custom-control-label"#}
-                                                                            {#                                                                                               for="{{ field.id }}">#}
-                                                                            {#                                                                                            {{ field }}#}
-                                                                            {#                                                                                        </label>#}
-                                                                            {#                                                                                    </li>#}
-                                                                            {#                                                                                {% endif %}#}
-                                                                            {##}
-                                                                            {#                                                                            {% endfor %}#}
                                                                             {% for field in all_fields %}
                                                                                 {% if field in degree_selected %}
                                                                                     <li class="custom-control degree-field custom-checkbox mr-5">
