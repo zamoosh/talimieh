@@ -49,7 +49,7 @@
                             ${element.title}
                         </td>
                         <td class="table-row">
-                            <input type="checkbox" name="${i}" id="${i}">
+                            <input type="checkbox" name="images" id="${i}"  value="${element.id}">
                         </td>
                     </tr>
                     `)
@@ -87,42 +87,128 @@
                                         <a href="{% url 'educational:upload_new_doc' %}">
                                             <em class="ni ni-upload"></em>
                                         </a>
+
+
                                         <form action="{% url 'client:user_document_upload' %}" method="post"
                                               enctype="multipart/form-data">
-                                            {% csrf_token %}
-                                            <div class="row gy-3">
-                                                <div>مدارک مورد نیاز برای رشته و دانشگاه :</div>
-                                                {{ uni_dic.document }}
-                                                <div class="col-12">
-                                                    <span class="pt-5">مدارک شما :</span>
+                                            <div class="card-inner">
+                                                <div class="preview-block">
+                                                    <div class="row gy-4">
 
-                                                    <div class="card card-preview">
-                                                        <div class="card-inner">
-                                                            <table class="table">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th scope="col">ردیف</th>
-                                                                    <th scope="col">تصویر مدرک</th>
-                                                                    <th scope="col">عنوان مدرک</th>
-                                                                    <th scope="col">انتخاب</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody id="table-body-row">
+                                                        <div class="col-sm-8">
+                                                            <h4>تمامی قسمت‌ها الزامی است</h4><br>
+                                                        </div>
 
-                                                                </tbody>
-                                                            </table>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="default-01">
+                                                                    موضوع درخواست
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" required
+                                                                           class="form-control"
+                                                                           name="title"
+                                                                           placeholder="موضوع درخواست">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="default-01">
+                                                                    معدل
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" required
+                                                                           class="form-control"
+                                                                           name="average"
+                                                                           placeholder="معدل">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="default-01">
+                                                                    دانشگاه سابق
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" required
+                                                                           class="form-control"
+                                                                           name="former_university"
+                                                                           placeholder="دانشگاه سابق">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="default-01">
+                                                                    رشته‌ی درخواستی
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" required
+                                                                           class="form-control"
+                                                                           name="field_study"
+                                                                           placeholder="رشته‌ی درخواستی">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            {% for sem in semesters %}
+                                                                <div class="col-md-6 col-sm-2">
+                                                                    <div class="preview-block">
+                                                                        <div class="custom-control custom-radio checked">
+                                                                            <input type="radio" id="sem{{ sem.id }}"
+                                                                                   name="sem"
+                                                                                   class="custom-control-input" required
+                                                                                   value="{{ sem.id }}">
+                                                                            <label class="custom-control-label"
+                                                                                   for="sem{{ sem.id }}">
+                                                                                {{ sem }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                            {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                {% csrf_token %}
+                                                <div class="row gy-3">
+                                                    <div>مدارک مورد نیاز برای رشته و دانشگاه :</div>
+                                                    {{ uni_dic.document }}
+                                                    <div class="col-12">
+                                                        <span class="pt-5">مدارک شما :</span>
 
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <button type="submit" id="submit"
-                                                            class="btn float-right btn-lg btn-primary">
-                                                        ثبت اطلاعات
-                                                    </button>
+                                                        <div class="card card-preview">
+                                                            <div class="card-inner">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th scope="col">ردیف</th>
+                                                                        <th scope="col">تصویر مدرک</th>
+                                                                        <th scope="col">عنوان مدرک</th>
+                                                                        <th scope="col">انتخاب</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody id="table-body-row">
 
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <button type="submit" id="submit"
+                                                                class="btn float-right btn-lg btn-primary">
+                                                            ثبت اطلاعات
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -132,8 +218,9 @@
                         </div>
                     </div>
                 </div>
-                {% include 'footer.html' %}
             </div>
+            {% include 'footer.html' %}
         </div>
+    </div>
     </div>
 {% endblock %}

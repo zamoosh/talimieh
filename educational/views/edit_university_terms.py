@@ -30,7 +30,7 @@ def edit_university_terms(request, u_id):
                     try:
                         item.delete()
                     except (Exception, Exception):
-                        None
+                        pass
         elif len(select_semester) < len(primary_semester):
             for item in primary_semester:
                 if not (item in select_semester):

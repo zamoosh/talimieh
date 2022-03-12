@@ -24,6 +24,7 @@ class YearSemester(models.Model):
 
 
 class DegreeFieldStudy(models.Model):
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     document = models.TextField(null=True, blank=True)
     status = models.BooleanField(default=True)
@@ -46,6 +47,7 @@ class Semester(models.Model):
 
 
 class EducationalRequest(models.Model):
+    title = models.CharField(max_length=50)
     average = models.CharField(max_length=10, blank=True, null=True)
     field_study = models.CharField(max_length=25, blank=True, null=True)
     former_university = models.CharField(max_length=25, blank=True, null=True)
@@ -63,7 +65,7 @@ class OwnerDocument(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
     image = models.ImageField(blank=True, null=True, upload_to=owner_image)
-    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE, null=True)
+    educational_request = models.ManyToManyField(EducationalRequest)
 
     class Meta:
         permissions = [
@@ -82,3 +84,8 @@ class OwnerDocument(models.Model):
 
     def __str__(self):
         return f' {str(self.id)} {self.title} {self.user.first_name} {self.user.last_name} {str(self.user.id)}'
+
+    def delete(self, using=None, keep_parents=False):
+        if self.image:
+            self.image.delete(self.image.name)
+        super(OwnerDocument, self).delete()
