@@ -21,7 +21,6 @@ def user_document(request):
 
 
 def user_document_upload(request):
-    context = {}
     if request.method == "POST":
         data = {
             'title': request.POST.get('title'),
@@ -30,6 +29,6 @@ def user_document_upload(request):
             'sem': Semester.objects.get(id=request.POST.get('sem')),
             'field_study': request.POST.get('field_study')
         }
-        r = request_generator(request.user, request.POST.getlist('images'), data)
+        request_generator(request.user, request.POST.getlist('images'), data)
         return HttpResponseRedirect(reverse('educational:uni_request_submit'))
-    return render(request, 'client/user_document_upload.html', context)
+    return redirect(reverse('educational:uni_request_submit'))

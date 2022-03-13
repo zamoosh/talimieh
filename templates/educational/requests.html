@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}درخواست‌ها - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+
+                                        <h4>برای دیدن جزئیات بیشتر روی هر درخواست کلیک کنید</h4>
+                                        <div class="card card-preview">
+                                            <div class="card-inner">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">ردیف</th>
+                                                        <th scope="col">موضوع</th>
+                                                        <th scope="col">رشته‌ی درخواستی</th>
+                                                        <th scope="col">کاربر</th>
+                                                        <th scope="col">وضعیت درخواست</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for request in requests %}
+                                                        <tr>
+                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                            <td>{{ request.title }}</td>
+                                                            <td>{{ request.field_study }}</td>
+                                                            <td>{{ request.user }}</td>
+                                                            <td>{{ request.status }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
