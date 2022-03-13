@@ -22,35 +22,78 @@
                                 <div class="nk-block">
                                     <div class="card">
 
-                                        <h4>برای دیدن جزئیات بیشتر روی هر درخواست کلیک کنید</h4>
                                         <div class="card card-preview">
                                             <div class="card-inner">
+                                                <div class="example-alert">
+                                                    <div class="alert alert-info alert-icon">
+                                                        <em class="icon ni ni-alert-circle"></em>
+                                                        برای دیدن جزئیات بیشتر روی <strong>موضوع</strong> درخواست کلیک
+                                                        کنید
+                                                    </div>
+                                                </div>
+                                                <br>
                                                 <table class="table table-striped">
                                                     <thead>
                                                     <tr>
                                                         <th scope="col">ردیف</th>
                                                         <th scope="col">موضوع</th>
-                                                        <th scope="col">رشته‌ی درخواستی</th>
+                                                        <th scope="col">رشته‌ی قبلی</th>
                                                         <th scope="col">کاربر</th>
                                                         <th scope="col">وضعیت درخواست</th>
+                                                        <th scope="col">تغییر حالت</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     {% for request in requests %}
                                                         <tr>
                                                             <th scope="row">{{ forloop.counter }}</th>
-                                                            <td>{{ request.title }}</td>
-                                                            <td>{{ request.field_study }}</td>
+                                                            <td>
+                                                                <a href="{% url 'educational:request_single' %}?r={{ request.id }}">
+                                                                    {{ request.title }}
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                {% if request.former_field_study %}
+                                                                    {{ request.former_field_study }}
+                                                                {% else %}
+                                                                    ندارد
+                                                                {% endif %}
+                                                            </td>
                                                             <td>{{ request.user }}</td>
-                                                            <td>{{ request.status }}</td>
+                                                            <td>
+                                                                {% if request.status is False %}
+                                                                    <em class="icon ni ni-cross-circle text-danger"
+                                                                        style="font-size: 1.475rem"></em> تائید نشده است
+                                                                {% else %}
+                                                                    <em class="icon ni ni-check-circle text-success"
+                                                                        style="font-size: 1.475rem"></em> تائید شده است
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                {% if request.status is False %}
+                                                                    <form action="{% url 'educational:request_single' request.id %}"
+                                                                          method="post">
+                                                                        {% csrf_token %}
+                                                                        <button class="btn btn-dim btn-success" type="submit">
+                                                                            تائید کردن
+                                                                        </button>
+                                                                    </form>
+                                                                {% else %}
+                                                                    <form action="{% url 'educational:request_single' request.id %}"
+                                                                          method="post">
+                                                                        {% csrf_token %}
+                                                                        <button class="btn btn-dim btn-danger" type="submit">
+                                                                            لغو کردن
+                                                                        </button>
+                                                                    </form>
+                                                                {% endif %}
+                                                            </td>
                                                         </tr>
                                                     {% endfor %}
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
