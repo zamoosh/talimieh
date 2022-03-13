@@ -1,7 +1,17 @@
 from .imports import *
 
 
+def primary_groups():
+    group, created = Group.objects.get_or_create(name='site admin')
+    if created:
+        group.save()
+    group, created = Group.objects.get_or_create(name='normal student')
+    if created:
+        group.save()
+
+
 def register(request):
+    primary_groups()
     context = {}
     if request.user.is_authenticated:
         return HttpResponseRedirect("/")
@@ -27,16 +37,8 @@ def register(request):
                 username=context['request']['cellphone'],
                 password=context['request']['password']
             )
-            if not (Group.objects.filter(name='normal student').exists()):
-                c = ContentType.objects.create(app_label='educational', model='User')
-                p = Permission.objects.create(name='normal student', content_type=c)
-                g = Group.objects.create(name='normal student')
-                g.permissions.add(p)
-                g.save()
-                user.groups.add(g)
-            else:
-                g = Group.objects.get(name='normal student')
-                user.groups.add(g)
+            if not (user.groups.filter(name='normal student').exists()):
+                user.groups.add(Group.objects.get(name='normal student'))
             user.save()
             context['register'] = 1
             if context['register']:
