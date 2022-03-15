@@ -3,7 +3,7 @@ from .models import *
 
 
 class EducationalRequestAdmin(admin.ModelAdmin):
-    list_display = ['average', 'former_field_study', 'former_university', 'selected_semester', 'status', 'sent']
+    list_display = ['average', 'former_field_study', 'former_university', 'paid', 'sent']
 
 
 class OwnerDocumentAdmin(admin.ModelAdmin):

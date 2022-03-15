@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{% load have_educational_request %}
 {% block title %}درخواست‌ها - نسل تعلیمیه{% endblock %}
 {% block css %}
 
@@ -21,9 +22,9 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card">
-
                                         <div class="card card-preview">
                                             <div class="card-inner">
+                                                {% have_educational_request as have_educational_request %}
                                                 {% if have_educational_request %}
                                                     <div class="example-alert">
                                                         <div class="alert alert-info alert-icon">

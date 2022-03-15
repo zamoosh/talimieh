@@ -1,0 +1,101 @@
+{% extends "base.html" %}{% load have_educational_request %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <h4 class="nk-block-title">{{ request.title }}</h4>
+                                            <div class="nk-block-des">
+                                                <p>
+                                                    این درخواست توسط
+                                                    <span class="text text-success">{{ user.first_name }} {{ user.last_name }}</span>
+                                                    ساخته شده است
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card card-preview">
+                                        <div class="card-inner">
+                                            موضوع درخواست: {{ request.title }}<br><br>
+                                            تاریخ ساخت درخواست: {{ request.created_at }}<br><br>
+                                            معدل: {{ request.average }}<br><br>
+                                            دانشگاه قبلی: {{ request.former_unversity }}<br><br>
+                                            کدرهگیری درخواست: {{ request.tracking_code }}<br><br>
+                                            پرداخت شده: {{ request.paid }}<br><br>
+                                            قبول شده: {{ request.status }}<br><br>
+                                            <hr class="bi-hr">
+                                            {% for od in request.ownerdocument_set.all %}
+                                                مدرک: {{ od.title }}
+                                                <img src="{{ od.image.url }}" alt="">
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->

@@ -53,13 +53,22 @@ class EducationalRequest(models.Model):
     average = models.CharField(max_length=10, blank=True, null=True)
     former_field_study = models.CharField(max_length=25, blank=True, null=True)
     former_university = models.CharField(max_length=25, blank=True, null=True)
-    selected_semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    paid = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
     sent = models.BooleanField(default=False)
+    tracking_code = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return f'{self.id} {self.title} {self.user}'
+
+
+class SelectedSemester(models.Model):
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'selected semester: {self.semester} {self.educational_request.title}'
 
 
 def owner_image(instance, filename):
