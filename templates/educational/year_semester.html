@@ -89,13 +89,21 @@
                                                                             <td>{{ year_semester.parent.title }}</td>
                                                                             {% if  year_semester.status %}
                                                                                 <td>
-                                                                                    <em class="icon ni ni-check-circle text-success"
-                                                                                        style="font-size: 1.475rem"></em>
+                                                                                    {% if year_semester.parent is null %}
+                                                                                        سال تحصیلی
+                                                                                    {% else %}
+                                                                                        <em class="icon ni ni-check-circle text-success"
+                                                                                            style="font-size: 1.475rem"></em>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                             {% else %}
                                                                                 <td>
-                                                                                    <em class="icon ni ni-cross-circle text-danger"
-                                                                                        style="font-size: 1.475rem"></em>
+                                                                                    {% if year_semester.parent is null %}
+                                                                                        سال تحصیلی
+                                                                                    {% else %}
+                                                                                        <em class="icon ni ni-cross-circle text-danger"
+                                                                                            style="font-size: 1.475rem"></em>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                             {% endif %}
                                                                             <td>
