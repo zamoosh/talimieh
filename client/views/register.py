@@ -1,17 +1,7 @@
 from .imports import *
 
 
-def primary_groups():
-    group, created = Group.objects.get_or_create(name='site admin')
-    if created:
-        group.save()
-    group, created = Group.objects.get_or_create(name='normal student')
-    if created:
-        group.save()
-
-
 def register(request):
-    primary_groups()
     context = {}
     if request.user.is_authenticated:
         return HttpResponseRedirect("/")

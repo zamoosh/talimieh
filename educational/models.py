@@ -47,6 +47,8 @@ class Semester(models.Model):
 
 
 class EducationalRequest(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=50, blank=False)
     average = models.CharField(max_length=10, blank=True, null=True)
     former_field_study = models.CharField(max_length=25, blank=True, null=True)
