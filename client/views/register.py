@@ -27,8 +27,6 @@ def register(request):
                 username=context['request']['cellphone'],
                 password=context['request']['password']
             )
-            if not (user.groups.filter(name='normal student').exists()):
-                user.groups.add(Group.objects.get(name='normal student'))
             user.save()
             context['register'] = 1
             if context['register']:

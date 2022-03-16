@@ -9,9 +9,9 @@ def edit_university_terms(request, u_id):
     for i in degree_selected:
         degree_list.append(i['degree_field_study__id'])
     degree_selected = DegreeFieldStudy.objects.filter(id__in=degree_list)
-    context['request'] = {}
+    context['r'] = {}
     context['university'] = university
-    context['request']['uni'] = university.id
+    context['r']['uni'] = university.id
     context['all_fields'] = DegreeFieldStudy.objects.all()
     context['degree_selected'] = degree_selected
     if request.method == 'POST':
@@ -35,7 +35,7 @@ def edit_university_terms(request, u_id):
             for item in primary_semester:
                 if not (item in select_semester):
                     item.delete()
-        context['request']['degree_list'] = request.POST.getlist('degree')
-        request.session['degrees'] = context['request']
+        context['r']['degree_list'] = request.POST.getlist('degree')
+        request.session['degrees'] = context['r']
         return redirect(reverse('educational:submit_semester'))
     return render(request, 'educational/uni_edit.html', context)
