@@ -8,9 +8,18 @@ def request_single(request, r_id=None):
             if r.status:
                 r.status = False
                 r.request_expert = None
+                r.user.expert = None
             else:
                 r.status = True
                 r.request_expert = request.user
+                r.user.expert = request.user
+                m = Message.objects.create(
+                    text=f'درخواست شما مبنی بر {r.title} تائید شد',
+                    educational_request=r,
+                    owner=r.user,
+                    message_expert=request.user,
+                )
+                m.save()
             r.save()
         return redirect(reverse('educational:requests'))
     r = EducationalRequest.objects.get(id=request.GET.get('r'))
