@@ -9,6 +9,7 @@ def request_single(request, r_id=None):
                 r.status = False
                 r.request_expert = None
                 r.user.expert = None
+                r.step = EducationalRequest.REQUEST_STEPS[0]
             else:
                 r.status = True
                 r.request_expert = request.user
@@ -20,6 +21,7 @@ def request_single(request, r_id=None):
                     message_expert=request.user,
                 )
                 m.save()
+            r.step = EducationalRequest.REQUEST_STEPS[1]
             r.save()
         return redirect(reverse('educational:requests'))
     r = EducationalRequest.objects.get(id=request.GET.get('r'))
