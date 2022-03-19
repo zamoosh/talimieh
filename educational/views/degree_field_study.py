@@ -16,7 +16,7 @@ def degree_field_study(request):
         degree_field_study.save()
     if 'remove' in request.GET:
         context['rmYear'] = DegreeFieldStudy.objects.get(id=int(request.GET.get('remove')))
-        context['rmYear'].status = 0
+        context['rmYear'].register_status = 0
         context['rmYear'].save()
         context['remove'] = True
     return render(request, 'educational/degree_field_study.html', context)

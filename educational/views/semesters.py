@@ -89,6 +89,6 @@ def submit_semester(request):
                         semester.save()
             return HttpResponseRedirect(reverse('educational:semesters'))
         uni = Universities.objects.get(id=context['uni'])
-        uni.status = False
+        uni.register_status = False
         uni.save()
     return render(request, 'educational/submit_semester.html', context)

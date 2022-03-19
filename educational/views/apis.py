@@ -20,7 +20,7 @@ def if_any_semester_active(request):
 def get_uni(request):
     context = []
     for i in Universities.objects.filter(status=True):
-        context.append({'id': i.pk, 'title': i.uni_name, 'status': i.status})
+        context.append({'id': i.pk, 'title': i.uni_name, 'status': i.register_status})
     return JsonResponse(context, safe=False)
 
 
@@ -28,7 +28,7 @@ def get_uni(request):
 def uni_has_semester(request):
     context = []
     for i in Universities.objects.filter(semester__isnull=False):
-        context.append({'id': i.pk, 'title': i.uni_name, 'status': i.status})
+        context.append({'id': i.pk, 'title': i.uni_name, 'status': i.register_status})
     return JsonResponse(context, safe=False)
 
 
