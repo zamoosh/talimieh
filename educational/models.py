@@ -48,9 +48,10 @@ class Semester(models.Model):
 
 class EducationalRequest(models.Model):
     REQUEST_STEPS = [
-        (1, 'باید توسط کارشناس ثبت‌نام تائید شود'),
-        (2, 'باید توسط کارشناس مالی تائید شود'),
-        (3, 'باید توسط کارشناس آموزشی تائید شود')
+        (1, 'must be approved by a register expert'),
+        (2, 'must be approved by a financial expert'),
+        (3, 'must be approved by an educational expert'),
+        (4, 'request is submitted!')
     ]
     step = models.CharField(default=REQUEST_STEPS[0], max_length=1, choices=REQUEST_STEPS)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -67,11 +68,19 @@ class EducationalRequest(models.Model):
     request_expert_educational = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True,
                                                    related_name='request_expert_educational')
     paid = models.BooleanField(default=False)
+    final_status = models.BooleanField(default=False)
     register_status = models.BooleanField(default=False)
     educational_status = models.BooleanField(default=False)
     financial_status = models.BooleanField(default=False)
     sent = models.BooleanField(default=False)
     tracking_code = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        permissions = [
+            ('can_see_educational_request', 'can see educational request'),
+            ('can_see_financial_request', 'can see financial request'),
+            ('can_see_register_request', 'can see register request')
+        ]
 
     def get_step(self):
         index = int(self.step[1]) - 1
@@ -99,12 +108,6 @@ class OwnerDocument(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to=owner_image)
     educational_request = models.ManyToManyField(EducationalRequest)
 
-    class Meta:
-        permissions = [
-            ('can_accept_primary', 'can accept the primary document?'),
-            ('can_accept_after_primary', 'can accept other document after primaries?')
-        ]
-
     def save(self, *args, **kwargs):
         if self.image:
             if not self.id:
@@ -126,7 +129,7 @@ class OwnerDocument(models.Model):
 class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
-    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
+    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     message_expert = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='message_expert')
     user_seen = models.BooleanField(default=False, blank=True, null=True)

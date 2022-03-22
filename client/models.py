@@ -25,6 +25,11 @@ class User(AbstractUser):
     place_issue = models.CharField(max_length=15, blank=True, null=True)
     whatsapp = models.CharField(max_length=15, blank=True, null=True)
 
+    class Meta:
+        permissions = [
+            ('can_set_expert', 'can set expert')
+        ]
+
     def save(self, *args, **kwargs):
         super(User, self).save()
         if self.profile_image:
@@ -34,7 +39,6 @@ class User(AbstractUser):
             except (Exception, Exception):
                 pass
 
-    class Meta:
-        permissions = [
-            ('can_send_request', 'can send request? (documents must be accepted!)')
-        ]
+    @staticmethod
+    def perm_to_persian():
+        return 'hello'

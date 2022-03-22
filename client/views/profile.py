@@ -6,9 +6,6 @@ import jdatetime
 
 @login_required
 def profile(request):
-    if not (request.user.groups.filter(name='دانش‌آموز ساده').exists()):
-        request.user.groups.add(Group.objects.get(name='دانش‌آموز ساده'))
-        request.user.save()
     context = {}
     if request.method == "POST":
         context['req'] = {}
