@@ -11,5 +11,5 @@ def perm_to_persian(perm):
         return 'کارشناس مالی'
     elif 'can see register request' in perm.name:
         return 'کارشناس ثبت‌نام'
-    elif 'can choose expert from users' in perm.name:
-        return 'مدیر کل'
+    elif 'can set expert' in perm.name:
+        return 'مدیریت کارشناسان'

@@ -7,7 +7,7 @@ def user_perms(request, u_id):
         u = User.objects.get(id=u_id)
         context = {}
         context['user'] = u
-        context['user_perms'] = Permission.objects.filter(
+        context['admin_and_expert_perms'] = Permission.objects.filter(
             Q(codename__icontains='can_see') | Q(codename__icontains='can_set_expert')
         )
         return render(request, 'client/user_perms.html', context)

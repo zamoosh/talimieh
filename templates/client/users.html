@@ -38,8 +38,9 @@
                                                                         <th>نام خانوادگی</th>
                                                                         <th>شناسه کاربری</th>
                                                                         <th>آیا کارشناس است</th>
-                                                                        <th></th>
-
+                                                                        {% if perms.client.can_set_expert or request.user.is_superuser %}
+                                                                            <th>دسترسی‌ها</th>
+                                                                        {% endif %}
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody id="uni">
@@ -60,12 +61,12 @@
                                                                             <td class="nk-tb-col nk-tb-col-tools">
                                                                                 <ul class="nk-tb-actions gx-1">
                                                                                     <li>
-                                                                                        {% if 'can_set_expert' in perms %}
+                                                                                        {% if perms.client.can_set_expert or request.user.is_superuser %}
                                                                                             <form action="{% url 'client:user_perms' user.id %}"
                                                                                                   method="get">
                                                                                                 <button type="submit"
                                                                                                         class="btn btn-lighter">
-                                                                                                    دسترسی‌ها
+                                                                                                    مشاهده
                                                                                                 </button>
                                                                                             </form>
                                                                                         {% endif %}
