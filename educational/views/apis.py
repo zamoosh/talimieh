@@ -39,3 +39,14 @@ def get_degree(request, t_id):
         context.append(
             {'id': i.pk, 'title': i.degree_field_study.title, 'uni': i.university.uni_name, 'bors': i.scholarship})
     return JsonResponse(context, safe=False)
+
+
+@login_required
+def get_transaction_of_educational_request(request, er_id):
+    context = {}
+    e = EducationalRequest.objects.get(id=er_id)
+    context['request_step'] = e.get_step()
+    context['e_expert'] = e.request_expert_educational
+    context['f_expert'] = e.request_expert_financial
+    context['r_expert'] = e.request_expert_register
+    return JsonResponse(context, safe=False)

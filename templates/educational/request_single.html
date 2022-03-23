@@ -7,6 +7,34 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        for (let i = 0; i < {{ amount_of_doc }}; i++) {
+            document.getElementById(`click-modal${i}`).addEventListener('click', function () {
+                document.getElementById(`img-modal${i}`).src = document.getElementById(`image-pre${i}`).src;
+            })
+        }
+    </script>
+    <script>
+        const container = document.querySelector('.nav-tabs-card');
+        const tabs = document.querySelectorAll('.nav-link');
+        const contents = document.querySelectorAll('.content')
+        container.addEventListener('click', function (e) {
+            const id = e.target.dataset.id;
+            if (id) {
+                tabs.forEach(function (tab) {
+                    tab.classList.remove('active');
+                })
+                e.target.classList.add('active');
+                contents.forEach(function (content) {
+                    content.style.display = 'none';
+                })
+                let content = document.getElementById(id)
+                content.style.display = 'block';
+                content.style.padding = '0';
+            }
+        })
+
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -23,37 +51,102 @@
                                     <div class="card">
                                         <div class="card-aside-wrap">
                                             <div class="card-content">
-                                                {#                                                <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">#}
-                                                {#                                                    <li class="nav-item"><a class="nav-link active" href="#"><em#}
-                                                {#                                                            class="icon ni ni-user-circle"></em><span>Personal</span></a>#}
-                                                {#                                                    </li>#}
-                                                {#                                                    <li class="nav-item"><a class="nav-link" href="#"><em#}
-                                                {#                                                            class="icon ni ni-repeat"></em><span>Transactions</span></a>#}
-                                                {#                                                    </li>#}
-                                                {#                                                    <li class="nav-item"><a class="nav-link" href="#"><em#}
-                                                {#                                                            class="icon ni ni-file-text"></em><span>Documents</span></a>#}
-                                                {#                                                    </li>#}
-                                                {#                                                    <li class="nav-item"><a class="nav-link" href="#"><em#}
-                                                {#                                                            class="icon ni ni-bell"></em><span>Notifications</span></a>#}
-                                                {#                                                    </li>#}
-                                                {#                                                    <li class="nav-item"><a class="nav-link" href="#"><em#}
-                                                {#                                                            class="icon ni ni-activity"></em><span>Activities</span></a>#}
-                                                {#                                                    </li>#}
-                                                {#                                                    <li class="nav-item nav-item-trigger d-xxl-none"><a href="#"#}
-                                                {#                                                                                                        class="toggle btn btn-icon btn-trigger"#}
-                                                {#                                                                                                        data-target="userAside"><em#}
-                                                {#                                                            class="icon ni ni-user-list-fill"></em></a></li>#}
-                                                {#                                                </ul>#}
+                                                <!-- Tab links -->
+                                                <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" href="#" data-id="personal">
+                                                            {#<em class="icon ni ni-user-circle"></em>#}
+                                                            اطلاعات کاربر
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#" data-id="request">
+                                                            {#<em class="icon ni ni-user-circle"></em>#}
+                                                            اطلاعات درخواست
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#" data-id="transition">
+                                                            {#<em class="icon ni ni-repeat"></em>#}
+                                                            وضعیت پرداخت
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#" data-id="upload">
+                                                            {#<em class="icon ni ni-file-text"></em>#}
+                                                            مدارک آپلود شده
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#" data-id="status">
+                                                            {#                                                            <em class="icon ni ni-activity"></em>#}
+                                                            وضعیت پیشرفت
+                                                        </a>
+                                                    </li>
+                                                    {#                                                    <li class="nav-item nav-item-trigger d-xxl-none"><a href="#"#}
+                                                    {#                                                                                                        class="toggle btn btn-icon btn-trigger"#}
+                                                    {#                                                                                                        data-target="userAside"><em#}
+                                                    {#                                                            class="icon ni ni-user-list-fill"></em></a></li>#}
+                                                </ul>
                                                 <div class="card-inner">
-                                                    <div class="nk-block">
-                                                        <div class="nk-block-head">
-                                                            <h5 class="title">
-                                                                اطلاعات درخواست
-                                                                <span class="text text-primary">
-                                                                    {{ r.title }}
+                                                    <!-- person info -->
+                                                    <div class="nk-block content" id="personal">
+                                                        <div class="profile-ud-list">
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">نام کاربر</span>
+                                                                    <span class="profile-ud-value">
+                                                                   {{ r.user.first_name }} {{ r.user.last_name }}
                                                                 </span>
-                                                            </h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider"><span
+                                                                        class="profile-ud-label">نام پدر</span>
+                                                                    <span class="profile-ud-value">{{ r.user.father_name }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider"><span
+                                                                        class="profile-ud-label">شماره واتساپ</span>
+                                                                    <span class="profile-ud-value">{{ r.user.whatsapp }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider"><span
+                                                                        class="profile-ud-label">شماره همراه</span>
+                                                                    <span class="profile-ud-value">{{ r.user.cellphone }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">محل تولد</span>
+                                                                    <span class="profile-ud-value">{{ r.user.place_birth }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">محل صدور</span>
+                                                                    <span class="profile-ud-value">{{ r.user.place_issue }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">تاریخ تولد</span>
+                                                                    <span class="profile-ud-value">{{ r.user.birth_date|jformat:'%Y/%m/%d' }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">شماره پاسپورت</span>
+                                                                    <span class="profile-ud-value">{{ r.user.pass_number }}</span>
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                    </div>
+
+                                                    <!-- request info -->
+                                                    <div class="nk-block content" id="request" style="display: none">
                                                         <div class="profile-ud-list">
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
@@ -152,28 +245,37 @@
                                                         </form>
                                                     </div>
 
-                                                    <br>
-                                                    <div class="nk-divider divider md"></div>
-                                                    <br>
-
-                                                    <div class="nk-block-head">
-                                                        <h5 class="title">
-                                                            وضعیت پیشرفت درخواست
-                                                        </h5>
-                                                    </div>
-                                                    <div class="profile-ud-list">
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label">مرحله‌ی درخواست</span>
-                                                                <span class="profile-ud-value">
-                                                                    {{ r.get_step }}
-                                                                </span>
+                                                    <!-- transition status -->
+                                                    <div class="nk-block content" id="transition" style="display: none">
+                                                        <div class="profile-ud-list">
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">پرداخت</span>
+                                                                    {% if r.paid %}
+                                                                        <span class="profile-ud-value text-success">شده</span>
+                                                                    {% else %}
+                                                                        <span class="profile-ud-value text-danger">نشده</span>
+                                                                    {% endif %}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label text-indigo">کارشناس ثبت‌نام</span>
-                                                                <span class="profile-ud-value">
+                                                    </div>
+
+                                                    <!-- status info -->
+                                                    <div class="nk-block content" id="status" style="display: none">
+                                                        <div class="profile-ud-list">
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">مرحله‌ی درخواست</span>
+                                                                    <span class="profile-ud-value">
+                                                                    {{ r.get_step }}
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">کارشناس ثبت‌نام</span>
+                                                                    <span class="profile-ud-value">
                                                                     {% if r.request_expert_register %}
                                                                         <span class="text text-azure">
                                                                         {{ r.request_expert_register.first_name }}
@@ -183,12 +285,12 @@
                                                                         ندارد
                                                                     {% endif %}
                                                                 </span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label text-indigo">کارشناس مالی</span>
-                                                                <span class="profile-ud-value">
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">کارشناس مالی</span>
+                                                                    <span class="profile-ud-value">
                                                                     {% if r.request_expert_financial %}
                                                                         <span class="text text-azure">
                                                                         {{ r.request_expert_financial.first_name }}
@@ -198,12 +300,12 @@
                                                                         ندارد
                                                                     {% endif %}
                                                                 </span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label text-indigo">کارشناس آموزشی</span>
-                                                                <span class="profile-ud-value">
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">کارشناس آموزشی</span>
+                                                                    <span class="profile-ud-value">
                                                                     {% if r.request_expert_educational %}
                                                                         <span class="text text-azure">
                                                                         {{ r.request_expert_educational.first_name }}
@@ -213,71 +315,44 @@
                                                                         ندارد
                                                                     {% endif %}
                                                                 </span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <br>
-
-                                                    <div class="nk-divider divider md"></div>
-                                                    <br>
-
-                                                    <div class="nk-block-head">
-                                                        <h5 class="title">
-                                                            اطلاعات کابر درخواست کننده
-                                                        </h5>
-                                                    </div>
-                                                    <div class="profile-ud-list">
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label">نام کاربر</span>
-                                                                <span class="profile-ud-value">
-                                                                   {{ r.user.first_name }} {{ r.user.last_name }}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider"><span
-                                                                    class="profile-ud-label">نام پدر</span>
-                                                                <span class="profile-ud-value">{{ r.user.father_name }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider"><span
-                                                                    class="profile-ud-label">شماره واتساپ</span>
-                                                                <span class="profile-ud-value">{{ r.user.whatsapp }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider"><span
-                                                                    class="profile-ud-label">شماره همراه</span>
-                                                                <span class="profile-ud-value">{{ r.user.cellphone }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label">محل تولد</span>
-                                                                <span class="profile-ud-value">{{ r.user.place_birth }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label">محل صدور</span>
-                                                                <span class="profile-ud-value">{{ r.user.place_issue }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label">تاریخ تولد</span>
-                                                                <span class="profile-ud-value">{{ r.user.birth_date|jformat:'%Y/%m/%d' }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="profile-ud-item">
-                                                            <div class="profile-ud wider">
-                                                                <span class="profile-ud-label">شماره پاسپورت</span>
-                                                                <span class="profile-ud-value">{{ r.user.pass_number }}</span>
-                                                            </div>
-                                                        </div>
+                                                    <!-- upload -->
+                                                    <div class="nk-block content" id="upload" style="display: none">
+                                                        <table class="nowrap table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>عنوان فایل</th>
+                                                                <th>دانلود</th>
+                                                                <th>پیش‌نمایش</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="uni">
+                                                            {% for document in documents %}
+                                                                <tr>
+                                                                    <td>{{ document.title }}</td>
+                                                                    <td>
+                                                                        <a href="{{ document.image.url }}"
+                                                                           download>دانلود</a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#"
+                                                                           id="click-modal{{ forloop.counter0 }}"
+                                                                           class="mr-4 mt-3 float-sm-right"
+                                                                           data-toggle="modal"
+                                                                           data-target="#image{{ forloop.counter0 }}">
+                                                                            <img src="{{ document.image.url }}"
+                                                                                 alt="" style="width: 50px"
+                                                                                 id="image-pre{{ forloop.counter0 }}">
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -292,4 +367,22 @@
             </div>
         </div>
     </div>
+    {% for d in documents %}
+        <div class="modal fade show" tabindex="-1" id="image{{ forloop.counter0 }}"
+             style="display: none; padding-right: 12px;"
+             aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
+                    </div>
+                    <div class="modal-body-lg">
+                        <img src="" alt="" id="img-modal{{ forloop.counter0 }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

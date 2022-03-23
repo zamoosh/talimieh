@@ -48,8 +48,6 @@
                                                             <th scope="col">رشته‌ی قبلی</th>
                                                             <th scope="col">کاربر</th>
                                                             <th scope="col">وضعیت نهایی درخواست</th>
-                                                            <th scope="col">تائید کردن</th>
-                                                            <th scope="col">رد کردن</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -70,7 +68,7 @@
                                                                 </td>
                                                                 <td>{{ r.user.first_name }} {{ r.user.last_name }}</td>
                                                                 <td>
-                                                                    {% if request.user|is_expert %}
+                                                                    {% if request.user|is_expert or request.user.is_superuser %}
                                                                         {% if r.final_status == False %}
                                                                             <em class="icon ni ni-cross-circle text-danger"
                                                                                 style="font-size: 1.475rem"></em>
@@ -89,106 +87,6 @@
                                                                             </span>
                                                                         {% endif %}
                                                                     {% endif %}
-                                                                </td>
-                                                                <td>
-                                                                    <form action="{% url 'educational:request_single_detail' r.id %}"
-                                                                          method="post">
-                                                                        {% csrf_token %}
-                                                                        {% if perms.educational.can_see_register_request and r.register_status is False %}
-                                                                            <button class="btn btn-dim btn-danger"
-                                                                                    type="submit">
-                                                                                تائید کردن
-                                                                            </button>
-                                                                        {% elif perms.educational.can_see_financial_request and r.financial_status is False %}
-                                                                            <button class="btn btn-dim btn-danger"
-                                                                                    type="submit">
-                                                                                تائید کردن
-                                                                            </button>
-                                                                        {% elif perms.educational.can_see_educational_request and r.educational_status is False %}
-                                                                            <button class="btn btn-dim btn-danger"
-                                                                                    type="submit">
-                                                                                تائید کردن
-                                                                            </button>
-                                                                        {% endif %}
-                                                                    </form>
-                                                                    {#                                                                    {% if perms.educational.can_see_register_request %}#}
-                                                                    {#                                                                        <form action="{% url 'educational:request_single_detail' r.id %}"#}
-                                                                    {#                                                                              method="post">#}
-                                                                    {#                                                                            {% csrf_token %}#}
-                                                                    {#                                                                            <button class="btn btn-dim btn-success"#}
-                                                                    {#                                                                                    type="submit">#}
-                                                                    {#                                                                                تائید کردن#}
-                                                                    {#                                                                            </button>#}
-                                                                    {#                                                                        </form>#}
-                                                                    {#                                                                    {% elif perms.educational.can_see_financial_request %}#}
-                                                                    {#                                                                        <form action="{% url 'educational:request_single_detail' r.id %}"#}
-                                                                    {#                                                                              method="post">#}
-                                                                    {#                                                                            {% csrf_token %}#}
-                                                                    {#                                                                            <button class="btn btn-dim btn-success"#}
-                                                                    {#                                                                                    type="submit">#}
-                                                                    {#                                                                                تائید کردن#}
-                                                                    {#                                                                            </button>#}
-                                                                    {#                                                                        </form>#}
-                                                                    {#                                                                    {% elif perms.educational.can_see_educational_request %}#}
-                                                                    {#                                                                        <form action="{% url 'educational:request_single_detail' r.id %}"#}
-                                                                    {#                                                                              method="post">#}
-                                                                    {#                                                                            {% csrf_token %}#}
-                                                                    {#                                                                            <button class="btn btn-dim btn-success"#}
-                                                                    {#                                                                                    type="submit">#}
-                                                                    {#                                                                                تائید کردن#}
-                                                                    {#                                                                            </button>#}
-                                                                    {#                                                                        </form>#}
-                                                                    {#                                                                    {% endif %}#}
-                                                                </td>
-                                                                <td>
-                                                                    <form action="{% url 'educational:request_single_remove' r.id %}"
-                                                                          method="post">
-                                                                        {% csrf_token %}
-                                                                        {% if perms.educational.can_see_register_request and r.register_status is False %}
-                                                                            <button class="btn btn-dim btn-danger"
-                                                                                    type="submit">
-                                                                                رد کردن
-                                                                            </button>
-                                                                        {% elif perms.educational.can_see_financial_request and r.financial_status is False %}
-                                                                            <button class="btn btn-dim btn-danger"
-                                                                                    type="submit">
-                                                                                رد کردن
-                                                                            </button>
-                                                                        {% elif perms.educational.can_see_educational_request and r.educational_status is False %}
-                                                                            <button class="btn btn-dim btn-danger"
-                                                                                    type="submit">
-                                                                                رد کردن
-                                                                            </button>
-                                                                        {% endif %}
-                                                                    </form>
-                                                                    {#                                                                    {% if perms.educational.can_see_register_request %}#}
-                                                                    {#                                                                        <form action="{% url 'educational:request_single_remove' r.id %}"#}
-                                                                    {#                                                                              method="post">#}
-                                                                    {#                                                                            {% csrf_token %}#}
-                                                                    {#                                                                            <button class="btn btn-dim btn-danger"#}
-                                                                    {#                                                                                    type="submit">#}
-                                                                    {#                                                                                رد کردن#}
-                                                                    {#                                                                            </button>#}
-                                                                    {#                                                                        </form>#}
-                                                                    {#                                                                    {% elif perms.educational.can_see_financial_request %}#}
-                                                                    {#                                                                        <form action="{% url 'educational:request_single_remove' r.id %}"#}
-                                                                    {#                                                                              method="post">#}
-                                                                    {#                                                                            {% csrf_token %}#}
-                                                                    {#                                                                            <button class="btn btn-dim btn-danger"#}
-                                                                    {#                                                                                    type="submit">#}
-                                                                    {#                                                                                رد کردن#}
-                                                                    {#                                                                            </button>#}
-                                                                    {#                                                                        </form>#}
-                                                                    {#                                                                    {% elif perms.educational.can_see_educational_request %}#}
-                                                                    {#                                                                        <form action="{% url 'educational:request_single_remove' r.id %}"#}
-                                                                    {#                                                                              method="post">#}
-                                                                    {#                                                                            {% csrf_token %}#}
-                                                                    {#                                                                            <button class="btn btn-dim btn-danger"#}
-                                                                    {#                                                                                    type="submit">#}
-                                                                    {#                                                                                رد کردن#}
-                                                                    {#                                                                            </button>#}
-                                                                    {#                                                                        </form>#}
-                                                                    {#                                                                    {% endif %}#}
                                                                 </td>
                                                             </tr>
                                                         {% endfor %}

@@ -52,6 +52,8 @@ def request_single(request, r_id=None):
         context['r'] = r
         context['selected_semesters'] = r.selectedsemester_set.all()
         context['user'] = r.user
+        context['documents'] = OwnerDocument.objects.filter(user=request.user.id)
+        context['amount_of_doc'] = request.user.ownerdocument_set.all().__len__()
         return render(request, 'educational/request_single.html', context)
     return redirect(reverse('educational:requests'))
 
