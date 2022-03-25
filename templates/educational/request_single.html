@@ -222,6 +222,12 @@
                                                                             تائید کردن
                                                                         </button>
                                                                     {% endif %}
+                                                                    {% if r.register_status and r.educational_status and r.financial_status and r.educational_status_2 and r.financial_status_2 is False and r.reject is False %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن
+                                                                        </button>
+                                                                    {% endif %}
                                                                 {% elif perms.educational.can_see_educational_request %}
                                                                     {% if r.educational_status is False and r.reject is False %}
                                                                         <button type="submit"
@@ -229,6 +235,12 @@
                                                                             تائید کردن
                                                                         </button>
                                                                     {% endif %}
+                                                                    {#                                                                    {% if r.educational_status and r.financial_status and r.reject is False %}#}
+                                                                    {#                                                                        <button type="submit"#}
+                                                                    {#                                                                                class="btn btn-block btn-dim btn-success">#}
+                                                                    {#                                                                            تائید کردن#}
+                                                                    {#                                                                        </button>#}
+                                                                    {#                                                                    {% endif %}#}
                                                                 {% endif %}
                                                             </form>
 
@@ -238,20 +250,24 @@
                                                                 {% if r|can_reject %}
                                                                     {% csrf_token %}
                                                                     {% if perms.educational.can_see_register_request %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-danger center">
-                                                                            رد کردن
-                                                                        </button>
+                                                                        {% if r.register_status is False %}
+                                                                            <button type="submit"
+                                                                                    class="btn btn-block btn-dim btn-danger center">
+                                                                                رد کردن
+                                                                            </button>
+                                                                        {% endif %}
                                                                     {% elif perms.educational.can_see_financial_request %}
                                                                         <button type="submit"
                                                                                 class="btn btn-block btn-dim btn-danger">
                                                                             رد کردن
                                                                         </button>
                                                                     {% elif perms.educational.can_see_educational_request %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-danger">
-                                                                            رد کردن
-                                                                        </button>
+                                                                        {% if r.educational_status and r.financial_status and r.educational_status_2 is False and r.reject is False %}
+                                                                            <button type="submit"
+                                                                                    class="btn btn-block btn-dim btn-danger">
+                                                                                رد کردن
+                                                                            </button>
+                                                                        {% endif %}
                                                                     {% endif %}
                                                                 {% endif %}
                                                             </form>
@@ -338,9 +354,45 @@
                                                                         <span class="text text-danger">
                                                                         رد شده است
                                                                         </span>
+                                                                    {% elif r.final_status %}
+                                                                        <span class="text text-success">
+                                                                        تائید کامل شده است
+                                                                        </span>
                                                                     {% else %}
                                                                         <span class="text text-gray">
                                                                         شناور
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">تائید دوم آموزشی</span>
+                                                                    <span class="profile-ud-value">
+                                                                    {% if r.educational_status_2 %}
+                                                                        <span class="text text-success">
+                                                                        تائید شده است
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text text-danger">
+                                                                        نشده
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">تائید دوم مالی</span>
+                                                                    <span class="profile-ud-value">
+                                                                    {% if r.financial_status_2 %}
+                                                                        <span class="text text-success">
+                                                                        تائید شده است
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text text-danger">
+                                                                        نشده
                                                                         </span>
                                                                     {% endif %}
                                                                 </span>

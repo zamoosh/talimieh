@@ -49,9 +49,11 @@ class Semester(models.Model):
 class EducationalRequest(models.Model):
     REQUEST_STEPS = [
         (1, 'must be approved by a register expert'),
-        (2, 'must be approved by a financial expert'),
-        (3, 'must be approved by an educational expert'),
-        (4, 'request is submitted!')
+        (2, 'must be approved by an educational expert'),
+        (3, 'must be approved by a financial expert'),
+        (4, 'must be re-approved by the educational expert'),
+        (5, 'must be re-approved by the financial expert'),
+        (6, 'request is submitted!')
     ]
     step = models.CharField(default=REQUEST_STEPS[0], max_length=1, choices=REQUEST_STEPS)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -71,11 +73,12 @@ class EducationalRequest(models.Model):
     final_status = models.BooleanField(default=False)
     register_status = models.BooleanField(default=False)
     educational_status = models.BooleanField(default=False)
+    educational_status_2 = models.BooleanField(default=False)
     financial_status = models.BooleanField(default=False)
+    financial_status_2 = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
     tracking_code = models.CharField(max_length=20, blank=True, null=True)
-
-    # total_coast = models.PositiveIntegerField(default=0, blank=True, null=True)
+    total_coast = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     class Meta:
         permissions = [
@@ -92,23 +95,23 @@ class EducationalRequest(models.Model):
         return f'{self.id} {self.title} {self.user}'
 
 
-#
-# class Option(models.Model):
-#     name = models.CharField(max_length=50)
-#     price = models.DecimalField(max_digits=10, decimal_places=0)
-#     create_date = models.DateTimeField(auto_now_add=True)
-#     update_date = models.DateTimeField(null=True, blank=True, auto_now=True)
-#
-#
-# class SelectedOption(models.Model):
-#     option = models.ForeignKey(Option, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#
-#
-# class Factor(models.Model):
-#     option = models.ForeignKey(Option, on_delete=models.CASCADE)
-#     status = models.BooleanField(default=False)
-#
+class Option(models.Model):
+    name = models.CharField(max_length=50, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(null=True, blank=True, auto_now=True)
+
+    def __str__(self):
+        return f'option: {self.name} {self.price}'
+
+
+class SelectedOption(models.Model):
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'selected option: {self.option.name} {self.option.price} {self.user.first_name}'
+
 
 class SelectedSemester(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
