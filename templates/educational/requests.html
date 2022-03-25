@@ -27,7 +27,7 @@
                                     <div class="card">
                                         <div class="card card-preview">
                                             <div class="card-inner">
-                                                {% if requests %}
+                                                {% if requests or reject_request %}
                                                     <div class="example-alert">
                                                         <div class="alert alert-info alert-icon">
                                                             <em class="icon ni ni-alert-circle"></em>
@@ -40,7 +40,8 @@
                                                         </div>
                                                     </div>
                                                     <br>
-                                                    <table class="table table-striped">
+                                                    <!-- not stable requests -->
+                                                    <table class="table table-hover">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">ردیف</th>
@@ -70,9 +71,10 @@
                                                                 <td>
                                                                     {% if request.user|is_expert or request.user.is_superuser %}
                                                                         {% if r.final_status == False %}
+
+                                                                            <span class="text text-danger align-center">
                                                                             <em class="icon ni ni-cross-circle text-danger"
                                                                                 style="font-size: 1.475rem"></em>
-                                                                            <span class="text text-danger">
                                                                             تائید
                                                                             نشده
                                                                             است
@@ -86,6 +88,52 @@
                                                                             است
                                                                             </span>
                                                                         {% endif %}
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+
+                                                    <br>
+                                                    <h5 class="text-danger">درخواست‌های رد شده</h5>
+                                                    <br>
+
+                                                    <!-- rejected requests -->
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">ردیف</th>
+                                                            <th scope="col">موضوع</th>
+                                                            <th scope="col">رشته‌ی قبلی</th>
+                                                            <th scope="col">کاربر</th>
+                                                            <th scope="col">وضعیت نهایی درخواست</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for r in reject_requests %}
+                                                            <tr>
+                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                <td>
+                                                                    <a href="{% url 'educational:request_single' %}?r={{ r.id }}">
+                                                                        {{ r.title }}
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    {% if r.former_field_study %}
+                                                                        {{ r.former_field_study }}
+                                                                    {% else %}
+                                                                        ندارد
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{ r.user.first_name }} {{ r.user.last_name }}</td>
+                                                                <td>
+                                                                    {% if request.user|is_expert or request.user.is_superuser %}
+                                                                        <span class="text text-gray align-center">
+                                                                             <em class="icon ni ni-cross-circle"
+                                                                                 style="font-size: 1.475rem"></em>
+                                                                            رد شده است
+                                                                            </span>
                                                                     {% endif %}
                                                                 </td>
                                                             </tr>

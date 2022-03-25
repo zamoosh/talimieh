@@ -44,6 +44,8 @@ def request_single(request, r_id=None):
                     )
                     r.step = EducationalRequest.REQUEST_STEPS[3]
                     m.save()
+            if r.step[1] == 4:
+                r.financial_status = True
             r.save()
         return redirect(reverse('educational:requests'))
     if request.GET.get('r'):
@@ -52,8 +54,8 @@ def request_single(request, r_id=None):
         context['r'] = r
         context['selected_semesters'] = r.selectedsemester_set.all()
         context['user'] = r.user
-        context['documents'] = OwnerDocument.objects.filter(user=request.user.id)
-        context['amount_of_doc'] = request.user.ownerdocument_set.all().__len__()
+        context['documents'] = r.ownerdocument_set.all()
+        context['amount_of_doc'] = r.ownerdocument_set.all().__len__()
         return render(request, 'educational/request_single.html', context)
     return redirect(reverse('educational:requests'))
 
@@ -70,10 +72,11 @@ def request_single_remove(request, r_id):
                 owner=r.user,
                 message_expert=request.user,
             ).save()
-            if request.user.user_permissions.filter(name__contains='register'):
-                r.delete()
-            elif request.user.user_permissions.filter(name__contains='financial'):
-                r.delete()
-            elif request.user.user_permissions.filter(name__contains='educational'):
-                r.delete()
+            if request.user.user_permissions.filter(
+                    Q(name__contains='register') | Q(name__contains='financial') | Q(name__contains='educational')
+            ):
+                r.reject = True
+                r.final_status = False
+
+                r.save()
     return redirect(reverse('educational:requests'))
