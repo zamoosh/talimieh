@@ -5,7 +5,8 @@ def request_generator(user: 'user of djagno request', ids, data):
     r = EducationalRequest.objects.create(user=user,
                                           title=data['title'],
                                           average=data['average'],
-                                          former_university=data['former_uni'])
+                                          former_university=data['former_university'],
+                                          former_field_study=data['former_field_study'])
     for item in data['sems']:
         s = SelectedSemester.objects.create(semester=item, educational_request=r)
         s.save()
@@ -30,7 +31,8 @@ def user_document_upload(request):
             sem_list.append(Semester.objects.get(id=item))
         data = {}
         data['title'] = request.POST.get('title')
-        data['former_uni'] = request.POST.get('former_uni')
+        data['former_university'] = request.POST.get('former_university')
+        data['former_field_study'] = request.POST.get('former_field_study')
         data['average'] = request.POST.get('average')
         data['sems'] = sem_list
         data['field_study'] = request.POST.get('field_study')

@@ -88,68 +88,85 @@
                                               enctype="multipart/form-data">
                                             <div class="card-inner">
                                                 <div class="preview-block">
-                                                    <div class="row gy-4">
-
-                                                        <div class="col-sm-8">
-                                                            <h4>تمامی قسمت‌ها الزامی است</h4><br>
+                                                    <div class="example-alert">
+                                                        <div class="alert alert-danger alert-icon">
+                                                            <em class="icon ni ni-alert-circle"></em>
+                                                            <strong class="text-lg-center">
+                                                                تمامی قسمت‌ها الزامی است
+                                                            </strong>
                                                         </div>
-
+                                                    </div>
+                                                    <br>
+                                                    <div class="row gy-4">
+                                                        <!-- request title -->
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label class="form-label"
-                                                                       for="default-01">
+                                                                       for="title">
                                                                     موضوع درخواست
                                                                 </label>
                                                                 <div class="form-control-wrap">
                                                                     <input type="text" required
                                                                            class="form-control"
                                                                            name="title"
-                                                                           placeholder="موضوع درخواست">
+                                                                           placeholder="موضوع درخواست"
+                                                                           id="title">
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <!-- user average -->
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label class="form-label"
-                                                                       for="default-01">
+                                                                       for="average">
                                                                     معدل
                                                                 </label>
                                                                 <div class="form-control-wrap">
                                                                     <input type="text" required
                                                                            class="form-control"
                                                                            name="average"
-                                                                           placeholder="معدل">
+                                                                           placeholder="معدل"
+                                                                           id="average">
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <!-- former uni -->
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label class="form-label"
-                                                                       for="default-01">
+                                                                       for="former_university">
                                                                     دانشگاه سابق
                                                                 </label>
                                                                 <div class="form-control-wrap">
                                                                     <input type="text" required
                                                                            class="form-control"
                                                                            name="former_university"
-                                                                           placeholder="دانشگاه سابق">
+                                                                           placeholder="دانشگاه سابق"
+                                                                           id="former_university">
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <!-- former field study -->
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label class="form-label"
-                                                                       for="default-01">
-                                                                    رشته‌ی درخواستی
+                                                                       for="former_university">
+                                                                    رشته‌ی تحصیلی قبلی
                                                                 </label>
                                                                 <div class="form-control-wrap">
                                                                     <input type="text" required
                                                                            class="form-control"
-                                                                           name="field_study"
-                                                                           placeholder="رشته‌ی درخواستی">
+                                                                           name="former_field_study"
+                                                                           placeholder="رشته‌ی تحصیلی قبلی"
+                                                                           id="former_university">
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <!-- field study -->
                                                         <div class="col-sm-6">
                                                             {% for sem in semesters %}
                                                                 <div class="col-md-6 col-sm-2">
@@ -197,13 +214,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <button type="submit" id="submit"
-                                                                class="btn float-right btn-lg btn-primary">
-                                                            ثبت اطلاعات
-                                                        </button>
-                                                    </div>
+                                                <br>
+                                                <div class="form-group">
+                                                    <button type="submit" id="submit"
+                                                            class="btn float-right btn-lg btn-primary">
+                                                        ثبت اطلاعات
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
