@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('.row-option').click(function () {
+                window.location = $(this).data('href')
+            })
+        })
+    </script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="card-inner">
+                                            {% if options %}
+
+                                                <!-- alert -->
+                                                <div class="example-alert">
+                                                    <div class="alert alert-info alert-icon">
+                                                        <em class="icon ni ni-alert-circle"></em>
+                                                        برای دیدن جزئیات بیشتر (ویرایش)
+                                                        <strong>روی هر قابلیت</strong>
+                                                        کلیک
+                                                        کنید
+                                                    </div>
+                                                </div>
+
+                                                <br>
+
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">ردیف</th>
+                                                        <th scope="col">نام</th>
+                                                        <th scope="col">قیمت</th>
+                                                        <th scope="col">ویرایش</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for o in options %}
+                                                        <tr class="row-option"
+                                                            data-href="{% url 'educational:option_single_edit' o.id %}">
+                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                            <td>{{ o.name }}</td>
+                                                            <td>{{ o.price }}</td>
+                                                            <td>
+                                                                <a href="{% url 'educational:option_single_edit' o.id %}"
+                                                                   class="btn btn-dim btn-primary">ویرایش</a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            {% else %}
+                                                <div class="container center">
+                                                    <span class="text text-indigo">قابلیتی وجود ندارد</span>
+
+                                                </div>
+                                            {% endif %}
+                                            <a href="{% url 'educational:option_single_create' %}"
+                                               class="btn btn-dim btn-success float-right">
+                                                ساخت قابلیت جدید
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->

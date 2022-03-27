@@ -32,5 +32,9 @@ urlpatterns = [
     path('request-single/', request_single, name='request_single'),
     path('request-single/<int:r_id>/', request_single, name='request_single_detail'),
     path('request-single-remove/<int:r_id>/', request_single_remove, name='request_single_remove'),
-    path('request-single-transitions/api/', get_transaction_of_educational_request, name='request_single_transition')
+    path('request-single-transitions/api/', get_transaction_of_educational_request, name='request_single_transition'),
+
+    path('options/', options, name='options'),
+    path('option-single-create/', option_single, name='option_single_create'),
+    path('option-single-edit/<int:o_id>/', option_edit, name='option_single_edit'),
 ]
