@@ -1,6 +1,7 @@
 from .imports import *
 
 
+@login_required
 def requests(request):
     context = {}
     context['reject_requests'] = EducationalRequest.objects.filter(reject=True)
@@ -13,7 +14,7 @@ def requests(request):
                 Q(reject=False) &
                 (Q(register_status=False) | Q(register_status=True))
             ).order_by('-id')
-        elif request.user.user_permissions.filter(name__icontains='educational'):
+        if request.user.user_permissions.filter(name__icontains='educational'):
             context['requests'] = EducationalRequest.objects.filter(
                 Q(reject=False) &
                 (
@@ -21,7 +22,7 @@ def requests(request):
                          Q(register_status=True)) | Q(educational_status=True)
                 )
             ).order_by('-id')
-        elif request.user.user_permissions.filter(name__icontains='financial'):
+        if request.user.user_permissions.filter(name__icontains='financial'):
             context['requests'] = EducationalRequest.objects.filter(
                 Q(reject=False) &
                 (

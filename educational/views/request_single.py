@@ -1,71 +1,115 @@
 from .imports import *
 
 
+def conditions_for_requests(request: 'django request', r, context):
+    if request.user.user_permissions.filter(name__contains='register'):
+        if (r.educational_status and
+            r.financial_status and
+            r.educational_status_2 and
+            r.financial_status_2 and
+                r.reject) is False and r.register_status is False:
+            context['r_con'] = True
+        else:
+            context['r_con'] = False
+    if request.user.user_permissions.filter(name__contains='educational'):
+        if r.register_status and (r.financial_status and
+                                  r.educational_status_2 and
+                                  r.financial_status_2 and
+                                  r.reject) is False and r.educational_status is False:
+            context['e_con'] = True
+        else:
+            context['e_con'] = False
+        if (r.register_status and
+            r.educational_status and
+            r.financial_status) and (
+                r.financial_status_2 and
+                r.reject) is False and r.educational_status_2 is False:
+            context['e_con_2'] = True
+        else:
+            context['e_con_2'] = False
+    if request.user.user_permissions.filter(name__contains='financial'):
+        if (r.register_status and
+            r.educational_status) and (
+                r.educational_status_2 and
+                r.financial_status_2 and
+                r.reject) is False and r.financial_status is False:
+            context['f_con'] = True
+        else:
+            context['f_con'] = False
+        if (r.register_status and
+            r.educational_status and
+            r.financial_status and
+            r.educational_status_2) and r.reject is False and r.financial_status_2 is False:
+            context['f_con_2'] = True
+        else:
+            context['f_con_2'] = False
+
+
+@login_required
 def request_single(request, r_id=None):
-    if request.method == 'POST':
-        if r_id:
-            r = EducationalRequest.objects.get(id=r_id)
-            if request.user.user_permissions.filter(name__contains='register'):
-                if r.register_status is False:
-                    r.register_status = True
-                    r.request_expert_register = request.user
-                    r.user.expert = request.user
-                    m = Message.objects.create(
-                        text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
-                        educational_request=r,
-                        owner=r.user,
-                        message_expert=request.user,
-                    )
-                    r.step = EducationalRequest.REQUEST_STEPS[1]
-                    m.save()
-            elif request.user.user_permissions.filter(name__contains='educational'):
-                if r.educational_status is False:
-                    r.educational_status = True
-                    r.request_expert_educational = request.user
-                    r.user.expert = request.user
-                    m = Message.objects.create(
-                        text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
-                        educational_request=r,
-                        owner=r.user,
-                        message_expert=request.user,
-                    )
-                    r.step = EducationalRequest.REQUEST_STEPS[2]
-                    m.save()
-                if r.educational_status_2 is False and r.financial_status is True:
-                    r.educational_status_2 = True
-                    m = Message.objects.create(
-                        text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
-                        educational_request=r,
-                        owner=r.user,
-                        message_expert=request.user,
-                    )
-                    r.step = EducationalRequest.REQUEST_STEPS[4]
-                    m.save()
-            elif request.user.user_permissions.filter(name__contains='financial'):
-                if r.financial_status is False:
-                    r.financial_status = True
-                    r.request_expert_financial = request.user
-                    r.user.expert = request.user
-                    m = Message.objects.create(
-                        text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
-                        educational_request=r,
-                        owner=r.user,
-                        message_expert=request.user,
-                    )
-                    r.step = EducationalRequest.REQUEST_STEPS[3]
-                    m.save()
-                if r.financial_status_2 is False and r.educational_status_2 is True:
-                    r.financial_status_2 = True
-                    r.final_status = True
-                    m = Message.objects.create(
-                        text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
-                        educational_request=r,
-                        owner=r.user,
-                        message_expert=request.user,
-                    )
-                    r.step = EducationalRequest.REQUEST_STEPS[5]
-                    m.save()
-            r.save()
+    if request.method == 'POST' and r_id:
+        r = EducationalRequest.objects.get(id=r_id)
+        if request.user.user_permissions.filter(name__contains='register'):
+            if r.register_status is False:
+                r.register_status = True
+                r.request_expert_register = request.user
+                r.user.expert = request.user
+                m = Message.objects.create(
+                    text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
+                    educational_request=r,
+                    owner=r.user,
+                    message_expert=request.user,
+                )
+                r.step = EducationalRequest.REQUEST_STEPS[1]
+                m.save()
+        elif request.user.user_permissions.filter(name__contains='educational'):
+            if r.educational_status is False:
+                r.educational_status = True
+                r.request_expert_educational = request.user
+                r.user.expert = request.user
+                m = Message.objects.create(
+                    text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
+                    educational_request=r,
+                    owner=r.user,
+                    message_expert=request.user,
+                )
+                r.step = EducationalRequest.REQUEST_STEPS[2]
+                m.save()
+            if r.educational_status_2 is False and r.financial_status is True:
+                r.educational_status_2 = True
+                m = Message.objects.create(
+                    text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
+                    educational_request=r,
+                    owner=r.user,
+                    message_expert=request.user,
+                )
+                r.step = EducationalRequest.REQUEST_STEPS[4]
+                m.save()
+        elif request.user.user_permissions.filter(name__contains='financial'):
+            if r.financial_status is False:
+                r.financial_status = True
+                r.request_expert_financial = request.user
+                r.user.expert = request.user
+                m = Message.objects.create(
+                    text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
+                    educational_request=r,
+                    owner=r.user,
+                    message_expert=request.user,
+                )
+                r.step = EducationalRequest.REQUEST_STEPS[3]
+                m.save()
+            if r.financial_status_2 is False and r.educational_status_2 is True:
+                r.financial_status_2 = True
+                r.final_status = True
+                m = Message.objects.create(
+                    text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
+                    educational_request=r,
+                    owner=r.user,
+                    message_expert=request.user,
+                )
+                r.step = EducationalRequest.REQUEST_STEPS[5]
+                m.save()
+        r.save()
         return redirect(reverse('educational:requests'))
     if request.GET.get('r'):
         r = EducationalRequest.objects.get(id=request.GET.get('r'))
@@ -75,10 +119,12 @@ def request_single(request, r_id=None):
         context['user'] = r.user
         context['documents'] = r.ownerdocument_set.all()
         context['amount_of_doc'] = r.ownerdocument_set.all().__len__()
+        conditions_for_requests(request, r, context)
         return render(request, 'educational/request_single.html', context)
     return redirect(reverse('educational:requests'))
 
 
+@login_required
 def request_single_remove(request, r_id):
     if not request.user.user_permissions.filter(name__contains='see'):
         return redirect('/')

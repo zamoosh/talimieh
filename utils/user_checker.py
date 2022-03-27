@@ -9,12 +9,15 @@ def is_normal(request):
 
 
 def is_register_expert(request):
-    p = Permission.objects.filter(Q(name__contains='see register request'))
-    if not (request.user.is_superuser or request.user.has_perms(p)):
-        return True
+    p = Permission.objects.filter(name__contains='see register request')
+    return request.user.has_perms(p)
+
+
+def is_educational_expert(request):
+    p = Permission.objects.filter(name__contains='see educational request')
+    return request.user.has_perms(p)
 
 
 def is_financial_expert(request):
-    p = Permission.objects.filter(Q(name__contains='see financial request'))
-    if not (request.user.is_superuser or request.user.has_perms(p)):
-        return True
+    p = Permission.objects.filter(name__contains='see financial request')
+    return request.user.has_perms(p)

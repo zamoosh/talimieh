@@ -89,7 +89,18 @@ class EducationalRequest(models.Model):
 
     def get_step(self):
         index = int(self.step[1]) - 1
-        return self.REQUEST_STEPS[index][1]
+        if int(self.REQUEST_STEPS[index][0]) == 1:
+            return 'باید توسط کارشناس ثبت‌نام تائید شود'
+        elif int(self.REQUEST_STEPS[index][0]) == 2:
+            return 'باید توسط کارشناس آموزشی تائید شود'
+        elif int(self.REQUEST_STEPS[index][0]) == 3:
+            return 'باید توسط کارشناس مالی تائید شود'
+        elif int(self.REQUEST_STEPS[index][0]) == 4:
+            return 'باید دوباره توسط کارشناس آموزشی تائید شود'
+        elif int(self.REQUEST_STEPS[index][0]) == 5:
+            return 'باید دوباره توسط کارشناس مالی تائید شود'
+        elif int(self.REQUEST_STEPS[index][0]) == 6:
+            return 'درخواست به طور کامل تائید شده است'
 
     def __str__(self):
         return f'{self.id} {self.title} {self.user}'
