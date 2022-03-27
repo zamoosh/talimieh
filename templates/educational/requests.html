@@ -10,7 +10,13 @@
 
 {% endblock %}
 {% block js %}
-
+    <script>
+        $(document).ready(function () {
+            $('.row-request').click(function () {
+                window.location = $(this).data('href')
+            })
+        })
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -28,117 +34,99 @@
                                         <div class="card card-preview">
                                             <div class="card-inner">
                                                 {% if requests or reject_request %}
+                                                    <!-- alert -->
                                                     <div class="example-alert">
                                                         <div class="alert alert-info alert-icon">
                                                             <em class="icon ni ni-alert-circle"></em>
-                                                            برای دیدن جزئیات بیشتر روی
-                                                            <strong>موضوع</strong>
-                                                            هر
-                                                            درخواست
+                                                            برای دیدن جزئیات بیشتر
+                                                            <strong>روی هر درخواست</strong>
                                                             کلیک
                                                             کنید
                                                         </div>
                                                     </div>
+
                                                     <br>
+
                                                     <!-- not stable requests -->
                                                     <table class="table table-hover">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">ردیف</th>
-                                                            <th scope="col">موضوع</th>
-                                                            <th scope="col">رشته‌ی قبلی</th>
-                                                            <th scope="col">کاربر</th>
-                                                            <th scope="col">وضعیت نهایی درخواست</th>
+                                                            <th class="text text-indigo" scope="col">ردیف</th>
+                                                            <th class="text text-indigo" scope="col">موضوع</th>
+                                                            <th class="text text-indigo" scope="col">کاربر</th>
+                                                            <th class="text text-indigo" scope="col">وضعیت نهایی درخواست
+                                                            </th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         {% for r in requests %}
-                                                            <tr>
+                                                            <tr class="row-request"
+                                                                data-href="{% url 'educational:request_single' %}?r={{ r.id }}">
                                                                 <th scope="row">{{ forloop.counter }}</th>
-                                                                <td>
-                                                                    <a href="{% url 'educational:request_single' %}?r={{ r.id }}">
-                                                                        {{ r.title }}
-                                                                    </a>
-                                                                </td>
-                                                                <td>
-                                                                    {% if r.former_field_study %}
-                                                                        {{ r.former_field_study }}
-                                                                    {% else %}
-                                                                        ندارد
-                                                                    {% endif %}
-                                                                </td>
+                                                                <td>{{ r.title }}</td>
                                                                 <td>{{ r.user.first_name }} {{ r.user.last_name }}</td>
                                                                 <td>
-                                                                    {% if request.user|is_expert or request.user.is_superuser %}
-                                                                        {% if r.final_status == False %}
-                                                                            <span class="text text-danger align-center">
+                                                                    {% if r.final_status %}
+                                                                        <span class="text text-success align-center">
+                                                                            <em class="icon ni ni-check-circle text-success"
+                                                                                style="font-size: 1.475rem"></em>
+                                                                        تائید شده است
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text text-danger align-center">
                                                                             <em class="icon ni ni-cross-circle text-danger"
                                                                                 style="font-size: 1.475rem"></em>
-                                                                            تائید
-                                                                            نشده
-                                                                            است
-                                                                            </span>
-                                                                        {% else %}
-                                                                            <span class="text text-success align-center">
-                                                                                <em class="icon ni ni-check-circle text-success"
-                                                                                    style="font-size: 1.475rem"></em>
-                                                                            تائید
-                                                                            شده
-                                                                            است
-                                                                            </span>
-                                                                        {% endif %}
+                                                                        تائید نشده است
+                                                                        </span>
                                                                     {% endif %}
                                                                 </td>
                                                             </tr>
                                                         {% endfor %}
                                                         </tbody>
                                                     </table>
-
-                                                    <br>
-                                                    <h5 class="text-danger">درخواست‌های رد شده</h5>
-                                                    <br>
-
-                                                    <!-- rejected requests -->
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                        <tr>
-                                                            <th scope="col">ردیف</th>
-                                                            <th scope="col">موضوع</th>
-                                                            <th scope="col">رشته‌ی قبلی</th>
-                                                            <th scope="col">کاربر</th>
-                                                            <th scope="col">وضعیت نهایی درخواست</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {% for r in reject_requests %}
+                                                    {% if reject_requests %}
+                                                        <br>
+                                                        <h5 class="text-danger">درخواست‌های رد شده</h5>
+                                                        <br>
+                                                        <!-- rejected requests -->
+                                                        <table class="table table-hover">
+                                                            <thead>
                                                             <tr>
-                                                                <th scope="row">{{ forloop.counter }}</th>
-                                                                <td>
-                                                                    <a href="{% url 'educational:request_single' %}?r={{ r.id }}">
-                                                                        {{ r.title }}
-                                                                    </a>
-                                                                </td>
-                                                                <td>
-                                                                    {% if r.former_field_study %}
-                                                                        {{ r.former_field_study }}
-                                                                    {% else %}
-                                                                        ندارد
-                                                                    {% endif %}
-                                                                </td>
-                                                                <td>{{ r.user.first_name }} {{ r.user.last_name }}</td>
-                                                                <td>
-                                                                    {% if request.user|is_expert or request.user.is_superuser %}
-                                                                        <span class="text text-gray align-center">
+                                                                <th scope="col">ردیف</th>
+                                                                <th scope="col">موضوع</th>
+                                                                <th scope="col">رشته‌ی قبلی</th>
+                                                                <th scope="col">کاربر</th>
+                                                                <th scope="col">وضعیت نهایی درخواست</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for r in reject_requests %}
+                                                                <tr class="row-request"
+                                                                    data-href="{% url 'educational:request_single' %}?r={{ r.id }}">
+                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                    <td>{{ r.title }}</td>
+                                                                    <td>
+                                                                        {% if r.former_field_study %}
+                                                                            {{ r.former_field_study }}
+                                                                        {% else %}
+                                                                            ندارد
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>{{ r.user.first_name }} {{ r.user.last_name }}</td>
+                                                                    <td>
+                                                                        {% if request.user|is_expert or request.user.is_superuser %}
+                                                                            <span class="text text-gray align-center">
                                                                              <em class="icon ni ni-cross-circle"
                                                                                  style="font-size: 1.475rem"></em>
                                                                             رد شده است
                                                                             </span>
-                                                                    {% endif %}
-                                                                </td>
-                                                            </tr>
-                                                        {% endfor %}
-                                                        </tbody>
-                                                    </table>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    {% endif %}
                                                 {% else %}
                                                     درخواستی وجود ندارد
                                                 {% endif %}
