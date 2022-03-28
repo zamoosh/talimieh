@@ -43,13 +43,13 @@
                             <li class="nk-menu-item"><a href="{% url 'educational:options' %}"
                                                         class="nk-menu-link"><span
                                     class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                                    class="nk-menu-text">قابلیت‌های اضافی</span></a></li>
+                                    class="nk-menu-text">پرداخت‌های اضافی</span></a></li>
                         {% endif %}
 
                         {% if request.user.is_superuser or perms.client.can_set_expert %}
                             <li class="nk-menu-item"><a href="{% url 'client:users' %}" class="nk-menu-link"><span
                                     class="nk-menu-icon"><em class="icon ni ni-setting"></em></span><span
-                                    class="nk-menu-text">مدیریت کارشناسان</span></a></li>
+                                    class="nk-menu-text">مدیریت اعضا</span></a></li>
                         {% endif %}
                         <li class="nk-menu-item"><a href="{% url 'educational:reports' %}"
                                                     class="nk-menu-link"><span

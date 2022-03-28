@@ -28,6 +28,7 @@
                                 <div class="nk-block">
                                     <div class="card">
                                         <div class="card-inner">
+                                            <!-- options table -->
                                             {% if options %}
 
                                                 <!-- alert -->
@@ -50,6 +51,7 @@
                                                         <th scope="col">نام</th>
                                                         <th scope="col">قیمت</th>
                                                         <th scope="col">ویرایش</th>
+                                                        <th scope="col">حذف</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -63,6 +65,10 @@
                                                                 <a href="{% url 'educational:option_single_edit' o.id %}"
                                                                    class="btn btn-dim btn-primary">ویرایش</a>
                                                             </td>
+                                                            <td>
+                                                                <a href="{% url 'educational:option_single_delete' o.id %}"
+                                                                   class="btn btn-dim btn-danger">حذف</a>
+                                                            </td>
                                                         </tr>
                                                     {% endfor %}
                                                     </tbody>
@@ -70,15 +76,17 @@
                                             {% else %}
                                                 <div class="container center">
                                                     <span class="text text-indigo">قابلیتی وجود ندارد</span>
-
                                                 </div>
                                             {% endif %}
+
+                                            <br>
+
+                                            <!-- create new option -->
                                             <a href="{% url 'educational:option_single_create' %}"
                                                class="btn btn-dim btn-success float-right">
                                                 ساخت قابلیت جدید
                                             </a>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

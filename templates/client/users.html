@@ -40,6 +40,7 @@
                                                                         <th>آیا کارشناس است</th>
                                                                         {% if perms.client.can_set_expert or request.user.is_superuser %}
                                                                             <th>دسترسی‌ها</th>
+                                                                            <th>حذف</th>
                                                                         {% endif %}
                                                                     </tr>
                                                                     </thead>
@@ -60,19 +61,27 @@
 
                                                                             </td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
-                                                                                <ul class="nk-tb-actions gx-1">
-                                                                                    <li>
-                                                                                        {% if perms.client.can_set_expert or request.user.is_superuser %}
-                                                                                            <form action="{% url 'client:user_perms' user.id %}"
-                                                                                                  method="get">
-                                                                                                <button type="submit"
-                                                                                                        class="btn btn-dim btn-outline-info">
-                                                                                                    مشاهده
-                                                                                                </button>
-                                                                                            </form>
-                                                                                        {% endif %}
-                                                                                    </li>
-                                                                                </ul>
+                                                                                {% if perms.client.can_set_expert or request.user.is_superuser %}
+                                                                                    <form action="{% url 'client:user_perms' user.id %}"
+                                                                                          method="get">
+                                                                                        <button type="submit"
+                                                                                                class="btn btn-dim btn-outline-info">
+                                                                                            مشاهده
+                                                                                        </button>
+                                                                                    </form>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td class="nk-tb-col nk-tb-col-tools">
+                                                                                {% if perms.client.can_set_expert or request.user.is_superuser %}
+                                                                                    <form action="{% url 'client:user_delete' user.id %}"
+                                                                                          method="post">
+                                                                                        {% csrf_token %}
+                                                                                        <button type="submit"
+                                                                                                class="btn btn-dim btn-outline-danger">
+                                                                                            حذف
+                                                                                        </button>
+                                                                                    </form>
+                                                                                {% endif %}
                                                                             </td>
                                                                         </tr>
                                                                     {% endfor %}

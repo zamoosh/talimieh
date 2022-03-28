@@ -27,6 +27,9 @@ def register(request):
                 username=context['request']['cellphone'],
                 password=context['request']['password']
             )
+            if not user.user_permissions.filter(name__icontains='normal'):
+                p = Permission.objects.get(name__icontains='normal')
+                user.user_permissions.add(p)
             user.save()
             context['register'] = 1
             if context['register']:

@@ -15,6 +15,7 @@ urlpatterns = [
     path('get-document/api/', get_document, name="get_document"),
     path('users/', users, name='users'),
     path('user-perms/<int:u_id>/', user_perms, name='user_perms'),
+    path('user-delete/<int:u_id>/', user_delete, name='user_delete'),
     path('create-new-user/', create_new_user, name='create_new_user'),
     path('user-set-perms/<int:g_id>/<int:u_id>/', user_set_perms, name='user_set_perms'),
 ]

@@ -35,6 +35,7 @@ urlpatterns = [
     path('request-single-transitions/api/', get_transaction_of_educational_request, name='request_single_transition'),
 
     path('options/', options, name='options'),
-    path('option-single-create/', option_single, name='option_single_create'),
+    path('option-single-create/', option_single_create, name='option_single_create'),
+    path('option-single-delete/<int:o_id>/', option_single_delete, name='option_single_delete'),
     path('option-single-edit/<int:o_id>/', option_edit, name='option_single_edit'),
 ]

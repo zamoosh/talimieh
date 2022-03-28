@@ -27,7 +27,8 @@ class User(AbstractUser):
 
     class Meta:
         permissions = [
-            ('can_set_expert', 'can set expert')
+            ('can_set_expert', 'can set expert'),
+            ('normal_person', 'normal person')
         ]
 
     def save(self, *args, **kwargs):
