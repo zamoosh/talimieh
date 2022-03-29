@@ -203,92 +203,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <!-- request form section -->
-                                                        <div class="profile-ud-list">
-                                                            <!-- accept form -->
-                                                            <form action="{% url 'educational:request_single_detail' r.id %}"
-                                                                  method="post" class="profile-ud-item">
-                                                                {% csrf_token %}
-                                                                {% if perms.educational.can_see_register_request %}
-                                                                    {% if r_con %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-success center">
-                                                                            تائید کردن ثبت‌نام
-                                                                        </button>
-                                                                    {% endif %}
-                                                                {% elif perms.educational.can_see_educational_request %}
-                                                                    {% if e_con %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-success">
-                                                                            تائید کردن مرحله‌ی اول آموزشی
-                                                                        </button>
-                                                                    {% endif %}
-                                                                    {% if e_con_2 %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-success">
-                                                                            تائید کردن مرحله‌ی دوم آموزشی
-                                                                        </button>
-                                                                    {% endif %}
-                                                                {% elif perms.educational.can_see_financial_request %}
-                                                                    {% if f_con %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-success">
-                                                                            تائید کردن مرحله‌ی اول مالی
-                                                                        </button>
-                                                                    {% endif %}
-                                                                    {% if f_con_2 %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-success">
-                                                                            تائید کردن مرحله‌ی دوم مالی
-                                                                        </button>
-                                                                    {% endif %}
-                                                                {% endif %}
-                                                            </form>
-
-                                                            <!-- reject form -->
-                                                            <form action="{% url 'educational:request_single_remove' r.id %}"
-                                                                  method="post" class="profile-ud-item">
-                                                                {#                                                                {% if r|can_reject %}#}
-                                                                {% csrf_token %}
-                                                                {% if perms.educational.can_see_register_request %}
-                                                                    {% if r_con %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-danger center">
-                                                                            رد کردن ثبت‌نام
-                                                                        </button>
-                                                                    {% endif %}
-                                                                {% elif perms.educational.can_see_educational_request %}
-                                                                    {% if e_con %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-danger">
-                                                                            رد کردن مرحله‌ی اول آموزشی
-                                                                        </button>
-                                                                    {% endif %}
-                                                                    {% if e_con_2 %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-danger">
-                                                                            رد کردن مرحله‌ی دوم آموزشی
-                                                                        </button>
-                                                                    {% endif %}
-                                                                {% elif perms.educational.can_see_financial_request %}
-                                                                    {% if f_con %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-danger">
-                                                                            رد کردن مرحله‌ی اول مالی
-                                                                        </button>
-                                                                    {% endif %}
-                                                                    {% if f_con_2 %}
-                                                                        <button type="submit"
-                                                                                class="btn btn-block btn-dim btn-danger">
-                                                                            رد کردن مرحله‌ی دوم مالی
-                                                                        </button>
-                                                                    {% endif %}
-
-                                                                {% endif %}
-                                                                {#                                                                {% endif %}#}
-                                                            </form>
-                                                        </div>
                                                     </div>
 
                                                     <!-- transition status -->
@@ -486,6 +400,98 @@
                                                                 </span>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- request form section -->
+                                                    <div class="card-inner">
+                                                        <div class="profile-ud-list">
+                                                            <!-- accept form -->
+                                                            <form action="{% url 'educational:request_single_detail' r.id %}"
+                                                                  method="post" class="profile-ud-item">
+                                                                {% csrf_token %}
+                                                                {% if perms.educational.can_see_register_request or request.user.is_superuser %}
+                                                                    {% if r_con %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success center">
+                                                                            تائید کردن ثبت‌نام
+                                                                        </button>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                {% if perms.educational.can_see_educational_request or request.user.is_superuser %}
+                                                                    {% if e_con %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن مرحله‌ی اول آموزشی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                    {% if e_con_2 %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن مرحله‌ی دوم آموزشی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                {% if perms.educational.can_see_financial_request or request.user.is_superuser %}
+                                                                    {% if f_con %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن مرحله‌ی اول مالی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                    {% if f_con_2 %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن مرحله‌ی دوم مالی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </form>
+
+                                                            <!-- reject form -->
+                                                            <form action="{% url 'educational:request_single_remove' r.id %}"
+                                                                  method="post" class="profile-ud-item">
+                                                                {#                                                                {% if r|can_reject %}#}
+                                                                {% csrf_token %}
+                                                                {% if perms.educational.can_see_register_request %}
+                                                                    {% if r_con %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger center">
+                                                                            رد کردن ثبت‌نام
+                                                                        </button>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                {% if perms.educational.can_see_educational_request %}
+                                                                    {% if e_con %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger">
+                                                                            رد کردن مرحله‌ی اول آموزشی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                    {% if e_con_2 %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger">
+                                                                            رد کردن مرحله‌ی دوم آموزشی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                {% if perms.educational.can_see_financial_request %}
+                                                                    {% if f_con %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger">
+                                                                            رد کردن مرحله‌ی اول مالی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                    {% if f_con_2 %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger">
+                                                                            رد کردن مرحله‌ی دوم مالی
+                                                                        </button>
+                                                                    {% endif %}
+
+                                                                {% endif %}
+                                                                {#                                                                {% endif %}#}
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
