@@ -65,10 +65,20 @@
                                                             <tr>
                                                                 <th scope="row">{{ forloop.counter }}</th>
                                                                 <td>{{ r.title }}</td>
-                                                                <td>{{ r.user.first_name }} {{ r.user.last_name }}</td>
-                                                                <td class="text text-azure">{{ r.get_step }}</td>
+                                                                <td class="text text-azure">{{ r.user.first_name }} {{ r.user.last_name }}</td>
                                                                 <td>
-                                                                    <a href="{% url 'educational:request_single' %}?r={{ r.id }}" type="button"
+                                                                <span class="align-center text text-azure">
+                                                                    {{ r.get_step }}
+                                                                    {% if r.final_status %}
+                                                                        <em class="icon ni ni-check-circle text-success"
+                                                                            style="font-size: 1.475rem"></em>
+                                                                    {% endif %}
+                                                                </span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <a href="{% url 'educational:request_single_detail' %}?r={{ r.id }}"
+                                                                       type="button"
                                                                        class="btn btn-dim btn-outline-info">مشاهده</a>
                                                                 </td>
                                                             </tr>
@@ -109,9 +119,9 @@
                                                                     <td>
                                                                         {% if request.user|is_expert or request.user.is_superuser %}
                                                                             <span class="text text-gray align-center">
-                                                                             <em class="icon ni ni-cross-circle"
-                                                                                 style="font-size: 1.475rem"></em>
                                                                             رد شده است
+                                                                            <em class="icon ni ni-cross-circle"
+                                                                                 style="font-size: 1.475rem"></em>
                                                                             </span>
                                                                         {% endif %}
                                                                     </td>
