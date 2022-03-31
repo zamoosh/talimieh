@@ -63,15 +63,16 @@
                                                             </div>
                                                         </div>
                                                     {% endif %}
-                                                    <a href="#" class="btn btn-secondary mr-4 mt-3 float-sm-right"
+                                                    <a href="#" class="btn btn-dim btn-success mt-4 float-right mr-lg-5"
                                                        data-toggle="modal" data-target="#create_year">ایجاد سال
-                                                        تحصیلی/ترم</a>
+                                                        تحصیلی/ترم
+                                                    </a>
                                                 </div>
                                                 <div class="card-inner">
                                                     <div class="col-12">
                                                         <div class="row">
                                                             <div class="col-12">
-                                                                <table class="datatable-init-export nowrap table"
+                                                                <table class="datatable-init-export table-hover table"
                                                                        data-export-title="خروجی" id="unitable">
                                                                     <thead>
                                                                     <tr>
@@ -109,26 +110,28 @@
                                                                             <td>
                                                                                 <ul class="nk-tb-actions gx-1">
                                                                                     <li>
-                                                                                        {% if year_semester.status %}
-                                                                                            <form action="{% url 'educational:term_status' year_semester.id %}"
-                                                                                                  method="post">
-                                                                                                {% csrf_token %}
-                                                                                                <input type="submit"
-                                                                                                       class="btn btn-light"
-                                                                                                       value="غیرفعال کردن ترم">
-                                                                                            </form>
-                                                                                        {% else %}
-                                                                                            <form action="{% url 'educational:term_status' year_semester.id %}"
-                                                                                                  method="post">
-                                                                                                {% csrf_token %}
-                                                                                                <input type="hidden"
-                                                                                                       name="id"
-                                                                                                       value="{{ year_semester.status }}"
-                                                                                                       id="member">
-                                                                                                <input type="submit"
-                                                                                                       class="btn btn-light"
-                                                                                                       value="فعال کردن ترم">
-                                                                                            </form>
+                                                                                        {% if year_semester.parent %}
+                                                                                            {% if year_semester.status %}
+                                                                                                <form action="{% url 'educational:term_status' year_semester.id %}"
+                                                                                                      method="post">
+                                                                                                    {% csrf_token %}
+                                                                                                    <input type="submit"
+                                                                                                           class="btn btn-dim btn-light"
+                                                                                                           value="غیرفعال کردن ترم">
+                                                                                                </form>
+                                                                                            {% else %}
+                                                                                                <form action="{% url 'educational:term_status' year_semester.id %}"
+                                                                                                      method="post">
+                                                                                                    {% csrf_token %}
+                                                                                                    <input type="hidden"
+                                                                                                           name="id"
+                                                                                                           value="{{ year_semester.status }}"
+                                                                                                           id="member">
+                                                                                                    <input type="submit"
+                                                                                                           class="btn btn-dim btn-success"
+                                                                                                           value="فعال کردن ترم">
+                                                                                                </form>
+                                                                                            {% endif %}
                                                                                         {% endif %}
                                                                                     </li>
                                                                                 </ul>
