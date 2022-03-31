@@ -16,7 +16,6 @@ def submit_semester(request):
         context['term'] = YearSemester.objects.get(parent=context['year'], status=True)
         if request.method == "POST":
             detail = {}
-            print(request.POST)
             for i in request.POST.items():
                 if 'entrance_price_' in i[0]:
                     if i[0][len('entrance_price_'):] not in detail:
