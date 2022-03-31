@@ -29,8 +29,8 @@ urlpatterns = [
     path('reports/', reports, name='reports'),
 
     path('requests/', requests, name='requests'),
-    path('request-single/', request_single, name='request_single'),
-    path('request-single/<int:r_id>/', request_single, name='request_single_detail'),
+    path('request-single/<int:r_id>/', request_single_confirm, name='request_single_confirm'),
+    path('request-single-detail/', request_single_detail, name='request_single_detail'),
     path('request-single-remove/<int:r_id>/', request_single_remove, name='request_single_remove'),
     path('request-single-transitions/api/', get_transaction_of_educational_request, name='request_single_transition'),
 

@@ -7,11 +7,13 @@
 {% endblock %}
 {% block js %}
     <script>
-        $(document).ready(function () {
-            $('.row-option').click(function () {
-                window.location = $(this).data('href')
+        /*
+            $(document).ready(function () {
+                $('.row-option').click(function () {
+                    window.location = $(this).data('href')
+                })
             })
-        })
+         */
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -35,10 +37,9 @@
                                                 <div class="example-alert">
                                                     <div class="alert alert-info alert-icon">
                                                         <em class="icon ni ni-alert-circle"></em>
-                                                        برای دیدن جزئیات بیشتر (ویرایش)
-                                                        <strong>روی هر قابلیت</strong>
-                                                        کلیک
-                                                        کنید
+                                                        برای  ویرایش
+                                                        <strong>روی کلید ویرایش</strong>
+                                                        کلیک کنید
                                                     </div>
                                                 </div>
 
@@ -56,8 +57,7 @@
                                                     </thead>
                                                     <tbody>
                                                     {% for o in options %}
-                                                        <tr class="row-option"
-                                                            data-href="{% url 'educational:option_single_edit' o.id %}">
+                                                        <tr>
                                                             <th scope="row">{{ forloop.counter }}</th>
                                                             <td>{{ o.name }}</td>
                                                             <td>{{ o.price }}</td>

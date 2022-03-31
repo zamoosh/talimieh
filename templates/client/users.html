@@ -21,7 +21,7 @@
                                         <div class="nk-block nk-block-lg">
                                             <div class="card card-preview">
                                                 <div class="btn-top-uni">
-                                                    <a href="#" class="btn mt-3 float-sm-right"
+                                                    <a href="#" class="btn btn-dim btn-outline-success mt-3 ml-lg-5 float-right"
                                                        data-toggle="modal" data-target="#create_year"
                                                        style="margin-left: 3.6rem">ایجاد کاربر
                                                         جدید</a>
@@ -30,7 +30,7 @@
                                                     <div class="col-12">
                                                         <div class="row">
                                                             <div class="col-12">
-                                                                <table class="datatable-init-export nowrap table"
+                                                                <table class="datatable-init-export nowrap table table-hover"
                                                                        data-export-title="خروجی" id="unitable">
                                                                     <thead>
                                                                     <tr>
@@ -58,7 +58,6 @@
                                                                                     <em class="icon ni ni-cross-circle text-danger"
                                                                                         style="font-size: 1.475rem"></em>
                                                                                 {% endif %}
-
                                                                             </td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
                                                                                 {% if perms.client.can_set_expert or request.user.is_superuser %}
@@ -110,7 +109,8 @@
                                                                                             <input type="text"
                                                                                                    class="form-control form-control-lg form-control-outlined"
                                                                                                    id="name"
-                                                                                                   name="name">
+                                                                                                   name="name"
+                                                                                                          required>
                                                                                             <label class="form-label-outlined"
                                                                                                    for="name">
                                                                                                 نام
@@ -123,7 +123,8 @@
                                                                                             <input type="text"
                                                                                                    class="form-control form-control-lg form-control-outlined"
                                                                                                    id="last_name"
-                                                                                                   name="last_name">
+                                                                                                   name="last_name"
+                                                                                                          required>
                                                                                             <label class="form-label-outlined"
                                                                                                    for="last_name">
                                                                                                 نام خانوادگی
@@ -136,7 +137,8 @@
                                                                                             <input type="text"
                                                                                                    class="form-control form-control-lg form-control-outlined"
                                                                                                    id="cellphone"
-                                                                                                   name="cellphone">
+                                                                                                   name="cellphone"
+                                                                                                          required>
                                                                                             <label class="form-label-outlined"
                                                                                                    for="cellphone">
                                                                                                 شماره تماس (به عنوان رمز
@@ -147,7 +149,7 @@
 
                                                                                     <div class="form-group">
                                                                                         <input type="submit"
-                                                                                               class="btn btn-light float-right"
+                                                                                               class="btn btn-dim btn-outline-success float-right"
                                                                                                value="ذخیره">
                                                                                     </div>
                                                                                 </form>
