@@ -16,25 +16,26 @@ def edit_university_terms(request, u_id):
     context['degree_selected'] = degree_selected
     if request.method == 'POST':
         university = get_object_or_404(Universities, id=u_id)
-        primary_semester = [item for item in university.semester_set.all()]
-        select_semester = []
+        selected_degree = []
         for item in request.POST.getlist('degree'):
             degree = DegreeFieldStudy.objects.get(id=item)
-            try:
-                select_semester.append(degree.semester_set.get(university=university))
-            except (Exception, Exception):
-                select_semester.append(1)
-        if len(select_semester) > len(primary_semester):
-            for item in select_semester:
-                if not (item in primary_semester):
-                    try:
-                        item.delete()
-                    except (Exception, Exception):
-                        pass
-        elif len(select_semester) < len(primary_semester):
-            for item in primary_semester:
-                if not (item in select_semester):
-                    item.delete()
+            selected_degree.append(degree)
+        common = university.semester_set.filter(degree_field_study__in=selected_degree)
+        delete = university.semester_set.filter(~Q(degree_field_study__in=selected_degree))
+        for item in delete:
+            item.delete()
+        add = []
+        common_degree = []
+        for item in common:
+            common_degree.append(item.degree_field_study)
+        for item in selected_degree:
+            if not (item in common_degree):
+                add.append(item)
+        for item in add:
+            sem = Semester.objects.create(university=university,
+                                          degree_field_study=item,
+                                          year_semester=YearSemester.objects.get(status=True))
+            sem.save()
         context['r']['degree_list'] = request.POST.getlist('degree')
         request.session['degrees'] = context['r']
         return redirect(reverse('educational:submit_semester'))
