@@ -73,6 +73,7 @@
                                                                                                    class="form-control"
                                                                                                    id="expert_price"
                                                                                                    name="expert_price_{{ degree_field.id }}"
+                                                                                                   required
                                                                                                    value="{{ university|get_semester_expert_price:degree_field }}"
                                                                                                    placeholder="قیمت کارشناسی">
                                                                                         </div>
@@ -86,6 +87,7 @@
                                                                                                    class="form-control"
                                                                                                    id="entrance_price"
                                                                                                    name="entrance_price_{{ degree_field.id }}"
+                                                                                                   required
                                                                                                    value="{{ university|get_semester_entrance_price:degree_field }}"
                                                                                                    placeholder="قیمت اخذ ورودی">
                                                                                         </div>

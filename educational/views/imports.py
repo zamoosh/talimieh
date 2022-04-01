@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, F
 from educational.models import *
 from django.contrib.auth.models import AbstractUser, Permission
 from PIL import Image
