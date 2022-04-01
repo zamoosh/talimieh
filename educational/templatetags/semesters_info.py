@@ -1,4 +1,6 @@
 import educational.models
+from educational.models import YearSemester
+from django.http import JsonResponse
 from django import template
 
 register = template.Library()
@@ -26,3 +28,10 @@ def has_scholarship(uni: educational.models.Universities, degree_field_study):
         sem = uni.semester_set.get(degree_field_study=degree_field_study)
         return sem.scholarship
     return ''
+
+
+@register.simple_tag
+def if_any_semester_active():
+    if YearSemester.objects.filter(status__exact=True).exists():
+        return JsonResponse(True, safe=False)
+    return JsonResponse(False, safe=False)

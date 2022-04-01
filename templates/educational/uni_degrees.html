@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}رشته‌‌های تحصیلی دانشگاه - نسل تعلیمیه{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <h4 class="nk-block-title">
+                                                رشته‌های تحصیلی دانشگاه
+                                                '<strong class="text text-danger">{{ uni.uni_name }}</strong>'
+                                            </h4>
+                                            <div class="nk-block-des">
+                                                <p>اطلاعات مربوط به رشته‌های دانشگاه را در زیر مشاهده کنید</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-inner card-hint">
+                                            <div class="center container">
+                                                <a href="{% url 'educational:semesters' %}"
+                                                   class="btn btn-dim btn-outline-primary btn-lg">
+                                                    برگشت به ترم‌ها
+                                                </a>
+                                            </div>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text text-indigo" scope="col">ردیف</th>
+                                                    <th class="text text-indigo" scope="col">نام رشته</th>
+                                                    <th class="text text-indigo" scope="col">بورسیه</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for sem in uni.semester_set.all %}
+                                                    <tr>
+                                                        <th scope="row">{{ forloop.counter }}</th>
+                                                        <td class="text text-indigo">{{ sem.degree_field_study }}</td>
+                                                        <td>
+                                                            {% if  sem.scholarship %}
+                                                                <span class="text align-center text-success">
+                                                                    <em class="ni ni-check-circle"
+                                                                        style="font-size: 1.475rem"></em>&nbsp;
+                                                                </span>
+                                                            {% else %}
+                                                                <span class="text align-center text-success">
+                                                                    <em class="ni ni-cross-circle"
+                                                                        style="font-size: 1.475rem"></em>
+                                                                </span>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
