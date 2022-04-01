@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{% load semesters_info %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 {% block css %}
     <link type="text/css" rel="stylesheet" href="{% static "assets/css/datepicker.css" %}"/>
@@ -30,26 +31,6 @@
             }
         });
     </script>
-    <script>
-        $.ajax({
-            url: '{% url 'educational:if_any_semester_active' %}',
-            type: "GET",
-            send: function (xhr) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            },
-            success: function (data) {
-                let error = $('#error');
-                if (data === false) {
-                    console.log(data);
-                    $('#submit')[0].disabled = true;
-                } else
-                    error.css('display', 'none');
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -66,27 +47,30 @@
                                     <div class="card">
                                         <div class="card-aside-wrap">
                                             <div class="card-inner card-inner-lg">
-                                                <div id="error" class="example-alert">
-                                                    <div class="alert alert-danger alert-icon">
-                                                        <em class="icon ni ni-cross-circle"></em>
-                                                        <strong>
-                                                            لطفا قبل از ایجاد ترم جدید، سال تحصیلی را فعال کنید.
-                                                        </strong>
+                                                {% if if_any_semester_active %}
+                                                    <div id="error" class="example-alert">
+                                                        <div class="alert alert-danger alert-icon">
+                                                            <em class="icon ni ni-cross-circle"></em>
+                                                            <strong>
+                                                                لطفا قبل از ایجاد ترم جدید، سال تحصیلی را فعال کنید.
+                                                            </strong>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                {% endif %}
                                                 <br>
                                                 <div class="nk-block-head nk-block-head-lg">
                                                     <div class="nk-block-between">
                                                         <div class="nk-block-head-content">
-
                                                             <h4 class="nk-block-title">
                                                                 انتخاب ترم برای دانشگاه
                                                             </h4>
-                                                            <div class="nk-block-des"><p>رشته، ترم، هزینه ها</p></div>
+                                                            <div class="nk-block-des">
+                                                                <p>رشته، ترم، هزینه ها</p>
+                                                            </div>
                                                         </div>
                                                         <div class="nk-block-head-content align-self-start d-lg-none">
                                                             <a href="#" class="toggle btn btn-icon btn-trigger mt-n1"
-                                                                data-target="userAside">
+                                                               data-target="userAside">
                                                                 <em class="icon ni ni-menu-alt-r"></em>
                                                             </a>
                                                         </div>
@@ -107,7 +91,8 @@
                                                                                     data-search="on" name="uni">
                                                                                 <option value="">دانشگاه</option>
                                                                             </select>
-                                                                            <label class="form-label-outlined" for="degree">دانشگاه</label>
+                                                                            <label class="form-label-outlined"
+                                                                                   for="degree">دانشگاه</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
