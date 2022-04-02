@@ -15,6 +15,7 @@
         }
     </style>
 {% endblock %}
+
 {% block js %}
     <script>
         function buttonLoader() {
@@ -75,6 +76,51 @@
             buttonLoader();
         })
     </script>
+
+    <script>
+        $.ajax({
+            url: '{% url 'educational:get_degree_field_sections' %}',
+            type: "GET",
+            success: function (data) {
+                data.forEach(function (item) {
+                    let degreeDropDown = $('#degree');
+                    degreeDropDown.empty();
+                    degreeDropDown.append(`<option value=""></option>`);
+                    degreeDropDown.append(`<option value="${item.id}">${item.title}</option>`);
+                })
+            },
+            error: function (error) {
+                alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+            }
+        });
+    </script>
+
+    <script>
+        $(window).on('click', function (e) {
+            $('#degree').on('change', function () {
+                $.ajax({
+                    url: '{% url 'educational:get_degree_semesters' %}',
+                    type: "POST",
+                    data: {
+                        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                        'd_id': $('#degree')[0].value
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        response.forEach(function (element) {
+                            let degreeSemesterDropDown = $('#degree-semester');
+                            degreeSemesterDropDown.empty();
+                            degreeSemesterDropDown.append(`<option value=""></option>`);
+                            degreeSemesterDropDown.append(`<option value="${element.id}">${element.title}</option>`);
+                        })
+                    },
+                    error: function (error) {
+                        alert('لطفا صفحه را به‌روزرسانی کنید');
+                    }
+                });
+            })
+        })
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -103,22 +149,6 @@
                                                     </div>
                                                     <br>
                                                     <div class="row gy-4">
-                                                        <!-- request title -->
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label class="form-label"
-                                                                       for="title">
-                                                                    موضوع درخواست
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" required
-                                                                           class="form-control"
-                                                                           name="title"
-                                                                           placeholder="موضوع درخواست"
-                                                                           id="title">
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
                                                         <!-- user average -->
                                                         <div class="col-sm-6">
@@ -171,25 +201,49 @@
                                                             </div>
                                                         </div>
 
-                                                        <!-- field study -->
+                                                        <!-- blank space -->
+                                                        <div class="col-sm-6"></div>
+
+                                                        <!-- section -->
                                                         <div class="col-sm-6">
-                                                            {% for sem in semesters %}
-                                                                <div class="col-md-6 col-sm-2">
-                                                                    <div class="preview-block">
-                                                                        <div class="custom-control custom-checkbox checked">
-                                                                            <input type="checkbox" id="sem{{ sem.id }}"
-                                                                                   name="sem"
-                                                                                   class="custom-control-input"
-                                                                                   value="{{ sem.id }}">
-                                                                            <label class="custom-control-label"
-                                                                                   for="sem{{ sem.id }}">
-                                                                                {{ sem }}
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
+                                                            <div class="form-group" id="degree-div">
+                                                                <label class="form-label"
+                                                                       for="degree">
+                                                                    مقطع تحصیلی
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <select class="form-select select2-hidden-accessible"
+                                                                            data-ui="md" id="degree" data-search="on"
+                                                                            name="degree" required
+                                                                            tabindex="-1" aria-hidden="true">
+                                                                        <option value="">-- انتخاب --</option>
+                                                                    </select>
+                                                                    <label class="form-label-outlined"
+                                                                           for="degree">مقطع
+                                                                    </label>
                                                                 </div>
-                                                                <br>
-                                                            {% endfor %}
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- section's semester -->
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="degree-semester">
+                                                                    رشته‌ی تحصیلی
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <select class="form-select select2-hidden-accessible"
+                                                                            data-ui="md" id="degree-semester"
+                                                                            data-search="on"
+                                                                            name="degree-semester" required
+                                                                            tabindex="-1" aria-hidden="true">
+                                                                        <option value="">-- انتخاب --</option>
+                                                                    </select>
+                                                                    <label class="form-label-outlined"
+                                                                           for="degree-semester">رشته‌ی تحصیلی</label>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -225,7 +279,7 @@
                                                         ثبت اطلاعات
                                                     </button>
                                                     <a type="button" href="{% url 'educational:upload_new_doc' %}"
-                                                            class="btn btn-dim btn-outline-info float-left">
+                                                       class="btn btn-dim btn-outline-info float-left">
                                                         آپلود مدرک جدید
                                                     </a>
                                                 </div>

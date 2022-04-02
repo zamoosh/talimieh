@@ -4,6 +4,24 @@
 {% block title %}رشته ها - نسل تعلیمیه{% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
+    <script>
+        const csrftoken = '{{ csrf_token }}';
+        $.ajax({
+            url: '{% url 'educational:get_degree_field_sections' %}',
+            type: "GET",
+            send: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (data) {
+                data.forEach(function (item) {
+                    $('#degree').append(`<option value="${item.id}">${item.title}</option>`);
+                })
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -37,8 +55,14 @@
                                                     </div>
                                                 {% endif %}
                                                 <div class="btn-top-uni">
-                                                    <a href="#" class="btn btn-secondary mr-4 mt-3 float-sm-right"
-                                                       data-toggle="modal" data-target="#create_year">ایجاد رشته</a>
+                                                    <a href="#"
+                                                       class="btn btn-sm btn-secondary mr-4 mt-3 float-sm-right"
+                                                       data-toggle="modal" data-target="#create_section">ایجاد مقطع</a>
+
+                                                    <a href="#"
+                                                       class="btn btn-sm btn-secondary mr-4 mt-3 float-sm-right"
+                                                       data-toggle="modal" data-target="#create_degree_field_study">ایجاد
+                                                        رشته</a>
                                                 </div>
                                                 <div class="card-inner">
                                                     <div class="col-12">
@@ -48,17 +72,36 @@
                                                                        data-export-title="خروجی" id="unitable">
                                                                     <thead>
                                                                     <tr>
-                                                                        <th>عنوان رشته</th>
+                                                                        <th>عنوان رشته / مقطع</th>
+                                                                        <th>مقطع</th>
                                                                         <th>مدارک مورد نیاز</th>
                                                                         <th></th>
-
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody id="uni">
                                                                     {% for degree_field_study in degree_field_studys %}
                                                                         <tr>
-                                                                            <td>{{ degree_field_study.title }}</td>
-                                                                            <td>{% if degree_field_study.document %}{{ degree_field_study.document }}{% endif %}</td>
+                                                                            <td>
+                                                                                {% if degree_field_study.parent is null %}
+                                                                                    <span class="text text-gray">
+                                                                                        {{ degree_field_study.title }}
+                                                                                    </span>
+                                                                                {% else %}
+                                                                                    <span class="text text-azure">
+                                                                                        {{ degree_field_study.title }}
+                                                                                    </span>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td>
+                                                                                {% if degree_field_study.parent %}
+                                                                                    <span class="text text-primary">
+                                                                                        {{ degree_field_study.parent }}
+                                                                                    </span>
+
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td>{% if degree_field_study.document %}
+                                                                                {{ degree_field_study.document }}{% endif %}</td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
                                                                                 <ul class="nk-tb-actions gx-1">
                                                                                     <li>
@@ -101,37 +144,100 @@
             </div>
         </div>
     </div>
-    <div class="modal fade show" tabindex="-1" id="create_year" style="display: none; padding-right: 12px;"
+
+
+    <div class="modal fade show" tabindex="-1" id="create_degree_field_study"
+         style="display: none; padding-right: 12px;"
          aria-modal="true" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header"><h5 class="modal-title">
-                    ایجاد سال تحصیلی
-                </h5><a href="#" class="close" data-dismiss="modal" aria-label="Close"><em
-                        class="icon ni ni-cross"></em></a></div>
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        ایجاد رشته
+                    </h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
                 <div class="modal-body">
                     <form method="POST" action="{% url 'educational:degree_field_study' %}">
                         {% csrf_token %}
+                        <!-- degree title -->
                         <div class="form-group">
                             <div class="form-control-wrap">
-                                <input type="text"
+                                <input type="text" required
                                        class="form-control form-control-lg form-control-outlined"
                                        id="title" name="title">
                                 <label class="form-label-outlined" for="title">
                                     عنوان رشته
-                                </label></div>
+                                </label>
+                            </div>
                         </div>
+
+                        <!-- degree -->
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <select name="section" class="form-select js-select2 select2-hidden-accessible"
+                                        required
+                                        tabindex="-1" aria-hidden="true" id="degree">
+                                    <option value=""></option>
+                                </select>
+                                <label class="form-label-outlined" for="degree">مقطع تحصیلی</label>
+                            </div>
+                        </div>
+                        <br/><br/>
+
+                        <!-- wanted docs -->
                         <div class="form-group">
                             <div class="form-control-wrap">
                                 <label class="form-label-outlined" for=doc">
                                     مدارک مورد نیاز
                                 </label>
-                                <textarea class="form-control form-control-lg form-control-outlined"
-                                       id="doc" name="doc"></textarea>
+                                <textarea class="form-control form-control-lg form-control-outlined" id="doc"
+                                          name="doc"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- submit button -->
+                        <div class="form-group">
+                            <button type="submit" id="degree_submit"
+                                    class="btn btn-dim btn-outline-success float-right">
+                                ذخیره
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade show" tabindex="-1" id="create_section" style="display: none; padding-right: 12px;"
+         aria-modal="true" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        ایجاد مقطع
+                    </h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'educational:create_degree_section' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <input type="text" required
+                                       class="form-control form-control-lg form-control-outlined"
+                                       id="section" name="section">
+                                <label class="form-label-outlined" for="section">
+                                    اسم مقطع
+                                </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" id="degree_submit" class="btn btn-light float-right">
+                            <button type="submit" id="degree_submit"
+                                    class="btn btn-dim btn-outline-success float-right">
                                 ذخیره
                             </button>
                         </div>
