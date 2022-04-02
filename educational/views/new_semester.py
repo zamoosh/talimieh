@@ -4,7 +4,8 @@ from .imports import *
 def new_semester(request):
     if not (request.user.user_permissions.filter(name__contains='see') or request.user.is_superuser):
         return render(request, '404_page.html')
-    context = {'degree_fields': DegreeFieldStudy.objects.filter(status=True)}
+    context = {}
+    context['degree_fields'] = DegreeFieldStudy.objects.filter(status=True, parent__isnull=False)
     if request.method == 'POST':
         context['request'] = {}
         context['request']['uni'] = request.POST.get('uni', '').strip()

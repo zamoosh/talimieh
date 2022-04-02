@@ -9,5 +9,5 @@ def uni_degrees_show(request):
         context = {}
         uni = Universities.objects.get(id=request.GET.get('u'))
         context['uni'] = uni
-        return render(request, 'educational/uni_degrees.html', context)
+        return render(request, 'educational/uni_degrees_show.html', context)
     return redirect(reverse('educational:semesters'))

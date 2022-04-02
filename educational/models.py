@@ -43,7 +43,7 @@ class Semester(models.Model):
     entrance_price = models.CharField(max_length=25)
 
     def __str__(self):
-        return self.degree_field_study.title + '  ' + self.university.uni_name
+        return self.degree_field_study.title + ' ' + self.university.uni_name
 
 
 class EducationalRequest(models.Model):

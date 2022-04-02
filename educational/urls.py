@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('semester/api/', if_any_semester_active, name="if_any_semester_active"),
     path('get_degree/api/<int:t_id>/', get_degree, name="get_degree"),
+    path('get_degree_semesters/', get_degree_semesters, name='get_degree_semesters'),
 
     path('upload-new-doc/', upload_new_doc, name='upload_new_doc'),
     path('submit-upload/', submit_upload, name='submit_upload'),
