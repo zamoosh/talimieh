@@ -2,6 +2,8 @@ from .universities import universities
 from .year_semester import year_semester
 from .apis import *
 from .degree_field_study import degree_field_study
+from .uni_degrees_show import uni_degrees_show
+from .create_degree_section import create_degree_section
 from .semesters import semesters
 from .new_semester import new_semester
 from .submit_semester import submit_semester
@@ -18,4 +20,3 @@ from .request_single_detail import request_single_detail
 from .options import options
 from .option_single import *
 from .option_edit import option_edit
-from .uni_degrees_show import uni_degrees_show

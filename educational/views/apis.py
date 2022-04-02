@@ -50,3 +50,14 @@ def get_transaction_of_educational_request(request, er_id):
     context['f_expert'] = e.request_expert_financial
     context['r_expert'] = e.request_expert_register
     return JsonResponse(context, safe=False)
+
+
+@login_required
+def get_degree_field_sections(request):
+    context = []
+    sections = DegreeFieldStudy.objects.filter(parent__isnull=True, status=True)
+    for item in sections:
+        context.append(
+            {'id': item.id, 'title': item.title}
+        )
+    return JsonResponse(context, safe=False)

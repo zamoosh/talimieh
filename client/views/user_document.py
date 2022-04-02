@@ -3,7 +3,6 @@ from .imports import *
 
 def request_generator(user: 'user of djagno request', ids, data):
     r = EducationalRequest.objects.create(user=user,
-                                          title=data['title'],
                                           average=data['average'],
                                           former_university=data['former_university'],
                                           former_field_study=data['former_field_study'])
@@ -17,6 +16,7 @@ def request_generator(user: 'user of djagno request', ids, data):
     r.save()
 
 
+@login_required
 def user_document(request):
     context = {}
     context['documents'] = OwnerDocument.objects.filter(user=request.user.id)
@@ -24,13 +24,13 @@ def user_document(request):
     return render(request, 'client/user_document.html', context)
 
 
+@login_required
 def user_document_upload(request):
     if request.method == "POST":
         sem_list = []
         for item in request.POST.getlist('sem'):
             sem_list.append(Semester.objects.get(id=item))
         data = {}
-        data['title'] = request.POST.get('title')
         data['former_university'] = request.POST.get('former_university')
         data['former_field_study'] = request.POST.get('former_field_study')
         data['average'] = request.POST.get('average')

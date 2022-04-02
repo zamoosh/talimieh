@@ -13,10 +13,11 @@ def degree_field_study(request):
         degree_field_study.title = context['req']['title']
         degree_field_study.document = context['req']['doc']
         degree_field_study.status = True
+        degree_field_study.parent = DegreeFieldStudy.objects.get(id=request.POST.get('section'))
         degree_field_study.save()
     if 'remove' in request.GET:
         context['rmYear'] = DegreeFieldStudy.objects.get(id=int(request.GET.get('remove')))
-        context['rmYear'].register_status = 0
+        context['rmYear'].status = 0
         context['rmYear'].save()
         context['remove'] = True
     return render(request, 'educational/degree_field_study.html', context)
