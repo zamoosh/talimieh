@@ -1,6 +1,7 @@
 from .imports import *
 
 
+@login_required
 def uni_request(request):
     context = {'educational_request': EducationalRequest.objects.all()}
     if request.method == 'POST':
@@ -16,6 +17,7 @@ def uni_request(request):
     return render(request, 'educational/uni_request.html', context)
 
 
+@login_required
 def uni_request_submit(request):
     context = {}
     if 'e_request' in request.session:

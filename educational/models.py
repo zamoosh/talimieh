@@ -60,7 +60,6 @@ class EducationalRequest(models.Model):
     step = models.CharField(default=REQUEST_STEPS[0], max_length=1, choices=REQUEST_STEPS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=50, blank=False)
     average = models.CharField(max_length=10, blank=True, null=True)
     former_field_study = models.CharField(max_length=25, blank=True, null=True)
     former_university = models.CharField(max_length=25, blank=True, null=True)
@@ -71,15 +70,10 @@ class EducationalRequest(models.Model):
                                                  related_name='request_expert_financial')
     request_expert_educational = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True,
                                                    related_name='request_expert_educational')
-    paid = models.BooleanField(default=False)
     final_status = models.BooleanField(default=False)
-    register_status = models.BooleanField(default=False)
-    educational_status = models.BooleanField(default=False)
-    educational_status_2 = models.BooleanField(default=False)
-    financial_status = models.BooleanField(default=False)
-    financial_status_2 = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
     tracking_code = models.CharField(max_length=20, blank=True, null=True)
+    paid = models.BooleanField(default=False)
     total_coast = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     class Meta:
@@ -109,7 +103,7 @@ class EducationalRequest(models.Model):
             return 'درخواست شما رد شده است'
 
     def __str__(self):
-        return f'{self.id} {self.title} {self.user}'
+        return f'{self.id} {self.user}'
 
 
 class Option(models.Model):
@@ -135,7 +129,7 @@ class SelectedSemester(models.Model):
     educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'selected semester: {self.semester} {self.educational_request.title}'
+        return f'selected semester: {self.semester} {self.educational_request.paid}'
 
 
 def owner_image(instance, filename):

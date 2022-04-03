@@ -75,6 +75,40 @@
             buttonLoader();
         })
     </script>
+
+    <script>
+        function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        let se = document.getElementById('collage');
+        for (let i = 0; i < 10; i++) {
+            se.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+        $.ajax({
+            url: '{% url 'client:get_document' %}',
+            type: "GET",
+            send: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (data) {
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -103,22 +137,6 @@
                                                     </div>
                                                     <br>
                                                     <div class="row gy-4">
-                                                        <!-- request title -->
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label class="form-label"
-                                                                       for="title">
-                                                                    موضوع درخواست
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" required
-                                                                           class="form-control"
-                                                                           name="title"
-                                                                           placeholder="موضوع درخواست"
-                                                                           id="title">
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
                                                         <!-- user average -->
                                                         <div class="col-sm-6">
@@ -167,6 +185,26 @@
                                                                            name="former_field_study"
                                                                            placeholder="رشته‌ی تحصیلی قبلی"
                                                                            id="former_field_study">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- blank space -->
+                                                        <div class="col-sm-6"></div>
+
+                                                        <!-- section -->
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="section">
+                                                                    مقطع تحصیلی
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <select class="form-select select2-hidden-accessible"
+                                                                            data-ui="lg" id="collage" data-search="on"
+                                                                            name="collage" data-select2-id="uni"
+                                                                            tabindex="-1" aria-hidden="true"></select>
+                                                                    <label class="form-label-outlined" for="collage">مقطع</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -225,7 +263,7 @@
                                                         ثبت اطلاعات
                                                     </button>
                                                     <a type="button" href="{% url 'educational:upload_new_doc' %}"
-                                                            class="btn btn-dim btn-outline-info float-left">
+                                                       class="btn btn-dim btn-outline-info float-left">
                                                         آپلود مدرک جدید
                                                     </a>
                                                 </div>

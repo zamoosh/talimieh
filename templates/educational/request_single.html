@@ -104,6 +104,13 @@
 
                                                 <!-- content of request -->
                                                 <div class="card-inner">
+
+                                                    <!-- request cost -->
+                                                    <div class="nk-block">
+                                                        sdfw
+                                                    </div>
+                                                    <br><br>
+
                                                     <!-- person info -->
                                                     <div class="nk-block content" id="personal">
                                                         <div class="profile-ud-list">
@@ -457,7 +464,6 @@
                                                             <!-- reject form -->
                                                             <form action="{% url 'educational:request_single_remove' r.id %}"
                                                                   method="post" class="profile-ud-item">
-                                                                {#                                                                {% if r|can_reject %}#}
                                                                 {% csrf_token %}
                                                                 {% if perms.educational.can_see_register_request %}
                                                                     {% if r_con %}
@@ -500,9 +506,7 @@
                                                                             رد کردن مرحله‌ی دوم مالی
                                                                         </button>
                                                                     {% endif %}
-
                                                                 {% endif %}
-                                                                {#                                                                {% endif %}#}
                                                             </form>
                                                         </div>
                                                     </div>
