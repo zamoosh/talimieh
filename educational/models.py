@@ -52,7 +52,7 @@ class EducationalRequest(models.Model):
         (2, 'باید توسط کارشناس مالی تائید شود'),
         (3, 'باید توسط کارشناس آموزشی تائید شود')
     ]
-    step = models.CharField(default=REQUEST_STEPS[1], max_length=1, choices=REQUEST_STEPS)
+    step = models.CharField(default=REQUEST_STEPS[0], max_length=1, choices=REQUEST_STEPS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=50, blank=False)
@@ -68,7 +68,7 @@ class EducationalRequest(models.Model):
     tracking_code = models.CharField(max_length=20, blank=True, null=True)
 
     def get_step(self):
-        index = int(self.step[1])
+        index = int(self.step[1]) - 1
         return self.REQUEST_STEPS[index][1]
 
     def __str__(self):
