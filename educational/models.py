@@ -47,6 +47,12 @@ class Semester(models.Model):
 
 
 class EducationalRequest(models.Model):
+    REQUEST_STEPS = [
+        (1, 'باید توسط کارشناس ثبت‌نام تائید شود'),
+        (2, 'باید توسط کارشناس مالی تائید شود'),
+        (3, 'باید توسط کارشناس آموزشی تائید شود')
+    ]
+    step = models.CharField(default=REQUEST_STEPS[1], max_length=1, choices=REQUEST_STEPS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=50, blank=False)
@@ -105,3 +111,18 @@ class OwnerDocument(models.Model):
         if self.image:
             self.image.delete(self.image.name)
         super(OwnerDocument, self).delete()
+
+
+class Message(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    message_expert = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='message_expert')
+    user_seen = models.BooleanField(default=False, blank=True, null=True)
+    user_seen_date = models.DateTimeField(default=None, blank=True, null=True)
+    expert_seen = models.BooleanField(default=False, blank=True, null=True)
+    expert_seen_date = models.DateTimeField(default=None, blank=True, null=True)
+
+    def __str__(self):
+        return f'message: owner: {self.owner} expert: {self.message_expert}'
