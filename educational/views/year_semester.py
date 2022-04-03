@@ -5,7 +5,10 @@ from .imports import *
 def year_semester(request):
     context = {'year_semesters': YearSemester.objects.all()}
     if request.method == "POST":
-        context['req'] = {'year': request.POST.get('year', '').strip(), 'term': request.POST.get('term', '').strip()}
+        context['req'] = {
+            'year': request.POST.get('year', '').strip(),
+            'term': request.POST.get('term', '').strip()
+        }
         semester_year = YearSemester()
         semester_year.title = context['req']['year']
         if context['req']['term']:
@@ -16,7 +19,7 @@ def year_semester(request):
         if counter > 1:
             break
         if hasattr(item.parent, 'title'):
-            if item.register_status:
+            if item.status:
                 counter += 1
     if counter > 1:
         context['msg'] = True

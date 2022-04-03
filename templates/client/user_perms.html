@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{% load perm_to_persian %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 {% block css %}
 
@@ -29,50 +30,79 @@
                                                     <div class="nk-block-between">
                                                         <div class="nk-block-head-content">
                                                             <h4 class="nk-block-title">
-                                                                {% if user.first_name %}
-                                                                    کاربر {{ user.first_name }}
-                                                                {% else %}
-                                                                    کاربر {{ user }}
-                                                                {% endif %}
+                                                                کاربر {{ request.user.first_name }} {{ request.user.last_name }}
                                                             </h4>
                                                         </div>
-                                                        <div class="nk-block-head-content align-self-start d-lg-none"><a
-                                                                href="#" class="toggle btn btn-icon btn-trigger mt-n1"
-                                                                data-target="userAside"><em
-                                                                class="icon ni ni-menu-alt-r"></em></a></div>
+                                                        <div class="nk-block-head-content align-self-start d-lg-none">
+                                                            <a href="#" class="toggle btn btn-icon btn-trigger mt-n1"
+                                                               data-target="userAside"><em
+                                                                    class="icon ni ni-menu-alt-r"></em>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="nk-block" data-select2-id="6">
                                                     <div class="nk-data data-list" data-select2-id="5">
-
-
                                                         <table class="table">
                                                             <thead>
                                                             <tr>
                                                                 <th scope="col">ردیف</th>
-                                                                <th scope="col">نام گروه</th>
+                                                                <th scope="col">سطح دسترسی</th>
                                                                 <th scope="col">وضعیت</th>
+                                                                <th scope="col">تنظیم</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {% for group in groups %}
+                                                            {% for perm in user_perms %}
                                                                 <tr>
                                                                     <th scope="row">{{ forloop.counter }}</th>
-                                                                    <td>{{ group.name }}</td>
                                                                     <td>
-                                                                        <form action="{% url 'client:user_set_perms' group.id user.id %}"
+                                                                        {% if user in perm.user_set.all %}
+                                                                            <span class="text text-success">{{ perm|perm_to_persian }}</span>
+                                                                        {% else %}
+                                                                            <span class="text text-danger">{{ perm|perm_to_persian }}</span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if user in perm.user_set.all %}
+                                                                            <em class="icon ni ni-check-circle text-success"
+                                                                                style="font-size: 1.475rem"></em>
+                                                                        {% else %}
+                                                                            <em class="icon ni ni-cross-circle text-danger"
+                                                                                style="font-size: 1.475rem"></em>
+                                                                        {% endif %}
+                                                                    <td>
+                                                                        <form action="{% url 'client:user_set_perms' perm.id user.id %}"
                                                                               method="post">
                                                                             {% csrf_token %}
-                                                                            {% if user in group.user_set.all %}
-                                                                                <input class="btn btn-lighter"
-                                                                                       type="submit"
-                                                                                       value="del"
-                                                                                       name="{{ group.id }}">
+                                                                            {% if user in perm.user_set.all %}
+                                                                                {% if perm.name == 'can choose expert from users' %}
+                                                                                    <button type="submit"
+                                                                                            name="{{ perm.id }}"
+                                                                                            class="btn btn-lighter"
+                                                                                            disabled>del
+                                                                                    </button>
+                                                                                {% else %}
+                                                                                    <button type="submit"
+                                                                                            name="{{ perm.id }}"
+                                                                                            class="btn btn-lighter"
+                                                                                            >del
+                                                                                    </button>
+                                                                                {% endif %}
                                                                             {% else %}
-                                                                                <input class="btn btn-lighter"
-                                                                                       type="submit"
-                                                                                       value="set"
-                                                                                       name="{{ group.id }}">
+                                                                                {% if perm.name == 'can choose expert from users' %}
+                                                                                    <button type="submit"
+                                                                                            name="{{ perm.id }}"
+                                                                                            class="btn btn-lighter"
+                                                                                            disabled>set
+                                                                                    </button>
+                                                                                {% else %}
+                                                                                    <button type="submit"
+                                                                                            name="{{ perm.id }}"
+                                                                                            class="btn btn-lighter"
+                                                                                            >set
+                                                                                    </button>
+                                                                                {% endif %}
                                                                             {% endif %}
                                                                         </form>
                                                                     </td>
@@ -83,7 +113,8 @@
                                                     </div>
                                                 </div>
                                                 <a href="{% url 'client:users' %}"
-                                                   class="btn btn-block btn-dim btn-outline-light mt-3 float-sm-left">برگشت به صفحه‌ی
+                                                   class="btn btn-block btn-dim btn-outline-light mt-3 float-sm-left">برگشت
+                                                    به صفحه‌ی
                                                     کارشناسان</a>
                                             </div>
                                         </div>

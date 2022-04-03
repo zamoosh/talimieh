@@ -10,4 +10,4 @@ from .edit_university_terms import edit_university_terms
 from .upload_new_doc import upload_new_doc
 from .submit_upload import submit_upload
 from .requests import requests
-from .request_single import request_single
+from .request_single import *
