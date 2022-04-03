@@ -407,7 +407,7 @@
                                                     <div class="card-inner">
                                                         <div class="profile-ud-list">
                                                             <!-- accept form -->
-                                                            <form action="{% url 'educational:request_single_detail' r.id %}"
+                                                            <form action="{% url 'educational:request_single_confirm' r.id %}"
                                                                   method="post" class="profile-ud-item">
                                                                 {% csrf_token %}
                                                                 {% if perms.educational.can_see_register_request or request.user.is_superuser %}
@@ -429,6 +429,12 @@
                                                                         <button type="submit"
                                                                                 class="btn btn-block btn-dim btn-success">
                                                                             تائید کردن مرحله‌ی دوم آموزشی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                    {% if e_con_3 %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن مرحله‌ی سوم آموزشی
                                                                         </button>
                                                                     {% endif %}
                                                                 {% endif %}
@@ -472,6 +478,12 @@
                                                                         <button type="submit"
                                                                                 class="btn btn-block btn-dim btn-danger">
                                                                             رد کردن مرحله‌ی دوم آموزشی
+                                                                        </button>
+                                                                    {% endif %}
+                                                                    {% if e_con_3 %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger">
+                                                                            رد کردن مرحله‌ی سوم آموزشی
                                                                         </button>
                                                                     {% endif %}
                                                                 {% endif %}

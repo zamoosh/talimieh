@@ -10,7 +10,9 @@ from .edit_university_terms import edit_university_terms
 from .upload_new_doc import upload_new_doc
 from .submit_upload import submit_upload
 from .requests import requests
-from .request_single import *
+from .request_single_confirm import *
+from .request_single_remove import request_single_remove
+from .request_single_detail import request_single_detail
 from .options import options
 from .option_single import *
 from .option_edit import *

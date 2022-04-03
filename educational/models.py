@@ -53,7 +53,8 @@ class EducationalRequest(models.Model):
         (3, 'must be approved by a financial expert'),
         (4, 'must be re-approved by the educational expert'),
         (5, 'must be re-approved by the financial expert'),
-        (6, 'request is submitted'),
+        (6, 'educational expert must approved final submit'),
+        (7, 'request is submitted'),
         (0, 'request is rejected')
     ]
     step = models.CharField(default=REQUEST_STEPS[0], max_length=1, choices=REQUEST_STEPS)
@@ -101,6 +102,8 @@ class EducationalRequest(models.Model):
         elif int(self.REQUEST_STEPS[index][0]) == 5:
             return 'باید دوباره توسط کارشناس مالی تائید شود'
         elif int(self.REQUEST_STEPS[index][0]) == 6:
+            return 'کارشناس آموزشی باید آخرین تائید را انجام دهد'
+        elif int(self.REQUEST_STEPS[index][0]) == 7:
             return 'درخواست به طور کامل تائید شده است'
         elif int(self.REQUEST_STEPS[index][0]) == 0:
             return 'درخواست شما رد شده است'
