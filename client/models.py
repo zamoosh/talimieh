@@ -37,3 +37,12 @@ class User(AbstractUser):
         permissions = [
             ('can_send_request', 'can send request? (documents must be accepted!)')
         ]
+
+
+class Message(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    seen = models.DateTimeField(auto_now=True, blank=True, null=True)
+    user_seen = models.BooleanField(default=False, blank=True, null=True)
+    expert_seen = models.BooleanField(default=False, blank=True, null=True)
