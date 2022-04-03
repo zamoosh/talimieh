@@ -16,7 +16,7 @@ def year_semester(request):
         if counter > 1:
             break
         if hasattr(item.parent, 'title'):
-            if item.status:
+            if item.register_status:
                 counter += 1
     if counter > 1:
         context['msg'] = True

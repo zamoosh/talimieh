@@ -139,6 +139,51 @@
                                                                         </span>
                                                                 </div>
                                                             </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">کارشناس ثبت‌نام</span>
+                                                                    <span class="profile-ud-value">
+                                                                        {% if r.request_expert_register %}
+                                                                            <span class="text text-azure">
+                                                                            {{ r.request_expert_register.first_name }}
+                                                                            {{ r.request_expert_register.last_name }}
+                                                                            </span>
+                                                                        {% else %}
+                                                                            ندارد
+                                                                        {% endif %}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">کارشناس مالی</span>
+                                                                    <span class="profile-ud-value">
+                                                                        {% if r.request_expert_financial %}
+                                                                            <span class="text text-azure">
+                                                                            {{ r.request_expert_financial.first_name }}
+                                                                            {{ r.request_expert_financial.last_name }}
+                                                                            </span>
+                                                                        {% else %}
+                                                                            ندارد
+                                                                        {% endif %}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label">کارشناس آموزشی</span>
+                                                                    <span class="profile-ud-value">
+                                                                        {% if r.request_expert_educational %}
+                                                                            <span class="text text-azure">
+                                                                            {{ r.request_expert_educational.first_name }}
+                                                                            {{ r.request_expert_educational.last_name }}
+                                                                            </span>
+                                                                        {% else %}
+                                                                            ندارد
+                                                                        {% endif %}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <form action="{% url 'educational:request_single_detail' r.id %}"
                                                               method="post">
