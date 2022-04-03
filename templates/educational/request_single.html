@@ -1,4 +1,6 @@
-{% extends "base.html" %}{% load have_educational_request %}
+{% extends "base.html" %}
+{% load have_educational_request %}
+{% load can_reject %}
 {% load static %}
 {% load jformat %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
@@ -88,6 +90,7 @@
                                                     {#                                                                                                        data-target="userAside"><em#}
                                                     {#                                                            class="icon ni ni-user-list-fill"></em></a></li>#}
                                                 </ul>
+
                                                 <div class="card-inner">
                                                     <!-- person info -->
                                                     <div class="nk-block content" id="personal">
@@ -147,6 +150,7 @@
 
                                                     <!-- request info -->
                                                     <div class="nk-block content" id="request" style="display: none">
+                                                        <!-- request content -->
                                                         <div class="profile-ud-list">
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
@@ -188,16 +192,6 @@
                                                             </div>
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label">پرداخت</span>
-                                                                    {% if r.paid %}
-                                                                        <span class="profile-ud-value text-success">شده</span>
-                                                                    {% else %}
-                                                                        <span class="profile-ud-value text-danger">نشده</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
-                                                            <div class="profile-ud-item">
-                                                                <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">تائید نهایی</span>
                                                                     {% if r.status %}
                                                                         <span class="profile-ud-value text-success">شده</span>
@@ -206,43 +200,62 @@
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
-                                                            <div class="profile-ud-item">
-                                                                <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label">ارسال</span>
-                                                                    {% if r.sent %}
-                                                                        <span class="profile-ud-value text-success">شده</span>
-                                                                    {% else %}
-                                                                        <span class="profile-ud-value text-danger">نشده</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                        <form action="{% url 'educational:request_single_detail' r.id %}"
-                                                              method="post">
-                                                            {% csrf_token %}
-                                                            {% if perms.educational.can_see_register_request %}
-                                                                {% if r.register_status is False %}
-                                                                    <button type="submit"
-                                                                            class="btn btn-block btn-dim btn-success">
-                                                                        تائید کردن
-                                                                    </button>
+
+                                                        <!-- request form section -->
+                                                        <div class="profile-ud-list">
+                                                            <!-- accept form -->
+                                                            <form action="{% url 'educational:request_single_detail' r.id %}"
+                                                                  method="post" class="profile-ud-item">
+                                                                {% csrf_token %}
+                                                                {% if perms.educational.can_see_register_request %}
+                                                                    {% if r.register_status is False and r.reject is False %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success center">
+                                                                            تائید کردن
+                                                                        </button>
+                                                                    {% endif %}
+                                                                {% elif perms.educational.can_see_financial_request %}
+                                                                    {% if r.financial_status is False and r.reject is False %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن
+                                                                        </button>
+                                                                    {% endif %}
+                                                                {% elif perms.educational.can_see_educational_request %}
+                                                                    {% if r.educational_status is False and r.reject is False %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-success">
+                                                                            تائید کردن
+                                                                        </button>
+                                                                    {% endif %}
                                                                 {% endif %}
-                                                            {% elif perms.educational.can_see_financial_request %}
-                                                                {% if r.financial_status is False %}
-                                                                    <button type="submit"
-                                                                            class="btn btn-block btn-dim btn-success">
-                                                                        تائید کردن
-                                                                    </button>
+                                                            </form>
+
+                                                            <!-- reject form -->
+                                                            <form action="{% url 'educational:request_single_remove' r.id %}"
+                                                                  method="post" class="profile-ud-item">
+                                                                {% if r|can_reject %}
+                                                                    {% csrf_token %}
+                                                                    {% if perms.educational.can_see_register_request %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger center">
+                                                                            رد کردن
+                                                                        </button>
+                                                                    {% elif perms.educational.can_see_financial_request %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger">
+                                                                            رد کردن
+                                                                        </button>
+                                                                    {% elif perms.educational.can_see_educational_request %}
+                                                                        <button type="submit"
+                                                                                class="btn btn-block btn-dim btn-danger">
+                                                                            رد کردن
+                                                                        </button>
+                                                                    {% endif %}
                                                                 {% endif %}
-                                                            {% elif perms.educational.can_see_educational_request %}
-                                                                {% if r.educational_status is False %}
-                                                                    <button type="submit"
-                                                                            class="btn btn-block btn-dim btn-success">
-                                                                        تائید کردن
-                                                                    </button>
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        </form>
+                                                            </form>
+                                                        </div>
                                                     </div>
 
                                                     <!-- transition status -->
@@ -317,12 +330,28 @@
                                                                 </span>
                                                                 </div>
                                                             </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">رد شده یا نه</span>
+                                                                    <span class="profile-ud-value">
+                                                                    {% if r.reject %}
+                                                                        <span class="text text-danger">
+                                                                        رد شده است
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text text-gray">
+                                                                        شناور
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <!-- upload -->
                                                     <div class="nk-block content" id="upload" style="display: none">
-                                                        <table class="nowrap table">
+                                                        <table class="table table-striped">
                                                             <thead>
                                                             <tr>
                                                                 <th>عنوان فایل</th>
@@ -345,7 +374,8 @@
                                                                            data-toggle="modal"
                                                                            data-target="#image{{ forloop.counter0 }}">
                                                                             <img src="{{ document.image.url }}"
-                                                                                 alt="" style="width: 50px"
+                                                                                 alt=""
+                                                                                 style="width: 50px; border-radius: 3px"
                                                                                  id="image-pre{{ forloop.counter0 }}">
                                                                         </a>
                                                                     </td>
@@ -379,7 +409,7 @@
                         </a>
                     </div>
                     <div class="modal-body-lg">
-                        <img src="" alt="" id="img-modal{{ forloop.counter0 }}">
+                        <img src="" alt="" id="img-modal{{ forloop.counter0 }}" style="border-radius: 6px">
                     </div>
                 </div>
             </div>

@@ -72,8 +72,10 @@ class EducationalRequest(models.Model):
     register_status = models.BooleanField(default=False)
     educational_status = models.BooleanField(default=False)
     financial_status = models.BooleanField(default=False)
-    sent = models.BooleanField(default=False)
+    reject = models.BooleanField(default=False)
     tracking_code = models.CharField(max_length=20, blank=True, null=True)
+
+    # total_coast = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     class Meta:
         permissions = [
@@ -89,6 +91,24 @@ class EducationalRequest(models.Model):
     def __str__(self):
         return f'{self.id} {self.title} {self.user}'
 
+
+#
+# class Option(models.Model):
+#     name = models.CharField(max_length=50)
+#     price = models.DecimalField(max_digits=10, decimal_places=0)
+#     create_date = models.DateTimeField(auto_now_add=True)
+#     update_date = models.DateTimeField(null=True, blank=True, auto_now=True)
+#
+#
+# class SelectedOption(models.Model):
+#     option = models.ForeignKey(Option, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#
+#
+# class Factor(models.Model):
+#     option = models.ForeignKey(Option, on_delete=models.CASCADE)
+#     status = models.BooleanField(default=False)
+#
 
 class SelectedSemester(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
