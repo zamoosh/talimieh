@@ -19,7 +19,7 @@ def if_any_semester_active(request):
 @login_required
 def get_uni(request):
     context = []
-    for i in Universities.objects.filter(status=True):
+    for i in Universities.objects.filter(semester__isnull=True):
         context.append({'id': i.pk, 'title': i.uni_name, 'status': i.status})
     return JsonResponse(context, safe=False)
 

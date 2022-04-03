@@ -98,15 +98,12 @@
                                                                     {% for uni_semester in uni_semesters %}
                                                                         <tr>
                                                                             <td>{{ uni_semester.uni_name }}</td>
-                                                                            <td><a class="open-modal"
-                                                                                   data-url="
-
-
-
-                                                                                           
-                                                                                           
-                                                                                           {% if uni_semester %}{% url 'educational:get_degree' uni_semester.id %}{% endif %}">مشاهده
-                                                                                رشته ها</a></td>
+                                                                            <td>
+                                                                                <a class="open-modal"
+                                                                                   data-url="{% if uni_semester %}{% url 'educational:get_degree' uni_semester.id %}{% endif %}">
+                                                                                مشاهده رشته ها
+                                                                                </a>
+                                                                            </td>
                                                                             <td>
                                                                                 <a href="{% url 'educational:uni_edit_terms' uni_semester.id %}"
                                                                                    class="btn btn-outline-light">ویرایش</a>
