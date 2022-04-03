@@ -6,6 +6,8 @@
     <style>
         .document-image {
             width: 80px;
+            border-radius: 4px;
+
         }
 
         .table-row {
@@ -49,7 +51,10 @@
                             ${element.title}
                         </td>
                         <td class="table-row">
-                            <input type="checkbox" name="images" id="${i}"  value="${element.id}">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="images" id="${i}" value="${element.id}">
+                                <label class="custom-control-label" for="${i}"></label>
+                            </div>
                         </td>
                     </tr>
                     `)
@@ -193,11 +198,10 @@
                                                     <div>مدارک مورد نیاز برای رشته و دانشگاه :</div>
                                                     {{ uni_dic.document }}
                                                     <div class="col-12">
-                                                        <span class="pt-5">مدارک شما :</span>
-
+                                                        <span class="pt-5">مدارک شما:</span>
                                                         <div class="card card-preview">
                                                             <div class="card-inner">
-                                                                <table class="table">
+                                                                <table class="table table-striped">
                                                                     <thead>
                                                                     <tr>
                                                                         <th scope="col">ردیف</th>
