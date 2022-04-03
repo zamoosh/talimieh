@@ -85,6 +85,7 @@
                                 <div class="nk-block">
                                     <div class="card p-5">
                                         <a href="{% url 'educational:upload_new_doc' %}">
+                                            <h4> آپلود مدرک جدید</h4>
                                             <em class="ni ni-upload"></em>
                                         </a>
 
@@ -159,8 +160,8 @@
                                                             {% for sem in semesters %}
                                                                 <div class="col-md-6 col-sm-2">
                                                                     <div class="preview-block">
-                                                                        <div class="custom-control custom-radio checked">
-                                                                            <input type="radio" id="sem{{ sem.id }}"
+                                                                        <div class="custom-control custom-checkbox checked">
+                                                                            <input type="checkbox" id="sem{{ sem.id }}"
                                                                                    name="sem"
                                                                                    class="custom-control-input" required
                                                                                    value="{{ sem.id }}">

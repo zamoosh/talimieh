@@ -4,11 +4,12 @@ from client.models import User
 
 def user_perms(request, u_id):
     if request.method == 'GET':
+        u = User.objects.get(id=u_id)
         context = {}
-        context['user'] = request.user
+        context['user'] = u
         context['user_perms'] = request.user.groups.all()
         context['groups'] = Group.objects.filter(
-            (Q(name__contains='expert') | Q(name__contains='admin')) & ~Q(user=request.user))
+            (Q(name__contains='expert') | Q(name__contains='admin')) & ~Q(user=u))
         return render(request, 'client/user_perms.html', context)
 
 
