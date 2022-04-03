@@ -30,5 +30,5 @@ urlpatterns = [
 
     path('requests/', requests, name='requests'),
     path('request-single/', request_single, name='request_single'),
-    path('request-single/<int:r_id>/', request_single, name='request_single'),
+    path('request-single/<int:r_id>/', request_single, name='request_single_detail'),
 ]

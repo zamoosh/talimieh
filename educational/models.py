@@ -54,6 +54,8 @@ class EducationalRequest(models.Model):
     former_field_study = models.CharField(max_length=25, blank=True, null=True)
     former_university = models.CharField(max_length=25, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    request_expert = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True,
+                                       related_name='request_expert')
     paid = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
     sent = models.BooleanField(default=False)

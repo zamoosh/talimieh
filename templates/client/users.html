@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load is_expert %}
 {% load static %}
 {% load jformat %}
 {% block title %}پنل مدیریت اعضا - نسل تعلیمیه{% endblock %}
@@ -49,7 +49,7 @@
                                                                             <td>{{ user.last_name }}</td>
                                                                             <td>{{ user.username }}</td>
                                                                             <td>
-                                                                                {% if user.is_staff %}
+                                                                                {% if user|is_expert %}
                                                                                     <em class="icon ni ni-check-circle text-success"
                                                                                         style="font-size: 1.475rem"></em>
                                                                                 {% else %}

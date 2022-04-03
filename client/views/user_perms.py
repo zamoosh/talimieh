@@ -7,9 +7,8 @@ def user_perms(request, u_id):
         u = User.objects.get(id=u_id)
         context = {}
         context['user'] = u
-        context['user_perms'] = request.user.groups.all()
-        context['groups'] = Group.objects.filter(
-            (Q(name__contains='expert') | Q(name__contains='admin')) & ~Q(user=u))
+        context['user_perms'] = u.groups.all()
+        context['groups'] = Group.objects.filter(Q(name__contains='کارشناس') | Q(name__contains='مدیر'))
         return render(request, 'client/user_perms.html', context)
 
 

@@ -35,19 +35,18 @@
                                     </div>
                                     <div class="card card-preview">
                                         <div class="card-inner">
-                                            موضوع درخواست: {{ request.title }}<br><br>
-                                            تاریخ ساخت درخواست: {{ request.created_at }}<br><br>
-                                            معدل: {{ request.average }}<br><br>
-                                            دانشگاه قبلی: {{ request.former_unversity }}<br><br>
-                                            کدرهگیری درخواست: {{ request.tracking_code }}<br><br>
-                                            پرداخت شده: {{ request.paid }}<br><br>
-                                            قبول شده: {{ request.status }}<br><br>
+                                            موضوع درخواست: {{ r.title }}<br><br>
+                                            تاریخ ساخت درخواست: {{ r.created_at }}<br><br>
+                                            معدل: {{ r.average }}<br><br>
+                                            دانشگاه قبلی: {{ r.former_unversity }}<br><br>
+                                            کدرهگیری درخواست: {{ r.tracking_code }}<br><br>
+                                            پرداخت شده: {{ r.paid }}<br><br>
+                                            قبول شده: {{ r.status }}<br><br>
                                             <hr class="bi-hr">
-                                            {% for od in request.ownerdocument_set.all %}
+                                            {% for od in r.ownerdocument_set.all %}
                                                 مدرک: {{ od.title }}
                                                 <img src="{{ od.image.url }}" alt="">
                                             {% endfor %}
-
                                         </div>
                                     </div>
                                 </div>
