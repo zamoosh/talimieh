@@ -49,12 +49,15 @@ class Semester(models.Model):
 class EducationalRequest(models.Model):
     title = models.CharField(max_length=50, blank=False)
     average = models.CharField(max_length=10, blank=True, null=True)
-    field_study = models.CharField(max_length=25, blank=True, null=True)
+    former_field_study = models.CharField(max_length=25, blank=True, null=True)
     former_university = models.CharField(max_length=25, blank=True, null=True)
-    college = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    selected_semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     status = models.BooleanField(default=False)
     sent = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.id} {self.title} {self.user}'
 
 
 def owner_image(instance, filename):
