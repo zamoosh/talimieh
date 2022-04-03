@@ -28,5 +28,5 @@ urlpatterns = [
 
     path('reports/', reports, name='reports'),
 
-    # path('request/')
+    path('requests/', requests, name='requests'),
 ]

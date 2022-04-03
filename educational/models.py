@@ -47,7 +47,7 @@ class Semester(models.Model):
 
 
 class EducationalRequest(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, blank=False)
     average = models.CharField(max_length=10, blank=True, null=True)
     field_study = models.CharField(max_length=25, blank=True, null=True)
     former_university = models.CharField(max_length=25, blank=True, null=True)

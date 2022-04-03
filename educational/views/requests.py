@@ -2,4 +2,5 @@ from .imports import *
 
 
 def requests(request):
-    pass
+    context = {'requests': EducationalRequest.objects.all()}
+    return render(request, 'educational/requests.html')
