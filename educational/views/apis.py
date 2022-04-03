@@ -37,7 +37,8 @@ def get_degree(request, t_id):
     context = []
     for i in Semester.objects.filter(university=t_id):
         context.append(
-            {'id': i.pk, 'title': i.degree_field_study.title, 'uni': i.university.uni_name, 'bors': i.scholarship})
+            {'id': i.pk, 'title': i.degree_field_study.title, 'uni': i.university.uni_name, 'bors': i.scholarship}
+        )
     return JsonResponse(context, safe=False)
 
 
@@ -61,3 +62,16 @@ def get_degree_field_sections(request):
             {'id': item.id, 'title': item.title}
         )
     return JsonResponse(context, safe=False)
+
+
+@login_required
+def get_degree_semesters(request):
+    section = DegreeFieldStudy.objects.get(id=request.POST.get('d_id'))
+    degrees = DegreeFieldStudy.objects.filter(parent=section)
+    sem_list = []
+    for degree in degrees:
+        for sem in degree.semester_set.all():
+            sem_list.append(
+                {'id': sem.id, 'title': sem.__str__()}
+            )
+    return JsonResponse(sem_list, safe=False)

@@ -12,7 +12,7 @@ def edit_university_terms(request, u_id):
     context['r'] = {}
     context['university'] = university
     context['r']['uni'] = university.id
-    context['all_fields'] = DegreeFieldStudy.objects.all()
+    context['all_fields'] = DegreeFieldStudy.objects.filter(status=True, parent__isnull=False)
     context['degree_selected'] = degree_selected
     if request.method == 'POST':
         university = get_object_or_404(Universities, id=u_id)
