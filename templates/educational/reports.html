@@ -13,8 +13,8 @@
             dataUnit: "نفر",
             legend: !1,
             datasets: [{
-                borderColor: "#fff",
-                background: ["#b695ff", "#f4aaa4", "#8feac5"],
+                borderColor: "rgb(50,50,50)",
+                background: ["rgba(75,117,255,0.87)", "#1fb634", "#dc1717"],
                 data: [{{request_number}}, {{ accepted }}, {{ rejected }}]
             }]
         };
@@ -24,7 +24,7 @@
             $selector.each(function () {
                 for (var $self = $(this), _self_id = $self.attr("id"), _get_data = void 0 === set_data ? eval(_self_id) : set_data, selectCanvas = document.getElementById(_self_id).getContext("2d"), chart_data = [], i = 0; i < _get_data.datasets.length; i++) chart_data.push({
                     backgroundColor: _get_data.datasets[i].background,
-                    borderWidth: 2,
+                    borderWidth: 1,
                     borderColor: _get_data.datasets[i].borderColor,
                     hoverBorderColor: _get_data.datasets[i].borderColor,
                     data: _get_data.datasets[i].data
@@ -83,47 +83,47 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card">
-
-
                                         <div class="nk-block nk-block-lg">
                                             <div class="card card-preview">
                                                 <div class="card-inner">
                                                     <div class="row g-gs">
-                                                        <div class="col-sm-12">
-                                                            <div class="card text-white bg-gray">
-                                                                <div class="card-header">تعداد کل درخواست‌ها</div>
+                                                        <div class="col-sm-4">
+                                                            <div class="card text-black-50 bg-gray-200">
+                                                                <div class="card-header center">درخواست‌ها</div>
                                                                 <div class="card-inner"><h5 class="card-title"></h5>
-                                                                    <p class="card-text text-black-50">{{ request_number }}</p>
+                                                                    <ul>
+                                                                        <li>کل: {{ request_number }}</li>
+                                                                        <li>رد شده‌ها: {{ rejected }}</li>
+                                                                        <li>تائید شده‌ها: {{ accepted }}</li>
+                                                                    </ul>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-8 center">
+                                                            <h3>...updating</h3>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <br/>
-                                        <br/>
-
-                                        <div class="col-md-12">
-                                            <div class="card card-preview">
-                                                <div class="card-inner">
-                                                    <div class="card-head text-center"><h6 class="title">Pie Chart</h6>
-                                                    </div>
-                                                    <div class="nk-ck-sm">
-                                                        <div class="chartjs-size-monitor">
-                                                            <div class="chartjs-size-monitor-expand">
-                                                                <div class=""></div>
-                                                            </div>
-                                                            <div class="chartjs-size-monitor-shrink">
-                                                                <div class=""></div>
+                                                    <div class="row g-gs">
+                                                        <div class="col-sm-4">
+                                                            <br>
+                                                            <div class="nk-ck-sm">
+                                                                <div class="chartjs-size-monitor">
+                                                                    <div class="chartjs-size-monitor-expand">
+                                                                        <div class=""></div>
+                                                                    </div>
+                                                                    <div class="chartjs-size-monitor-shrink">
+                                                                        <div class=""></div>
+                                                                    </div>
+                                                                </div>
+                                                                <canvas class="pie-chart chartjs-render-monitor"
+                                                                        id="pieChartData"
+                                                                        style="display: block; width: 252px; height: 180px;"
+                                                                        width="252" height="180"></canvas>
                                                             </div>
                                                         </div>
-                                                        <canvas class="pie-chart chartjs-render-monitor"
-                                                                id="pieChartData"
-                                                                style="display: block; width: 252px; height: 180px;"
-                                                                width="252" height="180"></canvas>
+                                                        <div class="col-sm-8 center">
+                                                            <h3>...updating</h3>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
