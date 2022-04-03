@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+    <script>
+        let uploadArea = document.getElementById('upload-area');
+        uploadArea.addEventListener('click', function () {
+            let inp = document.getElementById('input-input');
+            inp.click();
+            inp.addEventListener('change', (event) => {
+                document.getElementById('image').src = window.URL.createObjectURL(event.currentTarget.files[0]);
+            })
+        })
+    </script>
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="card card-preview">
+                                            <div class="card-inner">
+                                                <div class="preview-block">
+                                                    <div class="row gy-4">
+                                                        <div class="col-sm-8">
+                                                            <label class="form-label">
+                                                                در این محل عکس‌هایتان را آپلود کنید
+                                                            </label>
+                                                            <form action="{% url 'educational:submit_upload' %}"
+                                                                  method="post" enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                <div class="upload-zone dropzone dz-clickable"
+                                                                     id="upload-area"
+                                                                     data-accepted-files="image/*">
+                                                                    <div class="dz-message" data-dz-message="">
+                                                                    <span class="dz-message-text">
+                                                                        کلیک کیند
+                                                                    </span>
+                                                                        <input type="file" hidden name="file"
+                                                                               id="input-input">
+                                                                        <button type="button" class="btn btn-primary"
+                                                                                id="input-btn">آپلود فایل
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="text" class=" col-sm-6"
+                                                                       required placeholder="عنوان مدرک"
+                                                                       name="title">
+                                                                <input type="submit" class="btn btn-primary col-sm-2"
+                                                                       value="ارسال">
+                                                            </form>
+                                                        </div>
+                                                        <img src="" alt="" id="image" style="width: 18rem">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->

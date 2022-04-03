@@ -30,6 +30,26 @@
             }
         });
     </script>
+    <script>
+        $.ajax({
+            url: '{% url 'educational:if_any_semester_active' %}',
+            type: "GET",
+            send: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (data) {
+                let error = $('#error');
+                if (data === false) {
+                    console.log(data);
+                    $('#submit')[0].disabled = true;
+                } else
+                    error.css('display', 'none');
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -46,10 +66,22 @@
                                     <div class="card">
                                         <div class="card-aside-wrap">
                                             <div class="card-inner card-inner-lg">
+                                                <div id="error" class="example-alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-cross-circle"></em>
+                                                        <strong>
+                                                            لطفا قبل از ایجاد ترم جدید، سال تحصیلی را فعال کنید.
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <br>
                                                 <div class="nk-block-head nk-block-head-lg">
                                                     <div class="nk-block-between">
-                                                        <div class="nk-block-head-content"><h4 class="nk-block-title">
-                                                            انتخاب دانشگاه</h4>
+                                                        <div class="nk-block-head-content">
+
+                                                            <h4 class="nk-block-title">
+                                                                انتخاب دانشگاه
+                                                            </h4>
                                                             <div class="nk-block-des"><p>رشته، ترم، هزینه ها</p></div>
                                                         </div>
                                                         <div class="nk-block-head-content align-self-start d-lg-none"><a
@@ -96,7 +128,7 @@
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <div class="form-group">
-                                                                        <button type="submit"
+                                                                        <button type="submit" id="submit"
                                                                                 class="btn float-right btn-lg btn-primary">
                                                                             ثبت اطلاعات
                                                                         </button>

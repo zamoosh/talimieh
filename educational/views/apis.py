@@ -10,6 +10,13 @@ def get_year(request, term=None):
 
 
 @login_required
+def if_any_semester_active(request):
+    if YearSemester.objects.filter(status__exact=True).exists():
+        return JsonResponse(True, safe=False)
+    return JsonResponse(False, safe=False)
+
+
+@login_required
 def get_uni(request):
     context = []
     for i in Universities.objects.filter(status=True):

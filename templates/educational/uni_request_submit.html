@@ -17,10 +17,9 @@
     <script>
         function buttonLoader() {
             let checkboxArr = document.getElementsByTagName('input');
-            let fileInput = document.getElementById('file');
             let counter = 0;
             for (const inp of checkboxArr) {
-                if (inp.checked || (fileInput.value.length !== 0))
+                if (inp.checked)
                     counter += 1;
             }
             if (counter === 0)
@@ -41,10 +40,16 @@
                     $("#table-body-row").append(`
                     <tr>
                         <th scope="row" class="table-row">${i}</th>
-                        <td class="table-row"><img src="${element.image}" alt="image" class="document-image"></td>
-                        <td class="table-row">${element.title}</td>
                         <td class="table-row">
-                            <input type="checkbox" name="document">
+                            <label for="${i}">
+                                <img src="${element.image}" alt="image" class="document-image">
+                            </label>
+                        </td>
+                        <td class="table-row">
+                            ${element.title}
+                        </td>
+                        <td class="table-row">
+                            <input type="checkbox" name="${i}" id="${i}">
                         </td>
                     </tr>
                     `)
@@ -79,6 +84,9 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card p-5">
+                                        <a href="{% url 'educational:upload_new_doc' %}">
+                                            <em class="ni ni-upload"></em>
+                                        </a>
                                         <form action="{% url 'client:user_document_upload' %}" method="post"
                                               enctype="multipart/form-data">
                                             {% csrf_token %}
@@ -107,14 +115,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <button type="submit" id="submit"
                                                             class="btn float-right btn-lg btn-primary">
                                                         ثبت اطلاعات
                                                     </button>
-                                                    <input class="btn btn-lighter" type="file" name="owner_upload"
-                                                           id="file">
+
                                                 </div>
                                             </div>
                                         </form>

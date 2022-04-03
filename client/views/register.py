@@ -28,7 +28,16 @@ def register(request):
                 username=context['request']['cellphone'],
                 password=context['request']['password']
             )
-            user.groups.add(Group.objects.get(name='normal student'))
+            if not (Group.objects.filter(name='normal student').exists()):
+                c = ContentType.objects.create(app_label='educational', model='User')
+                p = Permission.objects.create(name='normal student', content_type=c)
+                g = Group.objects.create(name='normal student')
+                g.permissions.add(p)
+                g.save()
+                user.groups.add(g)
+            else:
+                g = Group.objects.get(name='normal student')
+                user.groups.add(g)
             user.save()
             context['register'] = 1
             if context['register']:

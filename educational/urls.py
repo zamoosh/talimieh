@@ -16,8 +16,11 @@ urlpatterns = [
     path('new-semester/', new_semester, name="new_semester"),
     path('submit-semester/', submit_semester, name="submit_semester"),
     path('uni/api/', get_uni, name="get_uni"),
+    path('semester/api/', if_any_semester_active, name="if_any_semester_active"),
     path('get_degree/api/<int:t_id>/', get_degree, name="get_degree"),
     path('uni/api/has-semester/', uni_has_semester, name='uni_has_semester'),
+    path('upload-new-doc/', upload_new_doc, name='upload_new_doc'),
+    path('submit-upload/', submit_upload, name='submit_upload'),
 
     path('uni-reqest/', uni_request, name="uni_request"),
     path('uni-reqest-submit/', uni_request_submit, name="uni_request_submit"),

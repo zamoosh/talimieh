@@ -63,7 +63,7 @@ class OwnerDocument(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
     image = models.ImageField(blank=True, null=True, upload_to=owner_image)
-    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
+    educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE, null=True)
 
     class Meta:
         permissions = [

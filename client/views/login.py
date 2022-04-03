@@ -11,7 +11,8 @@ def Login(request):
         context['request']['cellphone'] = request.POST.get('cellphone', '').strip()
         context['request']['password'] = request.POST.get('password', '').strip()
         if User.objects.filter(cellphone=context['request']['cellphone']).exists():
-            user = authenticate(request, username=context['request']['cellphone'], password=context['request']['password'])
+            user = authenticate(request, username=context['request']['cellphone'],
+                                password=context['request']['password'])
             if user is not None:
                 if user.is_active:
                     login(request, user)
