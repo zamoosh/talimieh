@@ -46,10 +46,10 @@
                                                                     <tbody id="uni">
                                                                     {% for user in users %}
                                                                         <tr>
-                                                                            <td>{{ user.first_name }}</td>
-                                                                            <td>{{ user.last_name }}</td>
-                                                                            <td>{{ user.username }}</td>
-                                                                            <td>
+                                                                            <td class="text text-indigo">{{ user.first_name }}</td>
+                                                                            <td class="text text-indigo">{{ user.last_name }}</td>
+                                                                            <td class="text text-indigo">{{ user.username }}</td>
+                                                                            <td class="text text-indigo">
                                                                                 {% if user|is_expert %}
                                                                                     <em class="icon ni ni-check-circle text-success"
                                                                                         style="font-size: 1.475rem"></em>
@@ -57,6 +57,7 @@
                                                                                     <em class="icon ni ni-cross-circle text-danger"
                                                                                         style="font-size: 1.475rem"></em>
                                                                                 {% endif %}
+
                                                                             </td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
                                                                                 <ul class="nk-tb-actions gx-1">
@@ -65,7 +66,7 @@
                                                                                             <form action="{% url 'client:user_perms' user.id %}"
                                                                                                   method="get">
                                                                                                 <button type="submit"
-                                                                                                        class="btn btn-lighter">
+                                                                                                        class="btn btn-dim btn-outline-info">
                                                                                                     مشاهده
                                                                                                 </button>
                                                                                             </form>

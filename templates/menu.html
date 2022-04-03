@@ -41,10 +41,7 @@
                                     class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
                                     class="nk-menu-text">ایجاد ترم جدید</span></a></li>
                         {% endif %}
-                        <li class="nk-menu-item"><a href="{% url 'educational:requests' %}"
-                                                    class="nk-menu-link"><span
-                                class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
-                                class="nk-menu-text">درخواست ها</span></a></li>
+
                         {% if request.user.is_superuser or perms.client.can_set_expert %}
                             <li class="nk-menu-item"><a href="{% url 'client:users' %}" class="nk-menu-link"><span
                                     class="nk-menu-icon"><em class="icon ni ni-setting"></em></span><span
@@ -55,11 +52,16 @@
                                 class="nk-menu-icon"><em class="icon ni ni-bar-chart"></em></span><span
                                 class="nk-menu-text">گزارشات</span></a></li>
                     {% endif %}
+                    <li class="nk-menu-item"><a href="{% url 'educational:requests' %}"
+                                                class="nk-menu-link"><span
+                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                            class="nk-menu-text">درخواست ها</span></a></li>
                     <li class="nk-menu-heading"><h6 class="overline-title text-primary-alt">دانشجویان</h6></li>
                     <li class="nk-menu-item"><a href="{% url 'client:user_document' %}" class="nk-menu-link"><span
                             class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
                             class="nk-menu-text">مدارک دانشجویی</span></a></li>
-                    <li class="nk-menu-item"><a href="{% url 'educational:uni_request_submit' %}" class="nk-menu-link"><span
+                    <li class="nk-menu-item"><a href="{% url 'educational:uni_request_submit' %}"
+                                                class="nk-menu-link"><span
                             class="nk-menu-icon"><em class="icon ni ni-activity-round-fill"></em></span><span
                             class="nk-menu-text">درخواست دانشگاه</span></a></li>
                 </ul>

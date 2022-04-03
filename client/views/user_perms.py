@@ -16,6 +16,8 @@ def user_perms(request, u_id):
 def user_set_perms(request, g_id, u_id):
     if request.method == 'POST':
         u = get_object_or_404(User, id=u_id)
+        # if u.user_permissions.filter(name__contains='normal'):
+        #     u.user_permissions.remove(Permission.objects.get(name__contains='normal'))
         p = get_object_or_404(Permission, id=g_id)
         if p in u.user_permissions.all():
             u.user_permissions.remove(p)

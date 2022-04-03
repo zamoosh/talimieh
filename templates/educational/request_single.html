@@ -53,6 +53,17 @@
                                     <div class="card">
                                         <div class="card-aside-wrap">
                                             <div class="card-content">
+                                                <br>
+
+                                                <!-- back to requests -->
+                                                <div class="center container col-4">
+                                                    <a type="button" class="btn btn-dim btn-primary"
+                                                       href="{% url 'educational:requests' %}">
+                                                        <em class="ni ni-arrow-left"></em>
+                                                        برگشت به درخواست‌ها
+                                                    </a>
+                                                </div>
+
                                                 <!-- Tab links -->
                                                 <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
                                                     <li class="nav-item">
@@ -91,6 +102,7 @@
                                                     {#                                                            class="icon ni ni-user-list-fill"></em></a></li>#}
                                                 </ul>
 
+                                                <!-- content of request -->
                                                 <div class="card-inner">
                                                     <!-- person info -->
                                                     <div class="nk-block content" id="personal">
