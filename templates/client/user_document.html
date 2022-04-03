@@ -5,7 +5,7 @@
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
     <script>
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < {{ amount_of_doc }}; i++) {
             document.getElementById(`click-modal${i}`).addEventListener('click', function () {
                 document.getElementById(`img-modal${i}`).src = document.getElementById(`image-pre${i}`).src;
             })
@@ -27,16 +27,16 @@
                                     <div class="card">
                                         <div class="nk-block nk-block-lg">
                                             <div class="card card-preview">
-
-                                                <div class="btn-top-uni">
-                                                    <a href="{% url 'educational:uni_request_submit' %}"
-                                                       class="btn btn-secondary mr-4 mt-3 float-sm-right">آپلود
-                                                        مدارک</a>
-                                                </div>
                                                 <div class="card-inner">
                                                     <div class="col-12">
                                                         <div class="row">
                                                             <div class="col-12">
+                                                                <div class="btn-top-uni">
+                                                                    <a href="{% url 'educational:upload_new_doc' %}"
+                                                                       class="btn btn-secondary mr-4 mt-3 float-sm-right">آپلود
+                                                                        مدارک
+                                                                    </a>
+                                                                </div>
                                                                 <table class="nowrap table">
                                                                     <thead>
                                                                     <tr>

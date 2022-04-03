@@ -22,7 +22,7 @@ urlpatterns = [
     path('upload-new-doc/', upload_new_doc, name='upload_new_doc'),
     path('submit-upload/', submit_upload, name='submit_upload'),
 
-    path('uni-reqest/', uni_request, name="uni_request"),
+    # path('uni-reqest/', uni_request, name="uni_request"),
     path('uni-reqest-submit/', uni_request_submit, name="uni_request_submit"),
     path('uni-edit/<int:u_id>', edit_university_terms, name='uni_edit_terms'),
 
@@ -31,5 +31,6 @@ urlpatterns = [
     path('requests/', requests, name='requests'),
     path('request-single/', request_single, name='request_single'),
     path('request-single/<int:r_id>/', request_single, name='request_single_detail'),
-    path('request-single-remove/<int:r_id>/', request_single_remove, name='request_single_remove')
+    path('request-single-remove/<int:r_id>/', request_single_remove, name='request_single_remove'),
+    path('request-single-transitions/api/', get_transaction_of_educational_request, name='request_single_transition')
 ]

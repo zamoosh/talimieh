@@ -84,12 +84,6 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card p-5">
-                                        <a href="{% url 'educational:upload_new_doc' %}">
-                                            <h4> آپلود مدرک جدید</h4>
-                                            <em class="ni ni-upload"></em>
-                                        </a>
-
-
                                         <form action="{% url 'client:user_document_upload' %}" method="post"
                                               enctype="multipart/form-data">
                                             <div class="card-inner">
