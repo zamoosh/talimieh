@@ -19,11 +19,15 @@ from django.conf.urls.static import static
 from .views import *
 from django.conf import settings
 
+app_name = 'root'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('accounts/', include('client.urls')),
     path('educational/', include('educational.urls')),
+
+    path('page-not-found/', page_not_found, name='page_not_found')
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
