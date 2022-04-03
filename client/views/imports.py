@@ -10,6 +10,7 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q, QuerySet
 from educational.models import YearSemester, OwnerDocument, EducationalRequest, Semester, SelectedSemester
+from utils.user_checker import is_normal
 
 User = get_user_model()
 

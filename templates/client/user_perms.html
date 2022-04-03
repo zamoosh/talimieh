@@ -53,7 +53,7 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {% for perm in user_perms %}
+                                                            {% for perm in admin_and_expert_perms %}
                                                                 <tr>
                                                                     <th scope="row">{{ forloop.counter }}</th>
                                                                     <td>
@@ -71,39 +71,26 @@
                                                                             <em class="icon ni ni-cross-circle text-danger"
                                                                                 style="font-size: 1.475rem"></em>
                                                                         {% endif %}
+                                                                    </td>
                                                                     <td>
                                                                         <form action="{% url 'client:user_set_perms' perm.id user.id %}"
                                                                               method="post">
                                                                             {% csrf_token %}
-                                                                            {% if user in perm.user_set.all %}
-                                                                                {% if perm.name == 'can choose expert from users' %}
-                                                                                    <button type="submit"
-                                                                                            name="{{ perm.id }}"
-                                                                                            class="btn btn-lighter"
-                                                                                            disabled>del
-                                                                                    </button>
+                                                                            <button type="submit"
+                                                                                    name="{{ perm.id }}"
+                                                                                    class="btn btn-lighter"
+                                                                                    {% if perm.name == 'can set expert' %}
+                                                                                        {% if request.user.is_superuser or perms.client.can_set_expert %}
+                                                                                        {% else %}
+                                                                                    disabled
+                                                                                        {% endif %}
+                                                                                    {% endif %}>
+                                                                                {% if user in perm.user_set.all %}
+                                                                                    del
                                                                                 {% else %}
-                                                                                    <button type="submit"
-                                                                                            name="{{ perm.id }}"
-                                                                                            class="btn btn-lighter"
-                                                                                            >del
-                                                                                    </button>
+                                                                                    set
                                                                                 {% endif %}
-                                                                            {% else %}
-                                                                                {% if perm.name == 'can choose expert from users' %}
-                                                                                    <button type="submit"
-                                                                                            name="{{ perm.id }}"
-                                                                                            class="btn btn-lighter"
-                                                                                            disabled>set
-                                                                                    </button>
-                                                                                {% else %}
-                                                                                    <button type="submit"
-                                                                                            name="{{ perm.id }}"
-                                                                                            class="btn btn-lighter"
-                                                                                            >set
-                                                                                    </button>
-                                                                                {% endif %}
-                                                                            {% endif %}
+                                                                            </button>
                                                                         </form>
                                                                     </td>
                                                                 </tr>

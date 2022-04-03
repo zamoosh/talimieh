@@ -1,16 +1,17 @@
-from django.db.models import Q
-
 from .imports import *
-from educational.models import *
 
 
 def semesters(request):
+    if is_normal(request):
+        return render(request, '404_page.html')
     context = {'semesters': Semester.objects.filter(status=True).values_list('university', flat=True).distinct()}
     context['uni_semesters'] = Universities.objects.filter(id__in=context['semesters'])
     return render(request, 'educational/semesters.html', context)
 
 
 def new_semester(request):
+    if is_normal(request):
+        return render(request, '404_page.html')
     context = {'degree_fields': DegreeFieldStudy.objects.filter(status=True)}
     if request.method == 'POST':
         context['request'] = {}
@@ -22,6 +23,8 @@ def new_semester(request):
 
 
 def submit_semester(request):
+    if is_normal(request):
+        return render(request, '404_page.html')
     context = {}
     if 'degrees' in request.session:
         context = request.session['degrees']

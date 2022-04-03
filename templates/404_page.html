@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="nk-app-root">
+                                            <div class="nk-main ">
+                                                <div class="nk-wrap nk-wrap-nosidebar">
+                                                    <div class="nk-content ">
+                                                        <div class="nk-block nk-block-middle wide-md mx-auto">
+                                                            <div class="nk-block-content nk-error-ld text-center">
+                                                                <img class="nk-error-gfx"
+                                                                     src="{% static 'images/gfx/error-404.svg' %}"
+                                                                     alt="404 iamge">
+                                                                <div class="wide-xs mx-auto">
+                                                                    <h3 class="nk-error-title">
+                                                                        این صفحه وجود ندارد!
+                                                                    </h3>
+                                                                    <p class="nk-error-text">
+                                                                        ما خیلی متاسفیم که این اتفاق افتاد.
+                                                                        به نظر میرسد که شما آدرس صفحه‌ای را وارد کردین که
+                                                                        وجود ندارد!
+                                                                    </p>
+                                                                    <a href="/"
+                                                                       class="btn btn-lg btn-primary mt-2">برگشت به خانه
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->
