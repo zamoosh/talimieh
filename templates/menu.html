@@ -1,4 +1,6 @@
-<div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">{% load static %}{% load has_group %}
+<div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">{% load static %}
+    {% load has_group %}
+    {% load have_educational_request %}
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand"><a href="{% url 'index' %}" class="logo-link nk-sidebar-logo"><img
                 class="logo-light logo-img" src="{% static "images/logo-dark.png" %}"
@@ -42,13 +44,17 @@
                                                         class="nk-menu-link"><span
                                     class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
                                     class="nk-menu-text">ایجاد ترم جدید</span></a></li>
-                            <li class="nk-menu-item"><a href="{% url 'client:users' %}" class="nk-menu-link"><span
-                                    class="nk-menu-icon"><em class="icon ni ni-setting"></em></span><span
-                                    class="nk-menu-text">مدیریت اعضا</span></a></li>
-                            <li class="nk-menu-item"><a href="{% url 'educational:reports' %}"
-                                                        class="nk-menu-link"><span
-                                    class="nk-menu-icon"><em class="icon ni ni-bar-chart"></em></span><span
-                                    class="nk-menu-text">گزارشات</span></a></li>
+                            {% if request.user.is_superuser %}
+                                <li class="nk-menu-item"><a href="{% url 'client:users' %}" class="nk-menu-link"><span
+                                        class="nk-menu-icon"><em class="icon ni ni-setting"></em></span><span
+                                        class="nk-menu-text">مدیریت کارشناسان</span></a></li>
+                            {% endif %}
+                            {% if have_educational_request %}
+                                <li class="nk-menu-item"><a href="{% url 'educational:reports' %}"
+                                                            class="nk-menu-link"><span
+                                        class="nk-menu-icon"><em class="icon ni ni-bar-chart"></em></span><span
+                                        class="nk-menu-text">گزارشات</span></a></li>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                     <li class="nk-menu-heading"><h6 class="overline-title text-primary-alt">دانشجویان</h6></li>

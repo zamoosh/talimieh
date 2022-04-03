@@ -11,6 +11,7 @@ class User(AbstractUser):
         (0, 'arabic'),
         (1, 'afghanistan'),
     )
+    expert = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
     nationality = models.IntegerField(choices=TYPE, default=0)
     profile_image = models.ImageField(blank=True, null=True, upload_to=profile_image)
     father_name = models.CharField(max_length=15, null=True, blank=True)
