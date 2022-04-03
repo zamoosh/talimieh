@@ -221,9 +221,13 @@
                                                 <br>
                                                 <div class="form-group">
                                                     <button type="submit" id="submit"
-                                                            class="btn float-right btn-lg btn-primary">
+                                                            class="btn float-right btn-primary">
                                                         ثبت اطلاعات
                                                     </button>
+                                                    <a type="button" href="{% url 'educational:upload_new_doc' %}"
+                                                            class="btn btn-dim btn-outline-info float-left">
+                                                        آپلود مدرک جدید
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>
@@ -236,6 +240,5 @@
             </div>
             {% include 'footer.html' %}
         </div>
-    </div>
     </div>
 {% endblock %}

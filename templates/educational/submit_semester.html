@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{#{% load get_semester_expert_price %}#}
+{#{% load get_semester_entrance_price %}#}
+{% load semesters_info %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 {% block css %}
-    <link type="text/css" rel="stylesheet" href="{% static "assets/css/datepicker.css" %}"/>
-    <link rel="stylesheet" href="{% static "assets/css/persianDatepicker-default.css" %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static "assets/css/datepicker.css" %}" />
+    <link rel="stylesheet" href="{% static "assets/css/persianDatepicker-default.css" %}" />
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/datepicker.js" %}"></script>
@@ -38,64 +41,81 @@
                                                 </div>
                                                 <div class="nk-block">
                                                     <div class="nk-data data-list">
-                                                        <form method="post" action="{% url 'educational:submit_semester' %}">
+                                                        <form method="post"
+                                                              action="{% url 'educational:submit_semester' %}">
                                                             {% csrf_token %}
                                                             <div class="row g-4">
                                                                 <div class="col-lg-12">
                                                                     <table class="nowrap table"
                                                                            id="unitable">
                                                                         <thead>
-                                                                        <tr>
-                                                                            <th>دانشگاه</th>
-                                                                            <th>رشته</th>
-                                                                            <th>سال تحصیلی / ترم</th>
-                                                                            <th>قیمت کارشناسی</th>
-                                                                            <th>قیمت اخذ ورودی</th>
-                                                                            <th>بورسیه</th>
-                                                                        </tr>
+                                                                            <tr>
+                                                                                <th>دانشگاه</th>
+                                                                                <th>رشته</th>
+                                                                                <th>سال تحصیلی / ترم</th>
+                                                                                <th>قیمت کارشناسی</th>
+                                                                                <th>قیمت اخذ ورودی</th>
+                                                                                <th>بورسیه</th>
+                                                                            </tr>
                                                                         </thead>
                                                                         <tbody id="uni">
-                                                                        {% for degree_field in degree_fields %}
-                                                                            <tr>
-                                                                                <td>{{ university.uni_name }}</td>
-                                                                                <td>{{ degree_field.title }}</td>
-                                                                                <td>{{ year.title }} / {{ term.title }}</td>
-                                                                                <td>
-                                                                                    <div class="form-control-wrap">
-                                                                                        <div class="form-text-hint">
-                                                                                            <span class="overline-title">ریال</span>
+                                                                            {% for degree_field in degree_fields %}
+                                                                                <tr>
+                                                                                    <td>{{ university.uni_name }}</td>
+                                                                                    <td>{{ degree_field.title }}</td>
+                                                                                    <td>{{ year.title }} / {{ term.title }}</td>
+                                                                                    <td>
+                                                                                        <div class="form-control-wrap">
+                                                                                            <div class="form-text-hint">
+                                                                                                <span class="overline-title">ریال</span>
+                                                                                            </div>
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   id="expert_price"
+                                                                                                   name="expert_price_{{ degree_field.id }}"
+                                                                                                   value="{{ university|get_semester_expert_price:degree_field }}"
+                                                                                                   placeholder="قیمت کارشناسی">
                                                                                         </div>
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               id="expert_price"
-                                                                                               name="expert_price_{{ degree_field.id }}"
-                                                                                               value="{% if expert_price %}{{ degree_field.expert_price }}{% endif %}"
-                                                                                               placeholder="قیمت کارشناسی">
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="form-control-wrap">
-                                                                                        <div class="form-text-hint">
-                                                                                            <span class="overline-title">ریال</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="form-control-wrap">
+                                                                                            <div class="form-text-hint">
+                                                                                                <span class="overline-title">ریال</span>
+                                                                                            </div>
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   id="entrance_price"
+                                                                                                   name="entrance_price_{{ degree_field.id }}"
+                                                                                                   value="{{ university|get_semester_entrance_price:degree_field }}"
+                                                                                                   placeholder="قیمت اخذ ورودی">
                                                                                         </div>
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               id="entrance_price"
-                                                                                               name="entrance_price_{{ degree_field.id }}"
-                                                                                               placeholder="قیمت اخذ ورودی">
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-control-sm custom-switch">
-                                                                                        <input type="checkbox"
-                                                                                               class="custom-control-input"
-                                                                                               id="{{ degree_field.id }}" name="scholarship_{{ degree_field.id }}" value="{{ degree_field.id }}">
-                                                                                        <label class="custom-control-label"
-                                                                                               for="{{ degree_field.id }}">فعال</label>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        {% endfor %}
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {% if university|has_scholarship:degree_field %}
+                                                                                            <div class="custom-control custom-control-sm custom-switch">
+                                                                                                <input type="checkbox"
+                                                                                                       checked
+                                                                                                       class="custom-control-input focused"
+                                                                                                       id="{{ degree_field.id }}"
+                                                                                                       name="scholarship_{{ degree_field.id }}"
+                                                                                                       value="{{ degree_field.id }}">
+                                                                                                <label class="custom-control-label focused"
+                                                                                                       for="{{ degree_field.id }}">فعال</label>
+                                                                                            </div>
+                                                                                        {% else %}
+                                                                                            <div class="custom-control custom-control-sm custom-switch">
+                                                                                                <input type="checkbox"
+                                                                                                       class="custom-control-input"
+                                                                                                       id="{{ degree_field.id }}"
+                                                                                                       name="scholarship_{{ degree_field.id }}"
+                                                                                                       value="{{ degree_field.id }}">
+                                                                                                <label class="custom-control-label"
+                                                                                                       for="{{ degree_field.id }}">فعال</label>
+                                                                                            </div>
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            {% endfor %}
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
