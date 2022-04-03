@@ -31,12 +31,19 @@
                     $("#show_degree").modal();
                     $("#show_degrees").empty();
                     data.forEach(function (element) {
-                        $("#uni_name").empty();
-                        $("#uni_name").append(`<span> ${element.uni} </span>`);
-                        $("#show_degrees").append(`<div class="degrees-li pb-2">${element.title}<span id="degree_icon"></span></div>`)
+                        let uniName = $("#uni_name");
+                        uniName.empty();
+                        uniName.append(`<span>
+                                            ${element.uni}
+                                        </span>`);
+                        $("#show_degrees").append(`<div class="degrees-li pb-2">
+                                                        ${element.title}
+                                                        <span id="degree_icon"></span>
+                                                    </div>`)
                         if (element.bors) {
-                            $("#degree_icon").empty();
-                            $("#degree_icon").append(`(بورسیه)`)
+                            let scholarship = $("#degree_icon");
+                            scholarship.empty();
+                            scholarship.append(`(بورسیه)`)
                         }
                     });
                 }
@@ -95,17 +102,19 @@
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody id="uni">
-                                                                    {% for uni_semester in uni_semesters %}
+                                                                    {% for uni in unis %}
                                                                         <tr>
-                                                                            <td>{{ uni_semester.uni_name }}</td>
+                                                                            <td>{{ uni.uni_name }}</td>
                                                                             <td>
                                                                                 <a class="open-modal"
-                                                                                   data-url="{% if uni_semester %}{% url 'educational:get_degree' uni_semester.id %}{% endif %}">
-                                                                                مشاهده رشته ها
+                                                                                   data-url="
+
+                                                                                           {% if uni %}{% url 'educational:get_degree' uni.id %}{% endif %}">
+                                                                                    مشاهده رشته ها
                                                                                 </a>
                                                                             </td>
                                                                             <td>
-                                                                                <a href="{% url 'educational:uni_edit_terms' uni_semester.id %}"
+                                                                                <a href="{% url 'educational:uni_edit_terms' uni.id %}"
                                                                                    class="btn btn-outline-light">ویرایش</a>
                                                                             </td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
@@ -153,11 +162,15 @@
          aria-modal="true" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header"><h6 class="modal-title">
-                    رشته های دانشگاه :
-                    <span id="uni_name"></span>
-                </h6><a href="#" class="close" data-dismiss="modal" aria-label="Close"><em
-                        class="icon ni ni-cross"></em></a></div>
+                <div class="modal-header">
+                    <h6 class="modal-title">
+                        رشته های دانشگاه :
+                        <span id="uni_name"></span>
+                    </h6>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
                 <div class="modal-body">
                     <form method="POST" action="{% url 'educational:year_semester' %}">
                         {% csrf_token %}
