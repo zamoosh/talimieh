@@ -11,3 +11,6 @@ from .upload_new_doc import upload_new_doc
 from .submit_upload import submit_upload
 from .requests import requests
 from .request_single import *
+from .options import options
+from .option_single import option_single
+from .option_edit import option_edit

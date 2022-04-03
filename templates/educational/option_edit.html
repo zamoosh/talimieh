@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="card-inner">
+                                            <form action="{% url 'educational:option_single_edit' option.id %}"
+                                                  method="post">
+                                                {% csrf_token %}
+                                                <div class="preview-block">
+                                                    <div class="example-alert">
+                                                        <div class="alert alert-info alert-icon">
+                                                            <em class="icon ni ni-alert-circle"></em>
+                                                            <strong class="text-lg-center">
+                                                                ویرایش قابلیت {{ option.name }}
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row gy-4">
+                                                        <!-- option name -->
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="name">
+                                                                    نام قابلیت
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           name="name"
+                                                                           placeholder="نام قبلی {{ option.name }}"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- option price -->
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="price">
+                                                                    قیمت قابلیت
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="number"
+                                                                           class="form-control"
+                                                                           name="price"
+                                                                           placeholder="قیمت قبلی {{ option.price }}"
+                                                                           id="price">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="form-group">
+                                                    <button type="submit" id="submit"
+                                                            class="btn btn-dim float-right btn-primary">
+                                                        اعمال تغییرات
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->
