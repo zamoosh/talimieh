@@ -1,5 +1,3 @@
-from django.urls import reverse
-
 from .imports import *
 from client.models import User
 from django.shortcuts import redirect

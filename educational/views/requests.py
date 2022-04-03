@@ -31,7 +31,7 @@ def requests(request):
                          Q(register_status=True)) | Q(financial_status=True)
                 )
             ).order_by('-id')
-        else:
+        if request.user.user_permissions.filter(name__icontains='normal'):
             context['requests'] = EducationalRequest.objects.filter(user=request.user).order_by('-id')
             context['reject_requests'] = EducationalRequest.objects.filter(reject=True, user=request.user)
     return render(request, 'educational/requests.html', context)

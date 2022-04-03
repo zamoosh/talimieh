@@ -41,14 +41,14 @@
                                                             <div class="form-group">
                                                                 <label class="form-label"
                                                                        for="name">
-                                                                    نام قابلیت
+                                                                    نام قبلی قابلیت
                                                                 </label>
                                                                 <div class="form-control-wrap">
                                                                     <input type="text"
                                                                            class="form-control"
                                                                            name="name"
-                                                                           placeholder="نام قبلی {{ option.name }}"
-                                                                           id="name">
+                                                                           id="name"
+                                                                           value="{{ option.name }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -58,14 +58,14 @@
                                                             <div class="form-group">
                                                                 <label class="form-label"
                                                                        for="price">
-                                                                    قیمت قابلیت
+                                                                    قیمت قبلی قابلیت
                                                                 </label>
                                                                 <div class="form-control-wrap">
                                                                     <input type="number"
                                                                            class="form-control"
                                                                            name="price"
-                                                                           placeholder="قیمت قبلی {{ option.price }}"
-                                                                           id="price">
+                                                                           id="price"
+                                                                           value="{{ option.price }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -74,10 +74,15 @@
                                                 <br>
                                                 <div class="form-group">
                                                     <button type="submit" id="submit"
-                                                            class="btn btn-dim float-right btn-primary">
+                                                            class="btn btn-dim float-right btn-success">
                                                         اعمال تغییرات
                                                     </button>
+                                                    <a href="{% url 'educational:options' %}" type="button"
+                                                       class="btn btn-dim float-left btn-gray">
+                                                        برگشت به قابلیت‌ها
+                                                    </a>
                                                 </div>
+
                                             </form>
                                         </div>
                                     </div>
