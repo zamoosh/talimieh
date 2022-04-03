@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q, QuerySet
 from educational.models import YearSemester, OwnerDocument, EducationalRequest, Semester
 
 User = get_user_model()

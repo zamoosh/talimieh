@@ -8,7 +8,7 @@ def user_perms(request, u_id):
         context = {
             'user': u,
             'user_perms': u.groups.all(),
-            'groups': Group.objects.filter(name__contains='expert')
+            'groups': Group.objects.filter(Q(name__contains='expert') | Q(name__contains='admin'))
         }
         return render(request, 'client/user_perms.html', context)
 
