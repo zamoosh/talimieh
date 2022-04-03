@@ -5,15 +5,13 @@ from educational.models import *
 
 
 def semesters(request):
-    context = {}
-    context['semesters'] = Semester.objects.filter(status=True).values_list('university', flat=True).distinct()
+    context = {'semesters': Semester.objects.filter(status=True).values_list('university', flat=True).distinct()}
     context['uni_semesters'] = Universities.objects.filter(id__in=context['semesters'])
     return render(request, 'educational/semesters.html', context)
 
 
 def new_semester(request):
-    context = {}
-    context['degree_fields'] = DegreeFieldStudy.objects.filter(status=True)
+    context = {'degree_fields': DegreeFieldStudy.objects.filter(status=True)}
     if request.method == 'POST':
         context['request'] = {}
         context['request']['uni'] = request.POST.get('uni', '').strip()

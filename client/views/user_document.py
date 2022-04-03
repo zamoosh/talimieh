@@ -1,6 +1,20 @@
 from .imports import *
 
 
+def request_generator(user: 'user of djagno request', ids, data):
+    r = EducationalRequest.objects.create(user=user,
+                                          title=data['title'],
+                                          average=data['average'],
+                                          former_university=data['former_uni'],
+                                          college=data['sem'])
+    for item in ids:
+        print(item)
+        od = OwnerDocument.objects.get(id=item)
+        r.ownerdocument_set.add(od)
+    r.save()
+    return r
+
+
 def user_document(request):
     context = {'documents': OwnerDocument.objects.filter(user=request.user.id)}
     return render(request, 'client/user_document.html', context)
@@ -9,14 +23,13 @@ def user_document(request):
 def user_document_upload(request):
     context = {}
     if request.method == "POST":
-        context['title'] = request.POST.get('title', '').strip()
-        document = OwnerDocument()
-        if 'owner_upload' in request.FILES:
-            document.image = request.FILES['owner_upload']
-        document.user = request.user
-        document.title = context['title']
-        document.save()
-        context['result'] = True
-        context['document'] = document
+        data = {
+            'title': request.POST.get('title'),
+            'former_uni': request.POST.get('former_uni'),
+            'average': request.POST.get('average'),
+            'sem': Semester.objects.get(id=request.POST.get('sem')),
+            'field_study': request.POST.get('field_study')
+        }
+        r = request_generator(request.user, request.POST.getlist('images'), data)
         return HttpResponseRedirect(reverse('educational:uni_request_submit'))
     return render(request, 'client/user_document_upload.html', context)
