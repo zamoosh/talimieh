@@ -67,6 +67,10 @@ class EducationalRequest(models.Model):
     sent = models.BooleanField(default=False)
     tracking_code = models.CharField(max_length=20, blank=True, null=True)
 
+    def get_step(self):
+        index = int(self.step[1])
+        return self.REQUEST_STEPS[index][1]
+
     def __str__(self):
         return f'{self.id} {self.title} {self.user}'
 
