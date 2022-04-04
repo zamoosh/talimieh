@@ -6,6 +6,9 @@ def degree_field_study(request):
     context = {}
     context['degree_field_studys'] = DegreeFieldStudy.objects.filter(status=True).order_by('-id')
     if request.method == "POST":
+        if not (DegreeFieldStudy.objects.filter(parent__isnull=True).exists()):
+            context['degree_error'] = True
+            return redirect(reverse('educational:degree_field_study', args=context))
         context['req'] = {}
         context['req']['title'] = request.POST.get('title', '').strip()
         context['req']['doc'] = request.POST.get('doc', '').strip()
