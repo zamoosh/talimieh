@@ -25,6 +25,14 @@ def get_uni(request):
 
 
 @login_required
+def get_uni_for_request(request):
+    context = []
+    for i in Universities.objects.filter(semester__isnull=False).distinct():
+        context.append({'id': i.pk, 'name': i.uni_name})
+    return JsonResponse(context, safe=False)
+
+
+@login_required
 def uni_has_semester(request):
     context = []
     for i in Universities.objects.filter(semester__isnull=False):
@@ -56,6 +64,20 @@ def get_transaction_of_educational_request(request, er_id):
 @login_required
 def get_degree_field_sections(request):
     context = []
+    if request.method == 'POST' and request.POST.get('u_id'):
+        u = Universities.objects.get(id=request.POST.get('u_id'))
+        sections_id = u.semester_set.filter(degree_field_study__parent__isnull=False,
+                                            status=True).values_list('degree_field_study__parent', flat=True)
+        for section in DegreeFieldStudy.objects.filter(id__in=sections_id):
+            context.append(
+                {'id': section.id, 'title': section.title}
+            )
+        return JsonResponse(context, safe=False)
+
+
+@login_required
+def get_section(request):
+    context = []
     sections = DegreeFieldStudy.objects.filter(parent__isnull=True, status=True)
     for item in sections:
         context.append(
@@ -75,3 +97,8 @@ def get_degree_semesters(request):
                 {'id': sem.id, 'title': sem.__str__()}
             )
     return JsonResponse(sem_list, safe=False)
+
+
+@login_required
+def have_section(request):
+    return JsonResponse(DegreeFieldStudy.objects.filter(parent__isnull=True).exists(), safe=False)

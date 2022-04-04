@@ -78,21 +78,50 @@
     </script>
 
     <script>
-        $.ajax({
-            url: '{% url 'educational:get_degree_field_sections' %}',
-            type: "GET",
-            success: function (data) {
-                data.forEach(function (item) {
-                    let degreeDropDown = $('#degree');
-                    degreeDropDown.empty();
-                    degreeDropDown.append(`<option value=""></option>`);
-                    degreeDropDown.append(`<option value="${item.id}">${item.title}</option>`);
-                })
-            },
-            error: function (error) {
-                alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
-            }
-        });
+        $(window).on('load', function () {
+            $.ajax({
+                url: '{% url 'educational:get_uni_for_request' %}',
+                type: "GET",
+                success: function (data) {
+                    let uni = $('#uni');
+                    uni.empty();
+                    data.forEach(function (element) {
+                        uni.append(`<option value=""></option>`);
+                        uni.append(`<option value="${element.id}">${element.name}</option>`);
+                    })
+                    console.log('success')
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $(window).on('click', function (e) {
+            $('#uni').on('change', function () {
+                $.ajax({
+                    url: '{% url 'educational:get_degree_field_sections' %}',
+                    type: "POST",
+                    data: {
+                        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                        'u_id': $('#uni')[0].value
+                    },
+                    success: function (data) {
+                        let degreeDropDown = $('#degree');
+                        degreeDropDown.empty();
+                        data.forEach(function (element) {
+                            degreeDropDown.append(`<option value=""></option>`);
+                            degreeDropDown.append(`<option value="${element.id}">${element.title}</option>`);
+                        })
+                    },
+                    error: function (error) {
+                        alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+                    }
+                });
+            })
+        })
     </script>
 
     <script>
@@ -105,9 +134,9 @@
                         'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
                         'd_id': $('#degree')[0].value
                     },
-                    success: function (response) {
-                        console.log(response);
-                        response.forEach(function (element) {
+                    success: function (data) {
+                        console.log(data);
+                        data.forEach(function (element) {
                             let degreeSemesterDropDown = $('#degree-semester');
                             degreeSemesterDropDown.empty();
                             degreeSemesterDropDown.append(`<option value=""></option>`);
@@ -204,6 +233,27 @@
                                                         <!-- blank space -->
                                                         <div class="col-sm-6"></div>
 
+                                                        <!-- university -->
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group" id="degree-div">
+                                                                <label class="form-label"
+                                                                       for="uni">
+                                                                    دانشگاه
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                    <select class="form-select select2-hidden-accessible"
+                                                                            data-ui="md" id="uni" data-search="on"
+                                                                            name="uni" required
+                                                                            tabindex="-1" aria-hidden="true">
+                                                                        <option value="">-- انتخاب --</option>
+                                                                    </select>
+                                                                    <label class="form-label-outlined"
+                                                                           for="uni">دانشگاه
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                         <!-- section -->
                                                         <div class="col-sm-6">
                                                             <div class="form-group" id="degree-div">
@@ -235,8 +285,8 @@
                                                                 <div class="form-control-wrap">
                                                                     <select class="form-select select2-hidden-accessible"
                                                                             data-ui="md" id="degree-semester"
-                                                                            data-search="on"
-                                                                            name="degree-semester" required
+                                                                            data-search="on" required
+                                                                            name="degree-semester"
                                                                             tabindex="-1" aria-hidden="true">
                                                                         <option value="">-- انتخاب --</option>
                                                                     </select>
