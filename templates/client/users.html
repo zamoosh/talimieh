@@ -104,13 +104,14 @@
                                                                                 <form method="POST"
                                                                                       action="{% url 'client:create_new_user' %}">
                                                                                     {% csrf_token %}
+                                                                                    <!-- first name -->
                                                                                     <div class="form-group">
                                                                                         <div class="form-control-wrap">
                                                                                             <input type="text"
                                                                                                    class="form-control form-control-lg form-control-outlined"
                                                                                                    id="name"
                                                                                                    name="name"
-                                                                                                          required>
+                                                                                                   required>
                                                                                             <label class="form-label-outlined"
                                                                                                    for="name">
                                                                                                 نام
@@ -118,13 +119,14 @@
                                                                                         </div>
                                                                                     </div>
 
+                                                                                    <!-- last name -->
                                                                                     <div class="form-group">
                                                                                         <div class="form-control-wrap">
                                                                                             <input type="text"
                                                                                                    class="form-control form-control-lg form-control-outlined"
                                                                                                    id="last_name"
                                                                                                    name="last_name"
-                                                                                                          required>
+                                                                                                   required>
                                                                                             <label class="form-label-outlined"
                                                                                                    for="last_name">
                                                                                                 نام خانوادگی
@@ -132,13 +134,14 @@
                                                                                         </div>
                                                                                     </div>
 
+                                                                                    <!-- phone number -->
                                                                                     <div class="form-group">
                                                                                         <div class="form-control-wrap">
                                                                                             <input type="text"
                                                                                                    class="form-control form-control-lg form-control-outlined"
                                                                                                    id="cellphone"
                                                                                                    name="cellphone"
-                                                                                                          required>
+                                                                                                   required>
                                                                                             <label class="form-label-outlined"
                                                                                                    for="cellphone">
                                                                                                 شماره تماس (به عنوان رمز
@@ -170,45 +173,6 @@
                     </div>
                 </div>
                 {% include 'footer.html' %}
-            </div>
-        </div>
-    </div>
-    <div class="modal fade show" tabindex="-1" id="create_year" style="display: none; padding-right: 12px;"
-         aria-modal="true" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header"><h5 class="modal-title">
-                    ایجاد سال تحصیلی
-                </h5><a href="#" class="close" data-dismiss="modal" aria-label="Close"><em
-                        class="icon ni ni-cross"></em></a></div>
-                <div class="modal-body">
-                    <form method="POST" action="{% url 'educational:degree_field_study' %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <input type="text"
-                                       class="form-control form-control-lg form-control-outlined"
-                                       id="title" name="title">
-                                <label class="form-label-outlined" for="title">
-                                    نام کاربر
-                                </label></div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <label class="form-label-outlined" for=doc">
-                                    نام خانوادگی
-                                </label>
-                                <textarea class="form-control form-control-lg form-control-outlined"
-                                          id="doc" name="doc"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" id="degree_submit" class="btn btn-light float-right">
-                                ذخیره
-                            </button>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
     </div>

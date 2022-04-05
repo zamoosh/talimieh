@@ -24,6 +24,7 @@ class User(AbstractUser):
     place_birth = models.CharField(max_length=15, blank=True, null=True)
     place_issue = models.CharField(max_length=15, blank=True, null=True)
     whatsapp = models.CharField(max_length=15, blank=True, null=True)
+    first_login = models.BooleanField(default=True)
 
     class Meta:
         permissions = [
@@ -39,7 +40,3 @@ class User(AbstractUser):
                 img.save(self.profile_image.path, quality=95)
             except (Exception, Exception):
                 pass
-
-    @staticmethod
-    def perm_to_persian():
-        return 'hello'
