@@ -14,10 +14,15 @@ def Login(request):
             user = authenticate(request, username=context['request']['cellphone'],
                                 password=context['request']['password'])
             if user is not None:
+                print('user is not None')
                 if user.is_active:
                     login(request, user)
+                    if user.first_login:
+                        return redirect(reverse('client:profile'))
                     if len(request.GET.get("next", "/")) == 0:
+                        print('len == 0')
                         return HttpResponseRedirect("/")
+                    print('len != 0')
                     return HttpResponseRedirect(request.GET.get("next", "/"))
             else:
                 context['error'] = True
