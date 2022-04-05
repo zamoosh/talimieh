@@ -1,3 +1,5 @@
+from pip._internal.cli import status_codes
+
 from .imports import *
 
 
@@ -35,8 +37,8 @@ def submit_semester(request):
                     detail[i[0][len('expert_price_'):]]['expert_price'] = i[1]
             for i in context['degree_fields']:
                 if str(i.id) in detail:
-                    if i.semester_set.filter(university=context['university']):
-                        for sem in i.semester_set.filter(Q(university=context['university'])):
+                    if i.semester_set.filter(university=context['university'], status=True):
+                        for sem in i.semester_set.filter(university=context['university'], status=True):
                             sem.expert_price = detail[str(i.id)]['expert_price']
                             sem.entrance_price = detail[str(i.id)]['entrance_price']
                             sem.scholarship = detail[str(i.id)]['scholarship']
