@@ -2,8 +2,11 @@ from .imports import *
 
 
 @login_required
-def requests(request):
+def requests(request, message=None):
     context = {}
+    if request.session.get('message'):
+        del request.session['message']
+        context['message'] = True
     context['reject_requests'] = EducationalRequest.objects.filter(reject=True)
     if request.user.is_superuser:
         context['requests'] = EducationalRequest.objects.filter(reject=False)
