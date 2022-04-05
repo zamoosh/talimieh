@@ -9,7 +9,7 @@ def request_single_remove(request, r_id):
         if r_id:
             r = EducationalRequest.objects.get(id=r_id)
             Message.objects.create(
-                text=f'درخواست شما مبنی بر {r.title} توسط {request.user} رد شد',
+                text=f'درخواست شما توسط {request.user} تائید شد',
                 educational_request=None,
                 owner=r.user,
                 message_expert=request.user,
