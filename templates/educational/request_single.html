@@ -108,7 +108,9 @@
 
                                                     <!-- request cost -->
                                                     <div class="nk-block">
-                                                        {{ r|get_request_current_coast }}
+                                                        <p class="text text-purple">
+                                                            قیمت فعلی پرداختی: {{ r|get_request_current_coast }}
+                                                        </p>
                                                     </div>
                                                     <br><br>
 
@@ -223,7 +225,7 @@
 
                                                     <!-- upload -->
                                                     <div class="nk-block content" id="upload" style="display: none">
-                                                        <table class="table table-striped">
+                                                        <table class="table table-hover">
                                                             <thead>
                                                             <tr>
                                                                 <th>عنوان فایل</th>
@@ -234,9 +236,10 @@
                                                             <tbody id="uni">
                                                             {% for document in documents %}
                                                                 <tr>
-                                                                    <td>{{ document.title }}</td>
+                                                                    <td class="align-center">{{ document.title }}</td>
                                                                     <td>
-                                                                        <a href="{{ document.image.url }}"
+                                                                        <a class="btn btn-success btn-xs"
+                                                                           href="{{ document.image.url }}"
                                                                            download>دانلود</a>
                                                                     </td>
                                                                     <td>
@@ -246,7 +249,8 @@
                                                                            data-toggle="modal"
                                                                            data-target="#image{{ forloop.counter0 }}">
                                                                             <img src="{{ document.image.url }}"
-                                                                                 alt=""
+                                                                                 alt="doc"
+                                                                                 class="img-thumbnail border-gray"
                                                                                  style="width: 50px; border-radius: 3px"
                                                                                  id="image-pre{{ forloop.counter0 }}">
                                                                         </a>
