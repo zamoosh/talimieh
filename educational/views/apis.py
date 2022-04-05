@@ -19,7 +19,7 @@ def if_any_semester_active(request):
 @login_required
 def get_uni(request):
     context = []
-    for i in Universities.objects.filter(semester__isnull=True):
+    for i in Universities.objects.filter(semester__isnull=True, status=True):
         context.append({'id': i.pk, 'title': i.uni_name, 'status': i.status})
     return JsonResponse(context, safe=False)
 
@@ -35,7 +35,7 @@ def get_uni_for_request(request):
 @login_required
 def uni_has_semester(request):
     context = []
-    for i in Universities.objects.filter(semester__isnull=False):
+    for i in Universities.objects.filter(semester__isnull=False, status=True):
         context.append({'id': i.pk, 'title': i.uni_name, 'status': i.register_status})
     return JsonResponse(context, safe=False)
 
@@ -43,7 +43,7 @@ def uni_has_semester(request):
 @login_required
 def get_degree(request, t_id):
     context = []
-    for i in Semester.objects.filter(university=t_id):
+    for i in Semester.objects.filter(university=t_id, status=True):
         context.append(
             {'id': i.pk, 'title': i.degree_field_study.title, 'uni': i.university.uni_name, 'bors': i.scholarship}
         )
