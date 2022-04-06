@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load have_educational_request %}
-{% load can_reject %}
 {% load static %}
 {% load jformat %}
 {% load request_info %}
@@ -97,6 +96,26 @@
                                                             وضعیت پیشرفت
                                                         </a>
                                                     </li>
+{#                                                    {% if o_con %}#}
+                                                        <li class="nav-item">
+                                                            <a class="nav-link text text-info"
+                                                               href="#"
+                                                               data-id="options">
+                                                                {#                                                            <em class="icon ni ni-activity"></em>#}
+                                                                    پرداختی‌ها
+                                                            </a>
+                                                        </li>
+{#                                                    {% endif %}#}
+                                                    {% if c_con %}
+                                                        <li class="nav-item">
+                                                            <a class="nav-link text text-warning"
+                                                               href="#"
+                                                               data-id="confirm">
+                                                                {#                                                            <em class="icon ni ni-activity"></em>#}
+                                                                    تائید
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
                                                     {#                                                    <li class="nav-item nav-item-trigger d-xxl-none"><a href="#"#}
                                                     {#                                                                                                        class="toggle btn btn-icon btn-trigger"#}
                                                     {#                                                                                                        data-target="userAside"><em#}
@@ -431,6 +450,80 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <!-- options -->
+{#                                                    {% if o_con %}#}
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">ردیف</th>
+                                                                <th scope="col">نام</th>
+                                                                <th scope="col">قیمت</th>
+                                                                <th scope="col">انتخاب</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for o in options %}
+                                                                <tr>
+                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                    <td>{{ o.name }}</td>
+                                                                    <td>{{ o.price }}</td>
+                                                                    <td>
+                                                                        <input type="checkbox">
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                        <!--
+                                                        <div class="nk-block content" id="options">
+                                                            <div class="profile-ud-list">
+                                                                <div class="profile-ud-item">
+                                                                    <div class="profile-ud wider">
+                                                                        <span class="profile-ud-label text-indigo">نام کاربر</span>
+                                                                        <span class="profile-ud-value">
+                                                                       {{ r.user.first_name }} {{ r.user.last_name }}
+                                                                    </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="profile-ud-item">
+                                                                    <div class="profile-ud wider">
+                                                                        <span class="profile-ud-label text-indigo">نام کاربر</span>
+                                                                        <span class="profile-ud-value">
+                                                                       {{ r.user.first_name }} {{ r.user.last_name }}
+                                                                    </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        -->
+{#                                                    {% endif %}#}
+
+                                                    <!-- confirmation -->
+                                                    {% if c_con %}
+                                                        <div class="nk-block content" id="confirm">
+                                                            <div class="profile-ud-list">
+                                                                <div class="profile-ud-item">
+                                                                    <div class="profile-ud wider">
+                                                                        <span class="profile-ud-label text-indigo">نام کاربر</span>
+                                                                        <span class="profile-ud-value">
+                                                                       {{ r.user.first_name }} {{ r.user.last_name }}
+                                                                    </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="profile-ud-item">
+                                                                    <div class="profile-ud wider">
+                                                                        <span class="profile-ud-label text-indigo">نام کاربر</span>
+                                                                        <span class="profile-ud-value">
+                                                                       {{ r.user.first_name }} {{ r.user.last_name }}
+                                                                    </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
 
                                                     <!-- request form section -->
                                                     <div class="card-inner">
