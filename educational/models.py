@@ -3,8 +3,8 @@ from .imports import *
 
 class Universities(models.Model):
     uni_name = models.CharField(max_length=50, null=True, blank=True)
-    comment = models.TextField(null=True, blank=True)
-    document = models.TextField(null=True, blank=True)
+    comment = models.JSONField(null=True, blank=True)
+    document = models.JSONField(null=True, blank=True)
     status = models.BooleanField(default=True)
 
     def __str__(self):
