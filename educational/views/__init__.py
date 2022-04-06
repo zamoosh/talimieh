@@ -11,6 +11,8 @@ from .uni_request import *
 from .term_status import term_status
 from .reports import reports
 from .edit_university_terms import edit_university_terms
+from .uni_edit_docs import uni_edit_docs
+from .uni_show_docs import uni_show_docs
 from .upload_new_doc import upload_new_doc
 from .submit_upload import submit_upload
 from .requests import requests

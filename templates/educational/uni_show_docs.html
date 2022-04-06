@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}پروفایل - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <h4 class="nk-block-title">
+                                                دانشگاه
+                                                '<strong class="text text-danger">{{ uni.uni_name }}</strong>'
+                                            </h4>
+                                            <div class="nk-block-des">
+                                                <p>مدارک موردنیاز و توضیحات دانشگاه را در زیر ویرایش کنید</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card card-inner">
+                                            <div class="preview-block">
+                                                <form action="{% url 'educational:uni_edit_docs' uni.id %}"
+                                                      method="post">
+                                                    {% csrf_token %}
+                                                    <div class="row gy-4">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label text text-indigo"
+                                                                       for="doc">مدارک موردنیاز دانشگاه
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                <textarea
+                                                                        class="form-control no-resize"
+                                                                        id="doc"
+                                                                        name="doc">{{ uni.document }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label text text-indigo"
+                                                                       for="comment">توضیحات دانشگاه
+                                                                </label>
+                                                                <div class="form-control-wrap">
+                                                                <textarea
+                                                                        class="form-control no-resize"
+                                                                        id="comment"
+                                                                        name="comment">{{ uni.comment }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <a class="btn btn-dim btn-outline-light"
+                                                               href="{% url 'educational:uni_edit_terms' uni.id %}">
+                                                                برگشت
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <button class="btn btn-dim btn-outline-success float-right"
+                                                                    type="submit">
+                                                                ثبت اطلاعات
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<!--script>
+    function getCookie(study) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, study.length + 1) === (study + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(study.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        $('[type="submit"]').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url 'educational:university_api' %}',
+                type: "POST",
+                data: {
+                    university: $("#university").val(),
+                    uni_comment: $("#uni_comment").val(),
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+    </script-->
