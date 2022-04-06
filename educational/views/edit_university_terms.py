@@ -1,5 +1,3 @@
-from pip._internal.cli import status_codes
-
 from .imports import *
 
 

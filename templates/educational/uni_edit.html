@@ -103,11 +103,23 @@
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <div class="form-group">
-                                                                        <button type="submit"
-                                                                                class="btn float-right btn-lg btn-primary"
-                                                                                id="submit">
-                                                                            ثبت اطلاعات
-                                                                        </button>
+                                                                        <div class="btn-group float-right">
+                                                                            <a type="button"
+                                                                               href="{% url 'educational:uni_show_docs' university.id %}"
+                                                                               class="btn btn-dim btn-sm btn-outline-primary">
+                                                                                ویرایش مدارک و توضیحات
+                                                                            </a>
+                                                                            <button type="submit"
+                                                                                    class="btn btn-dim btn-sm btn-outline-primary"
+                                                                                    id="submit">
+                                                                                ثبت اطلاعات
+                                                                            </button>
+                                                                        </div>
+                                                                        <a type="button"
+                                                                           href="{% url 'educational:universities' %}"
+                                                                           class="btn btn-dim float-left btn-sm btn-outline-light">
+                                                                            برگشت
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
