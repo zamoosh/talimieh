@@ -3,13 +3,14 @@ from .imports import *
 
 def request_single_detail(request):
     if request.GET.get('r'):
-        r = EducationalRequest.objects.get(id=request.GET.get('r'))
         context = {}
+        r = EducationalRequest.objects.get(id=request.GET.get('r'))
         context['r'] = r
         context['selected_semesters'] = r.selectedsemester_set.all()
         context['user'] = r.user
         context['documents'] = r.ownerdocument_set.all()
         context['amount_of_doc'] = r.ownerdocument_set.all().__len__()
+        context['options'] = Option.objects.all()
         context['r_con'] = False
         context['e_con'] = False
         context['f_con'] = False
@@ -26,8 +27,11 @@ def request_single_detail(request):
                 context['f_con'] = True
             elif int(r.step[1]) == 4:
                 context['e_con_2'] = True
+                context['o_con'] = True
             elif int(r.step[1]) == 5:
                 context['f_con_2'] = True
             elif int(r.step[1]) == 6:
                 context['e_con_3'] = True
+            elif int(r.step[1]) == 7:
+                context['c_con'] = True
         return render(request, 'educational/request_single.html', context)
