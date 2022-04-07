@@ -11,10 +11,13 @@ def can_reject(r):
 @register.filter(name='get_request_current_coast')
 def get_request_current_coast(r):
     total_coast = 0
+    if r.selectedoption_set.all().exists():
+        for s_o in r.selectedoption_set.all():
+            total_coast += int(s_o.option.price)
     for sem in r.selectedsemester_set.all():
         total_coast += int(sem.semester.expert_price)
         total_coast += int(sem.semester.entrance_price)
-    return f'{total_coast} هزار تومان'
+    return f'{total_coast}  تومان'
 
 
 # for single semester selection
@@ -35,3 +38,8 @@ def get_request_degree_field_study(r):
     return r.selectedsemester_set.all()[0].semester.degree_field_study
 
 
+@register.filter(name='has_option')
+def has_option(r, o):
+    if len(r.selectedoption_set.filter(option=o)) == 1:
+        return True
+    return False
