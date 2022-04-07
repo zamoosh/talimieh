@@ -17,6 +17,6 @@ def request_single_remove(request, r_id):
             m.save()
             r.reject = True
             r.final_status = False
-            r.step = EducationalRequest.REQUEST_STEPS[6]
+            r.step = EducationalRequest.REQUEST_STEPS[7]
             r.save()
     return redirect(reverse('educational:requests'))
