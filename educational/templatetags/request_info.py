@@ -23,19 +23,25 @@ def get_request_current_coast(r):
 # for single semester selection
 @register.filter(name='get_request_uni')
 def get_request_uni(r):
-    return r.selectedsemester_set.all()[0].semester.university
+    if r.selectedsemester_set.all().exists():
+        return r.selectedsemester_set.all()[0].semester.university
+    return 'ندارد'
 
 
 # for single semester selection
 @register.filter(name='get_request_section')
 def get_request_section(r):
-    return r.selectedsemester_set.all()[0].semester.degree_field_study.parent
+    if r.selectedsemester_set.all().exists():
+        return r.selectedsemester_set.all()[0].semester.degree_field_study.parent
+    return 'ندارد'
 
 
 # for single semester selection
 @register.filter(name='get_request_degree_field_study')
 def get_request_degree_field_study(r):
-    return r.selectedsemester_set.all()[0].semester.degree_field_study
+    if r.selectedsemester_set.all().exists():
+        return r.selectedsemester_set.all()[0].semester.degree_field_study
+    return 'ندارد'
 
 
 @register.filter(name='has_option')
