@@ -3,6 +3,8 @@ from .imports import *
 
 @login_required
 def option_for_request(request, r_id):
+    if not (request.user.user_permissions.filter(name__icontains='see') or request.user.is_superuser):
+        return redirect(reverse('page_not_found'))
     if request.method == 'POST':
         r = EducationalRequest.objects.get(id=r_id)
         checked_options = Option.objects.filter(id__in=request.POST.getlist('options'))
@@ -18,4 +20,5 @@ def option_for_request(request, r_id):
         for o in add:
             s_o = SelectedOption.objects.create(option=o, request=r)
             s_o.save()
-        return redirect(reverse('educational:requests'))
+        request.session['option'] = True
+        return redirect(reverse('educational:request_single_detail', kwargs={'r_id': r_id}))
