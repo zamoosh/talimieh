@@ -14,7 +14,7 @@
             legend: !1,
             datasets: [{
                 borderColor: "rgb(50,50,50)",
-                background: ["rgba(75,117,255,0.87)", "#1fb634", "#dc1717"],
+                background: ["rgba(77,175,255,0.7)", "rgba(74,255,103,0.75)", "rgba(255,56,56,0.8)"],
                 data: [{{request_number}}, {{ accepted }}, {{ rejected }}]
             }]
         };
@@ -24,7 +24,7 @@
             $selector.each(function () {
                 for (var $self = $(this), _self_id = $self.attr("id"), _get_data = void 0 === set_data ? eval(_self_id) : set_data, selectCanvas = document.getElementById(_self_id).getContext("2d"), chart_data = [], i = 0; i < _get_data.datasets.length; i++) chart_data.push({
                     backgroundColor: _get_data.datasets[i].background,
-                    borderWidth: 1,
+                    borderWidth: .5,
                     borderColor: _get_data.datasets[i].borderColor,
                     hoverBorderColor: _get_data.datasets[i].borderColor,
                     data: _get_data.datasets[i].data
