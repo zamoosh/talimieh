@@ -50,6 +50,7 @@ urlpatterns = [
     path('option-single-create/', option_single_create, name='option_single_create'),
     path('option-single-delete/<int:o_id>/', option_single_delete, name='option_single_delete'),
     path('option-single-edit/<int:o_id>/', option_edit, name='option_single_edit'),
+    path('option-for-request/<int:r_id>/', option_for_request, name='option_for_request'),
 
     path('cards/<int:user_id>/', cards, name='cards'),
 ]

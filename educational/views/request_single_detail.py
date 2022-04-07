@@ -17,6 +17,8 @@ def request_single_detail(request):
         context['e_con_2'] = False
         context['f_con_2'] = False
         context['e_con_3'] = False
+        context['o_con'] = False
+        context['c_con'] = False
         if r.reject is False and (
                 request.user.is_superuser or request.user.user_permissions.filter(name__contains='see')):
             if int(r.step[1]) == 1:
