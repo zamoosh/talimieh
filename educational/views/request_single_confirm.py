@@ -37,4 +37,4 @@ def request_single_confirm(request, r_id):
                 r.final_status = True
             m.save()
         r.save()
-        return redirect(reverse('educational:requests'))
+        return redirect(reverse('educational:request_single_detail', kwargs={'r_id': r_id}))

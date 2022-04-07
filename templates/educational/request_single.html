@@ -125,6 +125,14 @@
 
                                                     <!-- request cost -->
                                                     <div class="nk-block">
+                                                        {% if message %}
+                                                            <div class="example-alert mt-2 mb-3">
+                                                                <div class="alert alert-success alert-icon">
+                                                                    <em class="icon ni ni-check-circle"></em>
+                                                                    <strong>با موفقیت ثبت شد</strong>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
                                                         {% if c_con %}
                                                             <h7 class="text text-success">
                                                                 هزینه‌ی درخواست کاملا پرداخت شده: {{ r|get_request_current_coast }}

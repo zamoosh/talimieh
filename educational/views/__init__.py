@@ -7,7 +7,8 @@ from .create_degree_section import create_degree_section
 from .semesters import semesters
 from .new_semester import new_semester
 from .submit_semester import submit_semester
-from .uni_request import *
+from .uni_request import uni_request
+from .uni_request_submit import uni_request_submit
 from .term_status import term_status
 from .reports import reports
 from .edit_university_terms import edit_university_terms
@@ -20,7 +21,8 @@ from .request_single_confirm import request_single_confirm
 from .request_single_remove import request_single_remove
 from .request_single_detail import request_single_detail
 from .options import options
-from .option_single import *
+from .option_single_create import option_single_create
+from .option_single_delete import option_single_delete
 from .option_edit import option_edit
-from .cards import cards
 from .option_for_request import option_for_request
+from .cards import cards
