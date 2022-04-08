@@ -35,7 +35,11 @@
                 content.style.padding = '0';
             }
         })
-
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#message').css('display', 'none');
+            }, 3000)
+        })
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -126,7 +130,7 @@
                                                     <!-- request cost -->
                                                     <div class="nk-block">
                                                         {% if message %}
-                                                            <div class="example-alert mt-2 mb-3">
+                                                            <div class="example-alert mt-2 mb-3" id="message">
                                                                 <div class="alert alert-success alert-icon">
                                                                     <em class="icon ni ni-check-circle"></em>
                                                                     <strong>با موفقیت ثبت شد</strong>

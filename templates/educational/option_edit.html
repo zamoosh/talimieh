@@ -6,7 +6,13 @@
 
 {% endblock %}
 {% block js %}
-
+    <script>
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#message').css('display', 'none');
+            }, 3000)
+        })
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -20,21 +26,40 @@
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
                                 <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <h3 class="nk-block-title mb-2">
+                                                بخش
+                                                '<strong class="text text-info">پرداختی‌های</strong>'
+                                                اضافه
+                                            </h3>
+                                            <div class="nk-block-des">
+                                                <h6 class="text text-gray">توضیحات: این موارد
+                                                    <span class="text-danger">بعد از تائید دوم آموزشی</span>
+                                                    میتوانند به
+                                                    <span class="text-info">درخواست‌های</span>
+                                                    دانشجویان اضافه شوند
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="card">
                                         <div class="card-inner">
                                             <form action="{% url 'educational:option_single_edit' option.id %}"
                                                   method="post">
                                                 {% csrf_token %}
                                                 <div class="preview-block">
-                                                    <div class="example-alert">
-                                                        <div class="alert alert-info alert-icon">
-                                                            <em class="icon ni ni-alert-circle"></em>
-                                                            <strong class="text-lg-center">
-                                                                ویرایش قابلیت {{ option.name }}
-                                                            </strong>
+                                                    {% if message %}
+                                                        <div class="example-alert mb-4" id="message">
+                                                            <div class="alert alert-success alert-icon">
+                                                                <em class="icon ni ni-alert-circle"></em>
+                                                                <strong class="text-lg-center">
+                                                                    تغییرات با موفقیت ذخیره شدند!
+                                                                </strong>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <br>
+                                                    {% endif %}
+
                                                     <div class="row gy-4">
                                                         <!-- option name -->
                                                         <div class="col-sm-6">
@@ -48,7 +73,8 @@
                                                                            class="form-control"
                                                                            name="name"
                                                                            id="name"
-                                                                           value="{{ option.name }}">
+                                                                           value="{{ option.name }}"
+                                                                           autocomplete="true">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -65,7 +91,8 @@
                                                                            class="form-control"
                                                                            name="price"
                                                                            id="price"
-                                                                           value="{{ option.price }}">
+                                                                           value="{{ option.price }}"
+                                                                           autocomplete="true">
                                                                 </div>
                                                             </div>
                                                         </div>

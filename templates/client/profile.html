@@ -14,6 +14,32 @@
             $("#pass_issue_date").persianDatepicker();
             $("#pass_expiration").persianDatepicker();
         });
+
+        let pass = $('#password');
+        let rePass = $('#re-password');
+
+        function passWordChecker() {
+            let btn = $('#submit');
+            let alert = $('#alert');
+            if (pass.val() !== rePass.val() || (pass.val() === '' || rePass.val() === '')) {
+                btn[0].disabled = true;
+                alert.css('display', 'block');
+            } else{
+                alert.css('display', 'none');
+                btn[0].disabled = false;
+            }
+
+        }
+        $(window).on('scroll change click load enter set_text setText', function () {
+            passWordChecker();
+        })
+        pass.on('change', function () {
+            passWordChecker();
+        })
+        rePass.on('change', function () {
+            passWordChecker();
+        })
+
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -31,6 +57,13 @@
                                     <div class="card">
                                         <div class="card-aside-wrap">
                                             <div class="card-inner card-inner-lg">
+                                                <div class="example-alert mb-5" id="alert">
+                                                    <div class="alert alert-danger alert-icon"><em
+                                                            class="icon ni ni-cross-circle"></em>
+                                                        <strong>پسوردها</strong>
+                                                        با هم مطابقت ندارند یا خالی هستند
+                                                    </div>
+                                                </div>
                                                 <div class="nk-block-head nk-block-head-lg">
                                                     <div class="nk-block-between">
                                                         <div class="nk-block-head-content"><h4 class="nk-block-title">
@@ -78,6 +111,46 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                {% if change_password %}
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label class="form-label text-danger" for="password">
+                                                                                پسورد جدید
+                                                                            </label>
+                                                                            <div class="form-control-wrap">
+                                                                                <input
+                                                                                    required
+                                                                                    name="password" type="password"
+                                                                                    min="8"
+                                                                                    class="form-control"
+                                                                                    id="password">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label class="form-label text-danger"
+                                                                                   for="re-password">
+                                                                                تکرار پسورد جدید
+                                                                            </label>
+                                                                            <div class="form-control-wrap">
+                                                                                <input
+                                                                                    required
+                                                                                    name="re-password" type="password"
+                                                                                    min="8"
+                                                                                    class="form-control"
+                                                                                    id="re-password">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="first_name">نام</label>
@@ -252,6 +325,7 @@
                                                                 <div class="col-12">
                                                                     <div class="form-group">
                                                                         <button type="submit"
+                                                                                id="submit"
                                                                                 class="btn float-right btn-lg btn-primary">
                                                                             ذخیره اطلاعات
                                                                         </button>

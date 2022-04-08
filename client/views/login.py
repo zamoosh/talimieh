@@ -19,6 +19,8 @@ def Login(request):
                     login(request, user)
                     if user.first_login:
                         return redirect(reverse('client:profile'))
+                    if user.user_permissions.filter(name__icontains='normal'):
+                        return redirect('client:profile')
                     if len(request.GET.get("next", "/")) == 0:
                         print('len == 0')
                         return HttpResponseRedirect("/")

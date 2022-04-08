@@ -32,6 +32,11 @@ def profile(request):
         user.place_birth = context['req']['place_birth']
         user.place_issue = context['req']['place_issue']
         user.whatsapp = context['req']['whatsapp']
+        if request.POST.get('password'):
+            if len(request.POST.get('password')) >= 8:
+                user.set_password(request.POST.get('password'))
+            else:
+                return redirect('client:profile')
         if context['req']['nationality'] == "arabic":
             user.nationality = 0
         elif context['req']['nationality'] == "afghanistan":
@@ -49,4 +54,6 @@ def profile(request):
         context['birth_date'] = user.birth_date.__str__()
         context['pass_issue_date'] = user.pass_issue_date.__str__()
         context['pass_expiration'] = user.pass_expiration.__str__()
+    else:
+        context['change_password'] = True
     return render(request, 'client/profile.html', context)

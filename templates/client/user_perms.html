@@ -7,7 +7,13 @@
 
 {% endblock %}
 {% block js %}
-
+    <script>
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#message').css('display', 'none');
+            }, 1500)
+        })
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -21,26 +27,36 @@
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
                                 <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <h3 class="nk-block-title mb-2">
+                                                بخش
+                                                '<strong class="text text-info">مدیریت دسترسی کاربران</strong>'
+                                            </h3>
+                                            <div class="nk-block-des">
+                                                <h6 class="text text-gray">
+                                                    توضیحات: مدیر سایت میتواند به کاربران دسترسی‌های مختلف دهد
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="card">
-
-
                                         <div class="card-aside-wrap" data-select2-id="8">
                                             <div class="card-inner card-inner-lg" data-select2-id="7">
-                                                <div class="nk-block-head nk-block-head-lg">
-                                                    <div class="nk-block-between">
-                                                        <div class="nk-block-head-content">
-                                                            <h4 class="nk-block-title">
-                                                                کاربر {{ user.first_name }} {{ user.last_name }}
-                                                            </h4>
-                                                        </div>
-                                                        <div class="nk-block-head-content align-self-start d-lg-none">
-                                                            <a href="#" class="toggle btn btn-icon btn-trigger mt-n1"
-                                                               data-target="userAside"><em
-                                                                    class="icon ni ni-menu-alt-r"></em>
-                                                            </a>
+                                                {% if message %}
+                                                    <div class="example-alert mb-4" id="message">
+                                                        <div class="alert alert-success alert-icon">
+                                                            <em class="icon ni ni-alert-circle"></em>
+                                                            <strong class="text-lg-center">
+                                                                تغییرات با موفقیت ذخیره شدند!
+                                                            </strong>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                {% endif %}
+                                                <h6 class="mb-3 text-indigo">
+                                                    نام کاربر:
+                                                    <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                                                </h6>
                                                 <div class="nk-block" data-select2-id="6">
                                                     <div class="nk-data data-list" data-select2-id="5">
                                                         <table class="table">
@@ -101,9 +117,9 @@
                                                 </div>
                                                 <br>
                                                 <a href="{% url 'client:users' %}"
-                                                   class="btn btn-block btn-dim btn-outline-light">برگشت
-                                                    به صفحه‌ی
-                                                    کارشناسان</a>
+                                                   class="btn btn-block btn-dim btn-outline-light">
+                                                    برگشت به صفحه‌ی کارشناسان
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
