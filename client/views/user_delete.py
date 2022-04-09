@@ -7,4 +7,5 @@ def user_delete(request, u_id):
         if request.method == 'POST' and u_id:
             u = User.objects.get(id=u_id)
             u.delete()
+    request.session['message'] = True
     return redirect(reverse('client:users'))

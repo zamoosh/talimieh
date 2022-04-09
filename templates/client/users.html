@@ -4,6 +4,13 @@
 {% block title %}پنل مدیریت اعضا - نسل تعلیمیه{% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
+    <script>
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#message').css('display', 'none');
+            }, 3000)
+        })
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -27,6 +34,14 @@
                                                         جدید</a>
                                                 </div>
                                                 <div class="card-inner">
+                                                    {% if message %}
+                                                        <div class="example-alert mb-3 mr-3 ml-3" id="message">
+                                                            <div class="alert alert-success alert-icon">
+                                                                <em class="icon ni ni-check-circle"></em>
+                                                                <strong>با موفقیت ثبت شد</strong>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
                                                     <div class="col-12">
                                                         <div class="row">
                                                             <div class="col-12">
@@ -64,7 +79,7 @@
                                                                                     <form action="{% url 'client:user_perms' user.id %}"
                                                                                           method="get">
                                                                                         <button type="submit"
-                                                                                                class="btn btn-dim btn-outline-info">
+                                                                                                class="btn btn-dim btn-sm btn-outline-info">
                                                                                             مشاهده
                                                                                         </button>
                                                                                     </form>
@@ -76,7 +91,7 @@
                                                                                           method="post">
                                                                                         {% csrf_token %}
                                                                                         <button type="submit"
-                                                                                                class="btn btn-dim btn-outline-danger">
+                                                                                                class="btn btn-dim btn-sm btn-outline-danger">
                                                                                             حذف
                                                                                         </button>
                                                                                     </form>
