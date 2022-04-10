@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{% load request_info %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 {% block css %}
 
@@ -20,236 +21,114 @@
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
                                 <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <h4 class="nk-block-title">
+                                                بخش
+                                                '<strong class="text text-info">کارت‌ها</strong>'
+                                            </h4>
+                                            <div class="nk-block-des">
+                                                <h6 class="text text-gray">
+                                                    کارت برای
+                                                    <span class="text-danger">درخواست‌هایی</span>
+                                                    است که <span class="text-success">پذیرفته شده‌اند</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row g-gs">
-                                        <div class="col-sm-6 col-lg-4 col-xxl-3">
+
+                                        <!-- cards -->
+                                        {% for card in cards %}
+                                            <div class="col-sm-6 col-lg-4 col-xxl-3">
                                             <div class="card">
                                                 <div class="card-inner">
                                                     <div class="team">
-                                                        <div class="team-status bg-danger text-white"><em
-                                                                class="icon ni ni-na"></em></div>
+                                                        <div class="team-status bg-success text-white">
+                                                            <em class="icon ni ni-check-thick"></em>
+                                                        </div>
+                                                        <!--
                                                         <div class="team-options">
-                                                            <div class="drodown"><a href="#"
-                                                                                    class="dropdown-toggle btn btn-sm btn-icon btn-trigger"
-                                                                                    data-bs-toggle="dropdown"><em
-                                                                    class="icon ni ni-more-h"></em></a>
+                                                           <div class="drodown">
+                                                                <a href="#"
+                                                                   class="dropdown-toggle btn btn-sm btn-icon btn-trigger"
+                                                                   data-bs-toggle="dropdown">
+                                                                    {#                                                                    <em class="icon ni ni-more-h"></em>#}
+                                                                </a>
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-focus"></em><span>Quick View</span></a>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <em class="icon ni ni-focus"></em>
+                                                                                <span>Quick View</span>
+                                                                            </a>
                                                                         </li>
-                                                                        <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>View Details</span>
+                                                                            </a>
                                                                         </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-mail"></em><span>Send Email</span></a>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <em class="icon ni ni-mail"></em>
+                                                                                <span>Send Email</span>
+                                                                            </a>
                                                                         </li>
                                                                         <li class="divider"></li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-star"></em><span>Reset Pass</span></a>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <em class="icon ni ni-shield-star"></em>
+                                                                                <span>Reset Pass</span>
+                                                                            </a>
                                                                         </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <em class="icon ni ni-shield-off"></em>
+                                                                                <span>Reset 2FA</span>
+                                                                            </a>
                                                                         </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-na"></em><span>Suspend User</span></a>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <em class="icon ni ni-na"></em>
+                                                                                <span>Suspend User</span>
+                                                                            </a>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    -->
                                                         <div class="user-card user-card-s2">
-                                                            <div class="user-avatar md bg-primary"><span>AB</span>
-                                                                <div class="status dot dot-lg dot-success"></div>
+                                                            <div class="user-avatar md bg-success">
+                                                                <span>تعلیمیه</span>
+                                                                {#                                                                <div class="status dot dot-lg dot-success"></div>#}
                                                             </div>
-                                                            <div class="user-info"><h6>Abu Bin Ishtiyak</h6><span
-                                                                    class="sub-text">@ishtiyak</span></div>
+                                                            <div class="user-info">
+                                                                <h6>{{ card.educational_request.user }}</h6>
+                                                                <span class="sub-text">کد رهگیری: {{ card.educational_request.tracking_code }}</span>
+                                                            </div>
                                                         </div>
-                                                        <div class="team-details"><p>I am an UI/UX Designer and Love to
-                                                            be creative.</p></div>
+                                                        <div class="team-details">
+                                                            <p>درخواست شما با موفقیت پذیرفته شده است!</p>
+                                                        </div>
                                                         <ul class="team-statistics">
-                                                            <li><span>213</span><span>Projects</span></li>
-                                                            <li><span>87.5%</span><span>Performed</span></li>
-                                                            <li><span>587</span><span>Tasks</span></li>
+                                                            <li><span>{{ card.educational_request|get_request_uni }}</span><span>دانشگاه</span></li>
+                                                            <li><span>{{ card.educational_request|get_request_section }}</span><span>مقطع</span></li>
+                                                            <li><span>{{ card.educational_request|get_request_degree_field_study }}</span><span>رشته</span></li>
                                                         </ul>
-                                                        <div class="team-view"><a
-                                                                href="/demo2/user-details-regular.html"
-                                                                class="btn btn-round btn-outline-light w-150px"><span>View Profile</span></a>
+                                                        <div class="team-view">
+                                                            <a href="{% url 'educational:request_single_detail' card.educational_request.id %}"
+                                                               class="btn btn-round btn-outline-light w-150px">
+                                                                <span>مشاهده‌ی درخواست</span>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-lg-4 col-xxl-3">
-                                            <div class="card">
-                                                <div class="card-inner">
-                                                    <div class="team">
-                                                        <div class="team-status bg-light text-black"><em
-                                                                class="icon ni ni-check-thick"></em></div>
-                                                        <div class="team-options">
-                                                            <div class="drodown"><a href="#"
-                                                                                    class="dropdown-toggle btn btn-sm btn-icon btn-trigger"
-                                                                                    data-bs-toggle="dropdown"><em
-                                                                    class="icon ni ni-more-h"></em></a>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <ul class="link-list-opt no-bdr">
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-focus"></em><span>Quick View</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-mail"></em><span>Send Email</span></a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-star"></em><span>Reset Pass</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-na"></em><span>Suspend User</span></a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="user-card user-card-s2">
-                                                            <div class="user-avatar md bg-primary"><img
-                                                                    src="/demo2/images/avatar/a-sm.jpg" alt="">
-                                                                <div class="status dot dot-lg dot-success"></div>
-                                                            </div>
-                                                            <div class="user-info"><h6>Ashley Lawson</h6><span
-                                                                    class="sub-text">@ashley</span></div>
-                                                        </div>
-                                                        <div class="team-details"><p>I am an UI/UX Designer and Love to
-                                                            be creative.</p></div>
-                                                        <ul class="team-statistics">
-                                                            <li><span>213</span><span>Projects</span></li>
-                                                            <li><span>87.5%</span><span>Performed</span></li>
-                                                            <li><span>587</span><span>Tasks</span></li>
-                                                        </ul>
-                                                        <div class="team-view"><a
-                                                                href="/demo2/user-details-regular.html"
-                                                                class="btn btn-round btn-outline-light w-150px"><span>View Profile</span></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-4 col-xxl-3">
-                                            <div class="card">
-                                                <div class="card-inner">
-                                                    <div class="team">
-                                                        <div class="team-status bg-success text-white"><em
-                                                                class="icon ni ni-check-thick"></em></div>
-                                                        <div class="team-options">
-                                                            <div class="drodown"><a href="#"
-                                                                                    class="dropdown-toggle btn btn-sm btn-icon btn-trigger"
-                                                                                    data-bs-toggle="dropdown"><em
-                                                                    class="icon ni ni-more-h"></em></a>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <ul class="link-list-opt no-bdr">
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-focus"></em><span>Quick View</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-mail"></em><span>Send Email</span></a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-star"></em><span>Reset Pass</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-na"></em><span>Suspend User</span></a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="user-card user-card-s2">
-                                                            <div class="user-avatar md bg-info"><span>JL</span>
-                                                                <div class="status dot dot-lg dot-success"></div>
-                                                            </div>
-                                                            <div class="user-info"><h6>Joe Larson</h6><span
-                                                                    class="sub-text">@larson</span></div>
-                                                        </div>
-                                                        <div class="team-details"><p>I am an UI/UX Designer and Love to
-                                                            be creative.</p></div>
-                                                        <ul class="team-statistics">
-                                                            <li><span>213</span><span>Projects</span></li>
-                                                            <li><span>87.5%</span><span>Performed</span></li>
-                                                            <li><span>587</span><span>Tasks</span></li>
-                                                        </ul>
-                                                        <div class="team-view"><a
-                                                                href="/demo2/user-details-regular.html"
-                                                                class="btn btn-round btn-outline-light w-150px"><span>View Profile</span></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-4 col-xxl-3">
-                                            <div class="card">
-                                                <div class="card-inner">
-                                                    <div class="team">
-                                                        <div class="team-status bg-warning text-white"><em
-                                                                class="icon ni ni-clock"></em></div>
-                                                        <div class="team-options">
-                                                            <div class="drodown"><a href="#"
-                                                                                    class="dropdown-toggle btn btn-sm btn-icon btn-trigger"
-                                                                                    data-bs-toggle="dropdown"><em
-                                                                    class="icon ni ni-more-h"></em></a>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <ul class="link-list-opt no-bdr">
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-focus"></em><span>Quick View</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-mail"></em><span>Send Email</span></a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-star"></em><span>Reset Pass</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a>
-                                                                        </li>
-                                                                        <li><a href="#"><em
-                                                                                class="icon ni ni-na"></em><span>Suspend User</span></a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="user-card user-card-s2">
-                                                            <div class="user-avatar md bg-danger"><span>JM</span>
-                                                                <div class="status dot dot-lg dot-success"></div>
-                                                            </div>
-                                                            <div class="user-info"><h6>Jane Montgomery</h6><span
-                                                                    class="sub-text">@jane84</span></div>
-                                                        </div>
-                                                        <div class="team-details"><p>I am an UI/UX Designer and Love to
-                                                            be creative.</p></div>
-                                                        <ul class="team-statistics">
-                                                            <li><span>213</span><span>Projects</span></li>
-                                                            <li><span>87.5%</span><span>Performed</span></li>
-                                                            <li><span>587</span><span>Tasks</span></li>
-                                                        </ul>
-                                                        <div class="team-view"><a
-                                                                href="/demo2/user-details-regular.html"
-                                                                class="btn btn-round btn-outline-light w-150px"><span>View Profile</span></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {% endfor %}
+
                                     </div>
                                 </div>
                             </div>
