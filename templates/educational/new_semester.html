@@ -22,14 +22,65 @@
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             success: function (data) {
+                let uni = $("#uni");
                 data.forEach(function (element) {
-                    $("#uni").append($('<option>', {value: element['id'], text: element['title']}))
+                    uni.append($('<option>', {value: element['id'], text: element['title']}))
                 });
             },
             error: function (error) {
                 console.log(error);
             }
         });
+
+        $(window).on('load', function () {
+            $.ajax({
+                url: '{% url 'educational:get_section' %}',
+                type: "GET",
+                success: function (data) {
+                    let degreeDropDown = $('#section');
+                    degreeDropDown.empty();
+                    data.forEach(function (element) {
+                        degreeDropDown.append(`<option value=""></option>`);
+                        degreeDropDown.append(`<option value="${element.id}">${element.title}</option>`);
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+                }
+            });
+        })
+
+        $('#section').on('change', function () {
+            $.ajax({
+                url: '{% url 'educational:get_sections_degrees' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                    'd_id': $('#section')[0].value
+                },
+                success: function (data) {
+                    let degreeSemesterDropDown = $('#semesters');
+                    degreeSemesterDropDown.empty();
+                    data.forEach(function (element) {
+                        degreeSemesterDropDown.append(`
+                        <li class="custom-control degree-field custom-checkbox mr-5">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="degree_list"
+                                   value="${element.id}"
+                                   id="${element.id}">
+                            <label class="custom-control-label"
+                                   for="${element.id}">${element.title}</label>
+                        </li>
+                        `);
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را به‌روزرسانی کنید');
+                }
+            });
+        })
+
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -89,29 +140,33 @@
                                                                                     data-ui="lg"
                                                                                     id="uni"
                                                                                     data-search="on" name="uni">
-                                                                                <option value="">دانشگاه</option>
+                                                                                <option value=""></option>
                                                                             </select>
                                                                             <label class="form-label-outlined"
-                                                                                   for="degree">دانشگاه
+                                                                                   for="uni">دانشگاه
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap">
+                                                                            <select required
+                                                                                    class="form-select"
+                                                                                    data-ui="lg"
+                                                                                    id="section"
+                                                                                    data-search="on" name="section">
+                                                                                <option value=""></option>
+                                                                            </select>
+                                                                            <label class="form-label-outlined"
+                                                                                   for="section">مقطع
                                                                             </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-12">
                                                                     <div class="degree">
-                                                                        <ul>
-                                                                            {% for degree_field in degree_fields %}
-                                                                                <li class="custom-control degree-field custom-checkbox mr-5">
-                                                                                    <input type="checkbox"
-                                                                                           class="custom-control-input"
-                                                                                           name="degree_list"
-                                                                                           value="{{ degree_field.id }}"
-                                                                                           id="{{ degree_field.id }}">
-                                                                                    <label class="custom-control-label"
-                                                                                           for="{{ degree_field.id }}">{{ degree_field.title }}</label>
-                                                                                </li>
-                                                                            {% endfor %}
-                                                                        </ul>
+                                                                        <ul id="semesters"></ul>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
