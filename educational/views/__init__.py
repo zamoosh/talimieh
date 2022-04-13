@@ -26,3 +26,4 @@ from .option_single_delete import option_single_delete
 from .option_edit import option_edit
 from .option_for_request import option_for_request
 from .cards import cards
+from .submit_student_num import submit_student_num
