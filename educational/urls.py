@@ -52,4 +52,6 @@ urlpatterns = [
     path('option-for-request/<int:r_id>/', option_for_request, name='option_for_request'),
 
     path('cards/<int:user_id>/', cards, name='cards'),
+
+    path('subtmi-student-num/<int:u_id>/<int:r_id>/', submit_student_num, name='submit_student_num'),
 ]

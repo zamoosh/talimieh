@@ -693,12 +693,49 @@
                                                                 </div>
                                                                 <div class="profile-ud-item">
                                                                     <div class="profile-ud wider">
-                                                                        <span class="profile-ud-label text-indigo">نام کاربر</span>
+                                                                        <span class="profile-ud-label text-indigo">هزینه‌ی ورودی</span>
                                                                         <span class="profile-ud-value">
-                                                                       {{ r.user.first_name }} {{ r.user.last_name }}
-                                                                    </span>
+                                                                       {{ r|get_request_entrance }} تومان
+                                                                        </span>
                                                                     </div>
                                                                 </div>
+                                                                <div class="profile-ud-item">
+                                                                    <div class="profile-ud wider">
+                                                                        <span class="profile-ud-label text-indigo">هزینه‌ی کارشناس</span>
+                                                                        <span class="profile-ud-value">
+                                                                       {{ r|get_request_expert }} تومان
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                {% if request.user.is_superuser or perms.educational.can_see_educational_request %}
+                                                                    <div class="profile-ud-item">
+                                                                        <div class="profile-ud wider">
+                                                                            <span class="profile-ud-label text-indigo">شماره‌ی دانشجویی</span>
+                                                                            <form action="{% url 'educational:submit_student_num' r.user.id r.id %}" method="post">
+                                                                            {% csrf_token %}
+                                                                                <span class="profile-ud-value">
+                                                                                    {% if r.user.student_num %}
+                                                                                    <input type="text"
+                                                                                           class="form-control form-control-sm"
+                                                                                           id="std_num"
+                                                                                           name="std_num"
+                                                                                           value="{{ r.user.student_num }}"
+                                                                                           placeholder="شماره‌ی دانشجویی">
+                                                                                    {% else %}
+                                                                                    <input type="text"
+                                                                                           class="form-control form-control-sm"
+                                                                                           id="std_num"
+                                                                                           name="std_num"
+                                                                                           placeholder="شماره‌ی دانشجویی">
+                                                                                    {% endif %}
+                                                                                </span>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-dim btn-xs btn-outline-success">ثبت
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
                                                             </div>
                                                         </div>
                                                     {% endif %}

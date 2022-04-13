@@ -21,12 +21,79 @@
                 document.getElementById('submit').disabled = false;
         }
 
-        window.onload = function () {
-            buttonLoader()
-        }
-        window.onclick = function () {
-            buttonLoader()
-        }
+        $(window).on('load click mousemove', function () {
+            buttonLoader();
+        })
+
+        $(window).on('load', function (e) {
+            $.ajax({
+                url: '{% url 'educational:get_degree_field_sections' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                    'u_id': {{ university.id }}
+                },
+                success: function (data) {
+                    let degreeDropDown = $('#section');
+                    degreeDropDown.empty();
+                    data.forEach(function (element) {
+                        degreeDropDown.append(`<option value=""></option>`);
+                        degreeDropDown.append(`<option value="${element.id}">${element.title}</option>`);
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+                }
+            });
+        })
+
+        $('#section').on('change', function () {
+            $.ajax({
+                url: '{% url 'educational:get_degree_semesters' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                    'd_id': $('#section')[0].value
+                },
+                success: function (data) {
+                    buttonLoader();
+                    let degreeUl = $('#degrees');
+                    degreeUl.empty();
+                    data.forEach(function (element) {
+                        if (element.id in {{ degree_selected_id }})
+                            degreeUl.append(`
+                                <li class="custom-control degree-field custom-checkbox mr-5">
+                                    <input type="checkbox"
+                                           checked
+                                           class="custom-control-input"
+                                           name="degree"
+                                           value="${element.id}"
+                                           id="${element.id}">
+                                    <label class="custom-control-label"
+                                           for="${element.id}">
+                                        ${element.title}
+                                    </label>
+                                </li>`);
+                        else
+                            degreeUl.append(`
+                                <li class="custom-control degree-field custom-checkbox mr-5">
+                                    <input type="checkbox"
+                                           class="custom-control-input"
+                                           name="degree"
+                                           value="${element.id}"
+                                           id="${element.id}">
+                                    <label class="custom-control-label"
+                                           for="${element.id}">
+                                        ${element.title}
+                                    </label>
+                                </li>`);
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را به‌روزرسانی کنید');
+                }
+            });
+        })
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -65,39 +132,46 @@
                                                             <div class="row g-4">
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
+                                                                        <label for="section">مقطع</label>
+                                                                        <select class="form-select select2-hidden-accessible"
+                                                                                data-ui="md" id="section" data-search="on"
+                                                                                name="section" required
+                                                                                tabindex="-1" aria-hidden="true">
+                                                                            <option value="">-- انتخاب --</option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-12">
                                                                     <div class="degree">
-                                                                        <ul>
-                                                                            {% for field in all_fields %}
-                                                                                {% if field in degree_selected %}
-                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">
-                                                                                        <input type="checkbox"
-                                                                                               checked
-                                                                                               class="custom-control-input"
-                                                                                               name="degree"
-                                                                                               value="{{ field.id }}"
-                                                                                               id="{{ field.id }}">
-                                                                                        <label class="custom-control-label"
-                                                                                               for="{{ field.id }}">
-                                                                                            {{ field }}
-                                                                                        </label>
-                                                                                    </li>
-                                                                                {% else %}
-                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">
-                                                                                        <input type="checkbox"
-                                                                                               class="custom-control-input"
-                                                                                               name="degree"
-                                                                                               value="{{ field.id }}"
-                                                                                               id="{{ field.id }}">
-                                                                                        <label class="custom-control-label"
-                                                                                               for="{{ field.id }}">
-                                                                                            {{ field }}
-                                                                                        </label>
-                                                                                    </li>
-                                                                                {% endif %}
-                                                                            {% endfor %}
+                                                                        <ul id="degrees">
+{#                                                                            {% for field in all_fields %}#}
+{#                                                                                {% if field in degree_selected %}#}
+{#                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">#}
+{#                                                                                        <input type="checkbox"#}
+{#                                                                                               checked#}
+{#                                                                                               class="custom-control-input"#}
+{#                                                                                               name="degree"#}
+{#                                                                                               value="{{ field.id }}"#}
+{#                                                                                               id="{{ field.id }}">#}
+{#                                                                                        <label class="custom-control-label"#}
+{#                                                                                               for="{{ field.id }}">#}
+{#                                                                                            {{ field }}#}
+{#                                                                                        </label>#}
+{#                                                                                    </li>#}
+{#                                                                                {% else %}#}
+{#                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">#}
+{#                                                                                        <input type="checkbox"#}
+{#                                                                                               class="custom-control-input"#}
+{#                                                                                               name="degree"#}
+{#                                                                                               value="{{ field.id }}"#}
+{#                                                                                               id="{{ field.id }}">#}
+{#                                                                                        <label class="custom-control-label"#}
+{#                                                                                               for="{{ field.id }}">#}
+{#                                                                                            {{ field }}#}
+{#                                                                                        </label>#}
+{#                                                                                    </li>#}
+{#                                                                                {% endif %}#}
+{#                                                                            {% endfor %}#}
                                                                         </ul>
                                                                     </div>
                                                                 </div>

@@ -54,6 +54,6 @@ def profile(request):
         context['birth_date'] = user.birth_date.__str__()
         context['pass_issue_date'] = user.pass_issue_date.__str__()
         context['pass_expiration'] = user.pass_expiration.__str__()
-    else:
+    elif user.admin_create:
         context['change_password'] = True
     return render(request, 'client/profile.html', context)

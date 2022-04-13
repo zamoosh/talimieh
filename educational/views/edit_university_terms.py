@@ -9,11 +9,13 @@ def edit_university_terms(request, u_id):
     for i in degree_selected:
         degree_list.append(i['degree_field_study__id'])
     degree_selected = DegreeFieldStudy.objects.filter(id__in=degree_list)
+    degree_selected_id = [item.id for item in degree_selected]
     context['r'] = {}
     context['university'] = university
     context['r']['uni'] = university.id
     context['all_fields'] = DegreeFieldStudy.objects.filter(status=True, parent__isnull=False)
     context['degree_selected'] = degree_selected
+    context['degree_selected_id'] = degree_selected_id
     if request.method == 'POST':
         university = get_object_or_404(Universities, id=u_id)
         selected_degree = []
