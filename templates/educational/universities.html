@@ -5,6 +5,13 @@
 {% block title %}دانشگاه ها - نسل تعلیمیه{% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
+    <script>
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#message').css('display', 'none');
+            }, 3000)
+        })
+    </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -28,7 +35,7 @@
                                                     </div>
                                                 {% endif %}
                                                 {% if remove %}
-                                                    <div class="alert m-5 alert-success alert-icon"><em
+                                                    <div class="alert m-5 alert-success alert-icon" id="message"><em
                                                             class="icon ni ni-check-circle"></em> دانشگاه حذف شد .
                                                     </div>
                                                 {% endif %}
