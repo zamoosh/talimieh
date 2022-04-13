@@ -6,6 +6,80 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        $(window).on('load', function () {
+            console.log('loaded');
+            $.ajax({
+                url: '{% url 'educational:get_degree_field_sections' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'u_id': {{ uni.id }}
+                },
+                success: function (data) {
+                    let sections = $('#section');
+                    sections.empty();
+                    data.forEach(function (element) {
+                        sections.append(`<option value=""></option>`);
+                        sections.append(`<option value="${element.id}">${element.title}</option>`);
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+                }
+            });
+        })
+    </script>
+    <script>
+        $('#section').on('change', function () {
+            $.ajax({
+                url: '{% url 'educational:get_degree_semesters_of_an_uni' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'd_id': $('#section').val(),
+                    'u_id': {{ uni.id }}
+                },
+                success: function (data) {
+                    let degreeTable = $('#degrees');
+                    degreeTable.empty();
+                    let i = 1;
+                    data.forEach(function (element) {
+                        if (element.scholarship)
+                            degreeTable.append(`
+                            <tr>
+                                <th scope="row">${i}</th>
+                                <td class="text text-indigo">${element.title}</td>
+                                <td>
+                                    <span class="text align-center text-success">
+                                        <em class="ni ni-check-circle"
+                                            style="font-size: 1.475rem"></em>&nbsp;
+                                    </span>
+                                </td>
+                            </tr>
+                            `);
+                        else
+                            degreeTable.append(`
+                            <tr>
+                                <th scope="row">${i}</th>
+                                <td class="text text-indigo">${element.title}</td>
+                                <td>
+                                    <span class="text align-center text-danger">
+                                        <em class="ni ni-cross-circle"
+                                            style="font-size: 1.475rem"></em>&nbsp;
+                                    </span>
+                                </td>
+                            </tr>
+                            `);
+                        i++;
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+                }
+            });
+        })
+    </script>
 {% endblock %}
 
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -33,11 +107,27 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-inner card-hint">
-                                            <div class="container mb-4">
+                                            <div class="container mb-2">
                                                 <a href="{% url 'educational:semesters' %}"
                                                    class="btn btn-dim btn-outline-primary">
                                                     برگشت به ترم‌ها
                                                 </a>
+                                            </div>
+                                            <div class="col-sm-4 mb-3">
+                                                <div class="form-group">
+                                                    <label class="form-label"
+                                                           for="section">
+                                                        مقطع
+                                                    </label>
+                                                    <div class="form-control-wrap">
+                                                        <select class="form-select select2-hidden-accessible"
+                                                                data-ui="sm" id="section" data-search="on"
+                                                                name="section" required
+                                                                tabindex="-1" aria-hidden="true">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <table class="table table-hover">
                                                 <thead>
@@ -47,26 +137,26 @@
                                                     <th class="text text-indigo" scope="col">بورسیه</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
-                                                {% for sem in uni.semester_set.all %}
-                                                    <tr>
-                                                        <th scope="row">{{ forloop.counter }}</th>
-                                                        <td class="text text-indigo">{{ sem.degree_field_study }}</td>
-                                                        <td>
-                                                            {% if  sem.scholarship %}
-                                                                <span class="text align-center text-success">
-                                                                    <em class="ni ni-check-circle"
-                                                                        style="font-size: 1.475rem"></em>&nbsp;
-                                                                </span>
-                                                            {% else %}
-                                                                <span class="text align-center text-danger">
-                                                                    <em class="ni ni-cross-circle"
-                                                                        style="font-size: 1.475rem"></em>
-                                                                </span>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
+                                                <tbody id="degrees">
+{#                                                {% for sem in uni.semester_set.all %}#}
+{#                                                    <tr>#}
+{#                                                        <th scope="row">{{ forloop.counter }}</th>#}
+{#                                                        <td class="text text-indigo">{{ sem.degree_field_study }}</td>#}
+{#                                                        <td>#}
+{#                                                            {% if  sem.scholarship %}#}
+{#                                                                <span class="text align-center text-success">#}
+{#                                                                    <em class="ni ni-check-circle"#}
+{#                                                                        style="font-size: 1.475rem"></em>&nbsp;#}
+{#                                                                </span>#}
+{#                                                            {% else %}#}
+{#                                                                <span class="text align-center text-danger">#}
+{#                                                                    <em class="ni ni-cross-circle"#}
+{#                                                                        style="font-size: 1.475rem"></em>#}
+{#                                                                </span>#}
+{#                                                            {% endif %}#}
+{#                                                        </td>#}
+{#                                                    </tr>#}
+{#                                                {% endfor %}#}
                                                 </tbody>
                                             </table>
                                         </div>

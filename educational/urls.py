@@ -22,8 +22,9 @@ urlpatterns = [
     path('semester/api/', if_any_semester_active, name="if_any_semester_active"),
     path('get_degree/api/<int:t_id>/', get_degree, name="get_degree"),
     path('have-section/api/', have_section, name='have_section'),
-    path('get_degree_semesters/', get_degree_semesters, name='get_degree_semesters'),
-    path('get-sections-degree/', get_sections_degrees, name='get_sections_degrees'),
+    path('get_degree_semesters/api/', get_degree_semesters, name='get_degree_semesters'),
+    path('get-sections-degree/api/', get_sections_degrees, name='get_sections_degrees'),
+    path('get-degree-semesters-of-an-uni/api/', get_uni_degrees, name='get_degree_semesters_of_an_uni'),
 
     path('upload-new-doc/', upload_new_doc, name='upload_new_doc'),
     path('submit-upload/', submit_upload, name='submit_upload'),
