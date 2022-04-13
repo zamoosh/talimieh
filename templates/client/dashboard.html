@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{% load request_info %}
 {% block title %}داشبورد - نسل تعلیمیه{% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-general has-sidebar"{% endblock %}
 {% block body %}
@@ -13,6 +14,13 @@
                     <div class="nk-content ">
                         <div class="container-fluid">
                             <div class="nk-content-inner">
+                                <div class="example-alert container">
+                                    <div class="alert alert-gray alert-icon mb-4">
+                                        <em class="icon ni ni-alert-circle"></em>
+                                        <strong>already expired</strong>
+                                        <a href="#" class="alert-link">credit card</a> for make deposit.
+                                    </div>
+                                </div>
                                 <div class="nk-content-body">
                                     <div class="nk-block-head nk-block-head-sm">
                                         <div class="nk-block-between">
@@ -22,72 +30,132 @@
                                                     </p></div>
                                             </div>
                                         </div>
+                                        <div class="row g-gs">
+                                            <div class="col-xl-4">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-inner bg-azure-dim">
+                                                                {% if my_request_num %}
+                                                                    <p>شما
+                                                                        <span class="text-danger">{{ my_request_num }}</span>
+                                                                        درخواست دارید
+                                                                    </p>
+                                                                {% else %}
+                                                                    <p>تا به حال درخواستی ثبت نکرده‌اید</p>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-inner bg-orange-dim">
+                                                                {% if my_reject_requests_num %}
+                                                                    <p>شما
+                                                                        <span class="text-danger">{{ my_reject_requests_num }}</span>
+                                                                        درخواست رد شده دارید
+                                                                    </p>
+                                                                {% else %}
+                                                                    <p>شما درخواست ردشده‌ای ندارید</p>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="row g-gs">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-inner bg-success-dim">
+                                                                {% if confirmed_request_num %}
+                                                                    <p>شما
+                                                                        <span class="text-danger">{{ confirmed_request_num }}</span>
+                                                                        درخواست تائید شده دارید
+                                                                    </p>
+                                                                {% else %}
+                                                                    <p>شما درخواست تائید شده‌ای ندارید</p>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="nk-block">
                                         <div class="row g-gs">
-                                            <div class="col-xxl-3">
-                                                <div class="row g-gs">
-                                                    <div class="col-md-12">
-                                                        <div class="card">
-                                                            <div class="card-inner">
-                                                                <div class="card-title-group align-start mb-2">
-                                                                    <div class="card-title"><h6 class="title">آمار ثبت نام</h6>
-                                                                        <p>تمامی ثبت نام شدگان فعال سیستم</p>
-                                                                    </div>
-                                                                    <div class="card-tools"><em
-                                                                            class="card-hint icon ni ni-help-fill"
-                                                                            data-toggle="tooltip" data-placement="left"
-                                                                            title="فقط دانشجویان"></em></div>
-                                                                </div>
-                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
-                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
-                                                                        <div class="nk-sale-data"><span
-                                                                                class="amount">{{ registered }}
-                                                                            <span class="sub-title">نفر</span></span>
+                                            {% if request.user.is_superuser or perms.educational.can_see_educational_request%}
+                                                <div class="col-xxl-3">
+                                                    <div class="row g-gs">
+                                                        <div class="col-md-12">
+                                                            <div class="card">
+                                                                <div class="card-inner">
+                                                                    <div class="card-title-group align-start mb-2">
+                                                                        <div class="card-title">
+                                                                            <h6 class="title">آمار ثبت نام</h6>
+                                                                            <p>تمامی ثبت نام شدگان فعال سیستم</p>
+                                                                        </div>
+                                                                        <div class="card-tools">
+                                                                            <em class="card-hint icon ni ni-help-fill"
+                                                                                data-toggle="tooltip" data-placement="left"
+                                                                                title="فقط دانشجویان">
+                                                                            </em>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="nk-sales-ck sales-revenue">
-                                                                        <canvas class="student-enrole"
-                                                                                id="enrolement"></canvas>
+                                                                    <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                        <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                            <div class="nk-sale-data"><span
+                                                                                    class="amount">{{ registered }}
+                                                                                <span class="sub-title">نفر</span></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="nk-sales-ck sales-revenue">
+                                                                            <canvas class="student-enrole"
+                                                                                    id="enrolement"></canvas>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xxl-3">
-                                                <div class="row g-gs">
-                                                    <div class="col-md-12">
-                                                        <div class="card">
-                                                            <div class="card-inner">
-                                                                <div class="card-title-group align-start mb-2">
-                                                                    <div class="card-title"><h6 class="title">ترم فعال</h6>
-                                                                        <p>تا کنون 12 ترم ایجاد شده است</p>
-                                                                    </div>
-                                                                    <div class="card-tools"><em
-                                                                            class="card-hint icon ni ni-help-fill"
-                                                                            data-toggle="tooltip" data-placement="left"
-                                                                            title="ترم بهمن ماه"></em></div>
-                                                                </div>
-                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
-                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
-                                                                        <div class="nk-sale-data"><span
-                                                                                class="amount">{{ year.title }} / {{ year.parent.title }}
-                                                                            <span class="sub-title"></span></span>
+                                                <div class="col-xxl-3">
+                                                    <div class="row g-gs">
+                                                        <div class="col-md-12">
+                                                            <div class="card">
+                                                                <div class="card-inner">
+                                                                    <div class="card-title-group align-start mb-2">
+                                                                        <div class="card-title"><h6 class="title">ترم فعال</h6>
+                                                                            <p>تا کنون 12 ترم ایجاد شده است</p>
                                                                         </div>
+                                                                        <div class="card-tools"><em
+                                                                                class="card-hint icon ni ni-help-fill"
+                                                                                data-toggle="tooltip" data-placement="left"
+                                                                                title="ترم بهمن ماه"></em></div>
                                                                     </div>
-                                                                    <div class="nk-sales-ck sales-revenue">
-                                                                        <canvas class="student-enrole"
-                                                                                id="enrolement"></canvas>
+                                                                    <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                        <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                            <div class="nk-sale-data"><span
+                                                                                    class="amount">{{ year.title }} / {{ year.parent.title }}
+                                                                                <span class="sub-title"></span></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="nk-sales-ck sales-revenue">
+                                                                            <canvas class="student-enrole"
+                                                                                    id="enrolement"></canvas>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xxl-3">
+                                                <div class="col-xxl-3">
                                                 <div class="row g-gs">
                                                     <div class="col-md-12">
                                                         <div class="card">
@@ -114,32 +182,70 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                             <div class="col-xxl-3">
                                                 <div class="row g-gs">
                                                     <div class="col-md-12">
                                                         <div class="card">
                                                             <div class="card-inner">
                                                                 <div class="card-title-group align-start mb-2">
-                                                                    <div class="card-title"><h6 class="title">درخواست ها</h6>
-                                                                        <p>تا کنون به 12 پاسخ داده شده است</p>
+                                                                    <div class="card-title">
+                                                                        <h6 class="title">درخواست ها</h6>
                                                                     </div>
-                                                                    <div class="card-tools"><em
-                                                                            class="card-hint icon ni ni-help-fill"
+                                                                    <div class="card-tools">
+                                                                        <em class="card-hint icon ni ni-help-fill"
                                                                             data-toggle="tooltip" data-placement="left"
-                                                                            title="درخواست های فعال"></em></div>
+                                                                            title="درخواست های فعال">
+                                                                        </em>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
-                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
-                                                                        <div class="nk-sale-data"><span
-                                                                                class="amount">0
-                                                                            <span class="sub-title">درخواست</span></span>
+                                                                {% if request.user.is_superuser or perms.educational.can_see_educational_request %}
+                                                                    <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                        <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                            <div class="nk-sale-data">
+                                                                            <span class="amount">
+                                                                                <span class="sub-title">درخواست</span>
+                                                                            </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="nk-sales-ck sales-revenue">
+                                                                            <canvas class="student-enrole"
+                                                                                    id="enrolement">
+                                                                            </canvas>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="nk-sales-ck sales-revenue">
-                                                                        <canvas class="student-enrole"
-                                                                                id="enrolement"></canvas>
-                                                                    </div>
-                                                                </div>
+                                                                {% elif confirmed_request %}
+                                                                    <table class="table table-hover">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th class="text text-indigo" scope="col">ردیف</th>
+                                                                            <th class="text text-indigo" scope="col">وضعیت</th>
+                                                                            <th class="text text-indigo" scope="col">مشاهده</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        {% for r in confirmed_request %}
+                                                                            <tr>
+                                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                                <td>
+                                                                                    <span class="align-center text text-azure">
+                                                                                        {{ r.get_step }}
+                                                                                        {% if r.final_status %}
+                                                                                            <em class="icon ni ni-check-circle text-success"
+                                                                                                style="font-size: 1.475rem"></em>
+                                                                                        {% endif %}
+                                                                                    </span>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="{% url 'educational:request_single_detail' r.id %}"
+                                                                                       type="button"
+                                                                                       class="btn btn-dim btn-sm btn-outline-info">مشاهده</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                {% endif %}
                                                             </div>
                                                         </div>
                                                     </div>
