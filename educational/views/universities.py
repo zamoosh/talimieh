@@ -2,7 +2,7 @@ from .imports import *
 
 
 def universities(request):
-    context = {'universities': Universities.objects.all().order_by('-id')}
+    context = {'universities': Universities.objects.filter(status=True).order_by('-id')}
     if request.method == "POST":
         context['req'] = {}
         context['req']['university'] = request.POST.get('university', '').strip()
@@ -20,6 +20,9 @@ def universities(request):
             context['create'] = True
     if 'remove' in request.GET:
         try:
+            # u = Universities.objects.get(id=request.GET.get('remove'))
+            # u.status = False
+            # u.save()
             u = Universities.objects.get(id=Universities.objects.get(id=int(request.GET.get('remove'))))
             u.delete()
             context['remove'] = True

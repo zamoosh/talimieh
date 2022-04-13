@@ -121,10 +121,9 @@
                                                     </label>
                                                     <div class="form-control-wrap">
                                                         <select class="form-select select2-hidden-accessible"
-                                                                data-ui="sm" id="section" data-search="on"
+                                                                data-ui="md" id="section" data-search="on"
                                                                 name="section" required
                                                                 tabindex="-1" aria-hidden="true">
-                                                            <option value=""></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -133,30 +132,41 @@
                                                 <thead>
                                                 <tr>
                                                     <th class="text text-indigo" scope="col">ردیف</th>
-                                                    <th class="text text-indigo" scope="col">نام رشته</th>
+                                                    <th class="text text-indigo" scope="col">نام رشته / مقطع</th>
                                                     <th class="text text-indigo" scope="col">بورسیه</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody id="degrees">
-{#                                                {% for sem in uni.semester_set.all %}#}
-{#                                                    <tr>#}
-{#                                                        <th scope="row">{{ forloop.counter }}</th>#}
-{#                                                        <td class="text text-indigo">{{ sem.degree_field_study }}</td>#}
-{#                                                        <td>#}
-{#                                                            {% if  sem.scholarship %}#}
-{#                                                                <span class="text align-center text-success">#}
-{#                                                                    <em class="ni ni-check-circle"#}
-{#                                                                        style="font-size: 1.475rem"></em>&nbsp;#}
-{#                                                                </span>#}
-{#                                                            {% else %}#}
-{#                                                                <span class="text align-center text-danger">#}
-{#                                                                    <em class="ni ni-cross-circle"#}
-{#                                                                        style="font-size: 1.475rem"></em>#}
-{#                                                                </span>#}
-{#                                                            {% endif %}#}
-{#                                                        </td>#}
-{#                                                    </tr>#}
-{#                                                {% endfor %}#}
+                                                {% for sec in sections %}
+                                                    {% with forloop.counter as row_num %}
+                                                        <tr>
+                                                            <th scope="row">{{ row_num }}</th>
+                                                            <td class="text-danger">{{ sec.title }}</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        {% for sem in uni.semester_set.all %}
+                                                            {% if sem.degree_field_study.parent.id == sec.id %}
+                                                                <tr>
+                                                                    <th scope="row"></th>
+                                                                    <td class="text-info">{{ sem }}</td>
+                                                                    <td>
+                                                                        {% if sem.scholarship %}
+                                                                            <span class="text align-center text-success">
+                                                                                <em class="ni ni-check-circle"
+                                                                                    style="font-size: 1.475rem"></em>&nbsp;
+                                                                            </span>
+                                                                        {% else %}
+                                                                            <span class="text align-center text-danger">
+                                                                                <em class="ni ni-cross-circle"
+                                                                                    style="font-size: 1.475rem"></em>&nbsp;
+                                                                            </span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endwith %}
+                                                {% endfor %}
                                                 </tbody>
                                             </table>
                                         </div>
