@@ -32,3 +32,8 @@ def if_any_semester_active():
     if YearSemester.objects.filter(status__exact=True).exists():
         return JsonResponse(True, safe=False)
     return JsonResponse(False, safe=False)
+
+
+@register.simple_tag
+def get_number_of_semesters():
+    return YearSemester.objects.all().__len__()

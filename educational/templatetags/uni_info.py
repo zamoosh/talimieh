@@ -14,3 +14,8 @@ def get_uni_docs(uni, doc_or_com):
         docs += doc_list[i]
         i += 1
     return docs
+
+
+@register.simple_tag
+def get_number_of_universities():
+    return Universities.objects.filter(status=True).__len__()

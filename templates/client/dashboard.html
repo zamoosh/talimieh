@@ -2,6 +2,8 @@
 {% load static %}
 {% load jformat %}
 {% load request_info %}
+{% load semesters_info %}
+{% load uni_info %}
 {% block title %}داشبورد - نسل تعلیمیه{% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-general has-sidebar"{% endblock %}
 {% block body %}
@@ -17,8 +19,8 @@
                                 <div class="example-alert container">
                                     <div class="alert alert-gray alert-icon mb-4">
                                         <em class="icon ni ni-alert-circle"></em>
-                                        <strong>already expired</strong>
-                                        <a href="#" class="alert-link">credit card</a> for make deposit.
+                                        <strong>به زودی</strong>
+                                        <a href="#" class="alert-link">درخواست</a> قرار میگیرد
                                     </div>
                                 </div>
                                 <div class="nk-content-body">
@@ -30,6 +32,7 @@
                                                     </p></div>
                                             </div>
                                         </div>
+                                    {% if not request.user.is_superuser or not perms.educational.can_see_educational_request %}
                                         <div class="row g-gs">
                                             <div class="col-xl-4">
                                                 <div class="row g-gs">
@@ -86,6 +89,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    {% endif %}
                                     </div>
                                     <div class="nk-block">
                                         <div class="row g-gs">
@@ -131,7 +135,8 @@
                                                                 <div class="card-inner">
                                                                     <div class="card-title-group align-start mb-2">
                                                                         <div class="card-title"><h6 class="title">ترم فعال</h6>
-                                                                            <p>تا کنون 12 ترم ایجاد شده است</p>
+                                                                            {% get_number_of_semesters as num_of_sem %}
+                                                                            <p>تا کنون {{ num_of_sem }} ترم ایجاد شده است</p>
                                                                         </div>
                                                                         <div class="card-tools"><em
                                                                                 class="card-hint icon ni ni-help-fill"
@@ -162,7 +167,8 @@
                                                             <div class="card-inner">
                                                                 <div class="card-title-group align-start mb-2">
                                                                     <div class="card-title"><h6 class="title">دانشگاه های فعال ترم</h6>
-                                                                        <p>15 دانشگاه در این ترم ثبت نشده است</p>
+                                                                        {% get_number_of_universities as num_of_uni %}
+                                                                        <p>{{ num_of_uni }} دانشگاه در این ترم ثبت شده است</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
@@ -183,11 +189,13 @@
                                                 </div>
                                             </div>
                                             {% endif %}
-                                            <div class="col-xxl-3">
+                                            {% if not request.user.is_superuser or not perms.educational.can_see_educational_request %}
+                                                <div class="col-xxl-3">
                                                 <div class="row g-gs">
                                                     <div class="col-md-12">
                                                         <div class="card">
                                                             <div class="card-inner">
+                                                            sdfwergrthgrthrth
                                                                 <div class="card-title-group align-start mb-2">
                                                                     <div class="card-title">
                                                                         <h6 class="title">درخواست ها</h6>
@@ -199,22 +207,21 @@
                                                                         </em>
                                                                     </div>
                                                                 </div>
-                                                                {% if request.user.is_superuser or perms.educational.can_see_educational_request %}
-                                                                    <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
-                                                                        <div class="nk-sale-data-group flex-md-nowrap g-4">
-                                                                            <div class="nk-sale-data">
-                                                                            <span class="amount">
-                                                                                <span class="sub-title">درخواست</span>
-                                                                            </span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="nk-sales-ck sales-revenue">
-                                                                            <canvas class="student-enrole"
-                                                                                    id="enrolement">
-                                                                            </canvas>
+                                                                <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                    <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                        <div class="nk-sale-data">
+                                                                        <span class="amount">
+                                                                            <span class="sub-title">درخواست</span>
+                                                                        </span>
                                                                         </div>
                                                                     </div>
-                                                                {% elif confirmed_request %}
+                                                                    <div class="nk-sales-ck sales-revenue">
+                                                                        <canvas class="student-enrole"
+                                                                                id="enrolement">
+                                                                        </canvas>
+                                                                    </div>
+                                                                </div>
+                                                                {% if confirmed_request %}
                                                                     <table class="table table-hover">
                                                                         <thead>
                                                                         <tr>
@@ -251,6 +258,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

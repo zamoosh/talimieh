@@ -8,10 +8,12 @@ def uni_degrees_show(request):
     if request.GET.get('u'):
         context = {}
         uni = Universities.objects.get(id=request.GET.get('u'))
+        if not (uni.semester_set.exists()):
+            return redirect(reverse('page_not_found'))
         sections_id = uni.semester_set.filter(degree_field_study__parent__isnull=False,
                                               status=True).values_list('degree_field_study__parent', flat=True)
         context['sections'] = []
-        for section in DegreeFieldStudy.objects.filter(id__in=sections_id):
+        for section in DegreeFieldStudy.objects.filter(id__in=sections_id, status=True):
             context['sections'].append(
                 {'id': section.id, 'title': section.title}
             )
