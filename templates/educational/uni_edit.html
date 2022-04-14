@@ -21,9 +21,9 @@
                 document.getElementById('submit').disabled = false;
         }
 
-        $(window).on('load click mousemove', function () {
+        /*$(window).on('load click mousemove', function () {
             buttonLoader();
-        })
+        })*/
 
         $(window).on('load', function () {
             $.ajax({
@@ -56,7 +56,7 @@
                     'd_id': $('#section')[0].value,
                 },
                 success: function (data) {
-                    buttonLoader();
+                    /*buttonLoader();*/
                     let degreeUl = $('#degrees');
                     degreeUl.empty();
                     let degreeSelected = {{ degree_selected_id }}
