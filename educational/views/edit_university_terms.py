@@ -1,9 +1,12 @@
 from .imports import *
 
 
+@login_required
 def edit_university_terms(request, u_id):
     context = {}
     university = get_object_or_404(Universities, id=u_id)
+    if not university.semester_set.exists():
+        return redirect(reverse('educational:universities'))
     degree_list = []
     degree_selected = Semester.objects.values('degree_field_study__id').filter(university=university, status=True)
     for i in degree_selected:

@@ -2,7 +2,8 @@ from .imports import *
 
 
 def universities(request):
-    context = {'universities': Universities.objects.filter(status=True).order_by('-id')}
+    context = {}
+    context['universities'] = Universities.objects.filter(status=True).order_by('-id')
     if request.method == "POST":
         context['req'] = {}
         context['req']['university'] = request.POST.get('university', '').strip()
