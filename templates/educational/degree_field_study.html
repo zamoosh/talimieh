@@ -135,8 +135,7 @@
                                                                                     </span>
                                                                                 {% endif %}
                                                                             </td>
-                                                                            <td>{% if degree.document %}
-                                                                                {{ degree|get_degree_doc }}{% endif %}</td>
+                                                                            <td>{% if degree.document %}{{ degree|get_degree_doc }}{% endif %}</td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
                                                                                 <a href="{% url 'educational:degree_field_study' %}?remove={{ degree.id }}"
                                                                                    class="btn btn-sm btn-dim btn-outline-danger">

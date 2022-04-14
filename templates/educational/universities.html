@@ -66,14 +66,14 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody id="uni">
-                                                        {% for university in universities %}
-                                                            {% if university.semester_set.exists %}
+                                                        {% for uni in universities %}
+                                                            {% if uni.semester_set.exists %}
                                                                 <tr>
-                                                                    <td>{{ university.uni_name }}</td>
-                                                                    <td>{% if university.document %}{{ university|get_uni_docs:university.document }}{% endif %}</td>
-                                                                    <td>{% if university.comment %}{{ university|get_uni_docs:university.comment }}{% endif %}</td>
+                                                                    <td>{{ uni.uni_name }}</td>
+                                                                    <td>{% if uni.document %}{{ uni|get_uni_docs:uni.document }}{% endif %}</td>
+                                                                    <td>{% if uni.comment %}{{ uni|get_uni_docs:uni.comment }}{% endif %}</td>
                                                                     <td>
-                                                                        <a href="{% url 'educational:uni_edit_terms' university.id %}"
+                                                                        <a href="{% url 'educational:uni_edit_terms' uni.id %}"
                                                                            class="btn btn-dim btn-outline-primary btn-sm">
                                                                             ویرایش
                                                                         </a>
@@ -90,7 +90,7 @@
                                                                                     <div class="dropdown-menu dropdown-menu-right">
                                                                                         <ul class="link-list-opt no-bdr">
                                                                                             <li>
-                                                                                                <a href="{% url 'educational:universities' %}?remove={{ university.id }}">
+                                                                                                <a href="{% url 'educational:universities' %}?remove={{ uni.id }}">
                                                                                                     <em class="icon ni ni-delete"></em>
                                                                                                     <span>حذف</span>
                                                                                                 </a>
@@ -104,10 +104,15 @@
                                                                 </tr>
                                                             {% else %}
                                                                 <tr>
-                                                                    <td>{{ university.uni_name }}</td>
-                                                                    <td>{% if university.document %}{{ university|get_uni_docs:university.document }}{% endif %}</td>
-                                                                    <td>{% if university.comment %}{{ university|get_uni_docs:university.comment }}{% endif %}</td>
-                                                                    <td><p> رشته‌ای برای این دانشگاه انتخاب نشده است</p></td>
+                                                                    <td>{{ uni.uni_name }}</td>
+                                                                    <td>{% if uni.document %}{{ uni|get_uni_docs:uni.document }}{% endif %}</td>
+                                                                    <td>{% if uni.comment %}{{ uni|get_uni_docs:uni.comment }}{% endif %}</td>
+                                                                    <td>
+                                                                        <a class="btn btn-dim btn-outline-secondary btn-xs"
+                                                                        href="{% url 'educational:uni_show_docs' uni.id %}">
+                                                                            ویرایش توضیحات
+                                                                        </a>
+                                                                    </td>
                                                                     <td class="nk-tb-col nk-tb-col-tools">
                                                                         <ul class="nk-tb-actions gx-1">
                                                                             <li>
@@ -120,7 +125,7 @@
                                                                                     <div class="dropdown-menu dropdown-menu-right">
                                                                                         <ul class="link-list-opt no-bdr">
                                                                                             <li>
-                                                                                                <a href="{% url 'educational:universities' %}?remove={{ university.id }}"><em
+                                                                                                <a href="{% url 'educational:universities' %}?remove={{ uni.id }}"><em
                                                                                                         class="icon ni ni-delete"></em><span>حذف</span></a>
                                                                                             </li>
                                                                                         </ul>
