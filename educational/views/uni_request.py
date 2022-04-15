@@ -3,6 +3,7 @@ from .imports import *
 
 @login_required
 def uni_request(request):
+    return redirect(reverse('page_not_found'))
     context = {'educational_request': EducationalRequest.objects.all()}
     if request.method == 'POST':
         context['request'] = {}
