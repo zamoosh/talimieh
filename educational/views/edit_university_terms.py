@@ -25,8 +25,11 @@ def edit_university_terms(request, u_id):
         for item in request.POST.getlist('degree'):
             degree = DegreeFieldStudy.objects.get(id=item)
             selected_degree.append(degree)
-        common = university.semester_set.filter(degree_field_study__in=selected_degree, status=True)
-        delete = university.semester_set.filter(~Q(degree_field_study__in=selected_degree), status=True)
+        section = DegreeFieldStudy.objects.get(id=request.POST.get('section'))
+        common = university.semester_set.filter(degree_field_study__in=selected_degree, status=True,
+                                                degree_field_study__parent=section)
+        delete = university.semester_set.filter(~Q(degree_field_study__in=selected_degree), status=True,
+                                                degree_field_study__parent=section)
         for item in delete:
             item.delete()
         add = []

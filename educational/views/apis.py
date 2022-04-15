@@ -27,7 +27,7 @@ def get_uni(request):
 @login_required
 def get_uni_for_request(request):
     context = []
-    for i in Universities.objects.filter(semester__isnull=False).distinct():
+    for i in Universities.objects.filter(semester__isnull=False, status=True).distinct():
         context.append({'id': i.pk, 'name': i.uni_name})
     return JsonResponse(context, safe=False)
 
@@ -113,7 +113,7 @@ def get_uni_degrees(request):
         if degree.semester_set.get(university=uni).scholarship:
             scholarship = True
         sem_list.append(
-            {'id': degree.id, 'title': degree.__str__(), 'scholarship': scholarship}
+            {'id': degree.id, 'title': degree.__str__(), 'scholarship': scholarship, 'u_name': uni.uni_name}
         )
     return JsonResponse(sem_list, safe=False)
 

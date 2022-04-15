@@ -1,13 +1,13 @@
 {% extends "base.html" %}{% load has_group %}
 {% load static %}
 {% load jformat %}
+{% load degree_info %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 {% block css %}
 
 {% endblock %}
 {% block js %}
     <script>
-
         function buttonLoader() {
             let checkboxArr = document.getElementsByTagName('input');
             let counter = 0;
@@ -48,22 +48,25 @@
         })
 
         $('#section').on('change', function () {
+            let secId = $('#section').val();
             $.ajax({
                 url: '{% url 'educational:get_sections_degrees' %}',
                 type: "POST",
                 data: {
                     'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                    'd_id': $('#section')[0].value,
+                    'd_id': secId,
                 },
                 success: function (data) {
                     /*buttonLoader();*/
-                    let degreeUl = $('#degrees');
-                    degreeUl.empty();
+                    let degreeTable = $('#degrees');
+                    degreeTable.empty();
                     let degreeSelected = {{ degree_selected_id }}
+                    i = 1;
+                    degreeTable.append(`<input type="hidden" name="sec_id" id="${secId}">`);
                     data.forEach(function (element) {
                         if (degreeSelected.includes(element.id))
-                            degreeUl.append(`
-                                <li class="custom-control degree-field custom-checkbox mr-5">
+                            degreeTable.append(`
+                                <div class="custom-control degree-field custom-checkbox custom-control-sm mr-5">
                                     <input type="checkbox"
                                            checked
                                            class="custom-control-input"
@@ -72,12 +75,12 @@
                                            id="${element.id}">
                                     <label class="custom-control-label"
                                            for="${element.id}">
-                                        ${element.title}
+                                        <h6 class="text-success">${element.title}</h6>
                                     </label>
-                                </li>`);
+                                </div>`);
                         else
-                            degreeUl.append(`
-                                <li class="custom-control degree-field custom-checkbox mr-5">
+                            degreeTable.append(`
+                                <div class="custom-control degree-field custom-checkbox mr-5">
                                     <input type="checkbox"
                                            class="custom-control-input"
                                            name="degree"
@@ -85,9 +88,9 @@
                                            id="${element.id}">
                                     <label class="custom-control-label"
                                            for="${element.id}">
-                                        ${element.title}
+                                        <h6 class="text-gray">${element.title}</h6>
                                     </label>
-                                </li>`);
+                                </div>`);
                     })
                 },
                 error: function (error) {
@@ -119,10 +122,12 @@
                                                                 دانشگاه {{ university.uni_name }}
                                                             </h4>
                                                         </div>
-                                                        <div class="nk-block-head-content align-self-start d-lg-none"><a
-                                                                href="#" class="toggle btn btn-icon btn-trigger mt-n1"
-                                                                data-target="userAside"><em
-                                                                class="icon ni ni-menu-alt-r"></em></a></div>
+                                                        <div class="nk-block-head-content align-self-start d-lg-none">
+                                                            <a href="#" class="toggle btn btn-icon btn-trigger mt-n1"
+                                                                data-target="userAside">
+                                                                <em class="icon ni ni-menu-alt-r"></em>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="nk-block" data-select2-id="6">
@@ -143,8 +148,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-12">
-                                                                    <div class="degree">
-                                                                        <ul id="degrees">
+                                                                    <div class="degree" id="degrees">
 {#                                                                            {% for field in all_fields %}#}
 {#                                                                                {% if field in degree_selected %}#}
 {#                                                                                    <li class="custom-control degree-field custom-checkbox mr-5">#}
@@ -173,7 +177,6 @@
 {#                                                                                    </li>#}
 {#                                                                                {% endif %}#}
 {#                                                                            {% endfor %}#}
-                                                                        </ul>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
@@ -203,8 +206,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
