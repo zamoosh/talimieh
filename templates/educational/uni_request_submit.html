@@ -161,155 +161,153 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card p-5">
+                                    {% if request.user.ownerdocument_set.exists %}
                                         <form action="{% url 'client:user_document_upload' %}" method="post"
                                               enctype="multipart/form-data">
                                             <div class="card-inner">
                                                 <div class="preview-block">
-                                                    <div class="example-alert">
-                                                        <div class="alert alert-danger alert-icon">
+                                                    <div class="example-alert mb-4">
+                                                        <div class="alert alert-warning alert-icon">
                                                             <em class="icon ni ni-alert-circle"></em>
                                                             <strong class="text-lg-center">
-                                                                تمامی قسمت‌ها الزامی است
+                                                                پر کردن تمامی قسمت‌ها الزامی است
                                                             </strong>
                                                         </div>
                                                     </div>
-                                                    <br>
                                                     <div class="row gy-4">
 
-                                                        <!-- user average -->
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label class="form-label"
-                                                                       for="average">
-                                                                    معدل
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" required
-                                                                           class="form-control"
-                                                                           name="average"
-                                                                           placeholder="معدل"
-                                                                           id="average">
+                                                            <!-- user average -->
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-label"
+                                                                           for="average">
+                                                                        معدل
+                                                                    </label>
+                                                                    <div class="form-control-wrap">
+                                                                        <input type="text" required
+                                                                               class="form-control"
+                                                                               name="average"
+                                                                               placeholder="معدل"
+                                                                               id="average">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- former uni -->
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-label"
+                                                                           for="former_university">
+                                                                        دانشگاه سابق
+                                                                    </label>
+                                                                    <div class="form-control-wrap">
+                                                                        <input type="text" required
+                                                                               class="form-control"
+                                                                               name="former_university"
+                                                                               placeholder="دانشگاه سابق"
+                                                                               id="former_university">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- former field study -->
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-label"
+                                                                           for="former_field_study">
+                                                                        رشته‌ی تحصیلی قبلی
+                                                                    </label>
+                                                                    <div class="form-control-wrap">
+                                                                        <input type="text" required
+                                                                               class="form-control"
+                                                                               name="former_field_study"
+                                                                               placeholder="رشته‌ی تحصیلی قبلی"
+                                                                               id="former_field_study">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- blank space -->
+                                                            <div class="col-sm-6"></div>
+
+                                                            <!-- university -->
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group" id="degree-div">
+                                                                    <label class="form-label"
+                                                                           for="uni">
+                                                                        دانشگاه
+                                                                    </label>
+                                                                    <div class="form-control-wrap">
+                                                                        <select class="form-select select2-hidden-accessible"
+                                                                                data-ui="md" id="uni" data-search="on"
+                                                                                name="uni" required
+                                                                                aria-hidden="true">
+                                                                            <option value="">-- انتخاب --</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- section -->
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group" id="degree-div">
+                                                                    <label class="form-label"
+                                                                           for="degree">
+                                                                        مقطع تحصیلی
+                                                                    </label>
+                                                                    <div class="form-control-wrap">
+                                                                        <select class="form-select select2-hidden-accessible"
+                                                                                data-ui="md" id="degree"
+                                                                                data-search="on"
+                                                                                name="degree" required
+                                                                                aria-hidden="true">
+                                                                            <option value="">-- انتخاب --</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- section's semester -->
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label class="form-label"
+                                                                           for="degree-semester">
+                                                                        رشته‌ی تحصیلی
+                                                                    </label>
+                                                                    <div class="form-control-wrap">
+                                                                        <select class="form-select select2-hidden-accessible"
+                                                                                data-ui="md" id="degree-semester"
+                                                                                data-search="on" required
+                                                                                name="degree-semester"
+                                                                                aria-hidden="true">
+                                                                            <option value="">-- انتخاب --</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <!-- former uni -->
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label class="form-label"
-                                                                       for="former_university">
-                                                                    دانشگاه سابق
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" required
-                                                                           class="form-control"
-                                                                           name="former_university"
-                                                                           placeholder="دانشگاه سابق"
-                                                                           id="former_university">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- former field study -->
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label class="form-label"
-                                                                       for="former_field_study">
-                                                                    رشته‌ی تحصیلی قبلی
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" required
-                                                                           class="form-control"
-                                                                           name="former_field_study"
-                                                                           placeholder="رشته‌ی تحصیلی قبلی"
-                                                                           id="former_field_study">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- blank space -->
-                                                        <div class="col-sm-6"></div>
-
-                                                        <!-- university -->
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group" id="degree-div">
-                                                                <label class="form-label"
-                                                                       for="uni">
-                                                                    دانشگاه
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <select class="form-select select2-hidden-accessible"
-                                                                            data-ui="md" id="uni" data-search="on"
-                                                                            name="uni" required
-                                                                            tabindex="-1" aria-hidden="true">
-                                                                        <option value="">-- انتخاب --</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- section -->
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group" id="degree-div">
-                                                                <label class="form-label"
-                                                                       for="degree">
-                                                                    مقطع تحصیلی
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <select class="form-select select2-hidden-accessible"
-                                                                            data-ui="md" id="degree" data-search="on"
-                                                                            name="degree" required
-                                                                            tabindex="-1" aria-hidden="true">
-                                                                        <option value="">-- انتخاب --</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- section's semester -->
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <label class="form-label"
-                                                                       for="degree-semester">
-                                                                    رشته‌ی تحصیلی
-                                                                </label>
-                                                                <div class="form-control-wrap">
-                                                                    <select class="form-select select2-hidden-accessible"
-                                                                            data-ui="md" id="degree-semester"
-                                                                            data-search="on" required
-                                                                            name="degree-semester"
-                                                                            tabindex="-1" aria-hidden="true">
-                                                                        <option value="">-- انتخاب --</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                                 {% csrf_token %}
-                                                <div class="row gy-3">
+                                                <div class="row gy-3 mb-3">
                                                     <div class="col-12">
                                                         <span class="pt-5">مدارک شما:</span>
-                                                        <div class="card card-preview">
-                                                            <div class="card-inner">
-                                                                <table class="table table-striped">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th scope="col">ردیف</th>
-                                                                        <th scope="col">تصویر مدرک</th>
-                                                                        <th scope="col">عنوان مدرک</th>
-                                                                        <th scope="col">انتخاب</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody id="table-body-row">
+                                                        <div class="card-inner">
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">ردیف</th>
+                                                                    <th scope="col">تصویر مدرک</th>
+                                                                    <th scope="col">عنوان مدرک</th>
+                                                                    <th scope="col">انتخاب</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody id="table-body-row">
 
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br>
                                                 <div class="form-group">
                                                     <button type="submit" id="submit"
                                                             class="btn float-right btn-primary"
@@ -323,6 +321,22 @@
                                                 </div>
                                             </div>
                                         </form>
+                                    {% else %}
+                                        <div class="example-alert mb-4">
+                                            <div class="alert alert-info alert-icon">
+                                                <em class="icon ni ni-alert-circle"></em>
+                                                <strong class="text-lg-center">
+                                                    لطفا قبل از ساخت درخواست،‌ مدارک خود را آپلود کنید
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <a type="button" href="{% url 'educational:upload_new_doc' %}"
+                                               class="btn btn-dim btn-outline-info float-left">
+                                                آپلود مدرک جدید
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
