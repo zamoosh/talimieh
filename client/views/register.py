@@ -21,6 +21,9 @@ def register(request):
         elif context['request']['password'] != request.POST.get('password2', ''):
             context['passconfilict'] = 1
             context['error'] = 1
+        if User.objects.filter(username=context['request']['cellphone']).exists():
+            context['error'] = 1
+            context['user_exists'] = True
         if context['error'] == 0:
             user = User.objects.create_user(
                 cellphone=context['request']['cellphone'],

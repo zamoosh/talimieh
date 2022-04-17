@@ -107,13 +107,11 @@ def get_uni_degrees(request):
     uni = Universities.objects.get(id=request.POST.get('u_id'))
     section = DegreeFieldStudy.objects.get(id=request.POST.get('d_id'))
     degrees = DegreeFieldStudy.objects.filter(parent=section, semester__university=uni)
+    semesters = Semester.objects.filter(degree_field_study__in=degrees, university=uni)
     sem_list = []
-    for degree in degrees:
-        scholarship = False
-        if degree.semester_set.get(university=uni).scholarship:
-            scholarship = True
+    for sem in semesters:
         sem_list.append(
-            {'id': degree.id, 'title': degree.__str__(), 'scholarship': scholarship, 'u_name': uni.uni_name}
+            {'id': sem.id, 'title': sem.__str__(), 'scholarship': sem.scholarship, 'u_name': uni.uni_name}
         )
     return JsonResponse(sem_list, safe=False)
 

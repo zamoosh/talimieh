@@ -2,6 +2,27 @@
 {% load static %}
 {% block title %}عضویت - نسل تعلیمیه{% endblock %}
 {% block bodyclass %} class="nk-body bg-white has-rtl npc-default pg-auth"{% endblock %}
+{% block js %}
+    <script src="{% static 'assets/js/jquery-validate-form.js' %}"></script>
+    <script>
+        $('form[name="register_form"]').validate({
+            rules: {
+                password: {
+                    required: true,
+                    minlength: 8,
+                },
+                cellphone: 'required'
+            },
+            messages: {
+                password: {
+                    required: 'لطفا پسورد را وارد کنید',
+                    minlength: 'پسورد شما باید شامل حداقل ۱ کاراکتر و ۸ عدد باشد'
+                },
+                cellphone: 'وارد کردن شماره تلفن الزامی است'
+            }
+        })
+    </script>
+{% endblock %}
 {% block body %}
     <div class="nk-app-root">
         <div class="nk-main ">
@@ -37,7 +58,15 @@
                                         <button class="close" data-dismiss="alert"></button>
                                     </div>
                                 {% endif %}
-                                <form method="post" class="form-validate is-alter" autocomplete="off">
+                                {% if user_exists %}
+                                    <div class="alert alert-danger alert-icon alert-dismissible"><em
+                                            class="icon ni ni-cross-circle"></em>
+                                        این نام کاربری قبلا ثبت شده است
+                                        <button class="close" data-dismiss="alert"></button>
+                                    </div>
+                                {% endif %}
+                                <form method="post" class="form-validate is-alter" autocomplete="off"
+                                name="register_form">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <div class="form-label-group"><label class="form-label" for="cellphone">شماره
@@ -60,8 +89,9 @@
                                                 class="passcode-icon icon-hide icon ni ni-eye-off"></em></a><input
                                                 autocomplete="new-password" type="password" name="password"
                                                 class="form-control form-control-lg" required id="password"
-                                                placeholder="رمز عبور"></div>
+                                                placeholder="Mh23456789"></div>
                                     </div>
+                                    <span class="text-primary large mb-3">پسورد شما باید شامل یک کاراکتر و حداقل ۸ عدد باشد</span>
                                     <div class="form-group">
                                         <button class="btn btn-lg btn-primary btn-block">عضویت</button>
                                     </div>
