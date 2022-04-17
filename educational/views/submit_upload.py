@@ -10,4 +10,4 @@ def submit_upload(request):
                 image=request.FILES.get('file')
             )
             o.save()
-    return redirect(reverse('client:user_document'))
+    return redirect(reverse('educational:uni_request_submit'))

@@ -18,9 +18,8 @@
 
         let pass = $('#password');
         let rePass = $('#re-password');
-
+        let btn = $('#submit');
         function passWordChecker() {
-            let btn = $('#submit');
             let alert = $('#alert');
             if (pass.val() !== rePass.val() || (pass.val() === '' || rePass.val() === '')) {
                 btn[0].disabled = true;
@@ -39,6 +38,16 @@
         })
         rePass.on('change', function () {
             passWordChecker();
+        })
+
+        let whatsapp = $('#whatsapp');
+        $(whatsapp).on('keyup keydown', function () {
+            if ($.isNumeric(whatsapp.val())){
+                btn.prop('disabled', false);
+                console.log('numeric');
+            }
+            else
+                btn.prop('disabled', true);
         })
 
     </script>
@@ -318,7 +327,7 @@
                                                                         <label class="form-label" for="whatsapp">شماره واتساپ</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
-                                                                                name="whatsapp" type="text"
+                                                                                name="whatsapp" type="number"
                                                                                 class="form-control"
                                                                                 id="whatsapp"
                                                                                 value="{% if request.user.whatsapp %}{{ request.user.whatsapp }}{% endif %}">
