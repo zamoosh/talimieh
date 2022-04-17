@@ -9,6 +9,7 @@
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/datepicker.js" %}"></script>
+    <script src="{% static 'assets/js/jquery-validate-form.js' %}"></script>
     <script type="text/javascript">
         $(function () {
             $("#birth_date").persianDatepicker();
@@ -16,6 +17,19 @@
             $("#pass_expiration").persianDatepicker();
         });
 
+
+        $(function () {
+            $("form[name='register']").validate({
+                rules: {
+                    first_name: 'required',
+                    last_name: 'required',
+                },
+                messages: {
+                    first_name: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    last_name: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است'
+                }
+            })
+        })
         let pass = $('#password');
         let rePass = $('#re-password');
         let btn = $('#submit');
@@ -91,7 +105,7 @@
                                                 </div>
                                                 <div class="nk-block">
                                                     <div class="nk-data data-list">
-                                                        <form method="post">
+                                                        <form method="post" name="register">
                                                             {% csrf_token %}
                                                             <div class="row g-4">
                                                                 <div class="col-lg-6">

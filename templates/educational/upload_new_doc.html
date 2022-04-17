@@ -6,7 +6,25 @@
 
 {% endblock %}
 {% block js %}
+    <script src="{% static 'assets/js/jquery-validate-form.js' %}"></script>
     <script>
+        $(function () {
+            $('#input-input').empty();
+            $('form[name="upload"]').validate({
+                rules: {
+                    title: 'required',
+                    'input-input': 'required'
+                },
+                messages: {
+                    title: 'لطفا اسم مدرک خود را وارد کیند',
+                    'input-input': 'لطفا مدرک خود را وارد کنید'
+                }
+            })
+        })
+        $('#submit').on('click', function () {
+            if ($('#input-input').val() === '')
+                alert('لطفا مدرک خود را انتخاب کنید');
+        })
         let uploadArea = document.getElementById('upload-area');
         uploadArea.addEventListener('click', function () {
             let inp = document.getElementById('input-input');
@@ -35,20 +53,20 @@
                                             <div class="card-inner">
                                                 <div class="preview-block">
                                                     <div class="row gy-4">
-                                                        <div class="col-sm-8">
-                                                            <label class="form-label">
-                                                                در این محل عکس‌هایتان را آپلود کنید
+                                                        <div class="col-sm-12">
+                                                            <label class="form-label center">
+                                                                <span class="text-primary">محل آپلود مدرک</span>
                                                             </label>
                                                             <form action="{% url 'educational:submit_upload' %}"
-                                                                  method="post" enctype="multipart/form-data">
+                                                                  method="post" enctype="multipart/form-data" name="upload">
                                                                 {% csrf_token %}
                                                                 <div class="upload-zone dropzone dz-clickable"
                                                                      id="upload-area"
                                                                      data-accepted-files="image/*">
                                                                     <div class="dz-message" data-dz-message="">
-                                                                    <span class="dz-message-text">
-                                                                        کلیک کیند
-                                                                    </span>
+                                                                        <span class="dz-message-text">
+                                                                            کلیک کیند
+                                                                        </span>
                                                                         <input type="file" hidden name="file"
                                                                                id="input-input">
                                                                         <button type="button" class="btn btn-primary"
@@ -56,14 +74,28 @@
                                                                         </button>
                                                                     </div>
                                                                 </div>
-                                                                <input type="text" class=" col-sm-6"
-                                                                       required placeholder="عنوان مدرک"
-                                                                       name="title">
-                                                                <input type="submit" class="btn btn-primary col-sm-2"
-                                                                       value="ارسال">
+                                                                <div class="center mb-2">
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label center" for="title">
+                                                                            <span class="text-primary">عنوان مدرک</span>
+                                                                        </label>
+                                                                        <div class="form-control-wrap">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   id="title"
+                                                                                   name="title"
+                                                                                   required
+                                                                                   placeholder="عنوان مدرک">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="center">
+                                                                    <input type="submit" class="btn btn-primary col-sm-2"
+                                                                       value="ارسال" id="submit">
+                                                                </div>
                                                             </form>
                                                         </div>
-                                                        <img src="" alt="" id="image" style="width: 18rem">
+                                                        <img id="image" class="img-fluid card-img">
                                                     </div>
                                                 </div>
                                             </div>
