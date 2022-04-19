@@ -117,56 +117,52 @@
         })
 
 
-        $(window).on('click', function () {
-            $('#uni').on('change', function () {
-                $.ajax({
-                    url: '{% url 'educational:get_degree_field_sections' %}',
-                    type: "POST",
-                    data: {
-                        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                        'u_id': $('#uni').val()
-                    },
-                    success: function (data) {
-                        let degreeDropDown = $('#degree');
-                        degreeDropDown.empty();
-                        data.forEach(function (element) {
-                            degreeDropDown.append(`<option value=""></option>`);
-                            degreeDropDown.append(`<option value="${element.id}">${element.title}</option>`);
-                        })
-                    },
-                    error: function (error) {
-                        alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
-                    }
-                });
-            })
+        $('#uni').on('change', function () {
+            $.ajax({
+                url: '{% url 'educational:get_degree_field_sections' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                    'u_id': $('#uni').val()
+                },
+                success: function (data) {
+                    let degreeDropDown = $('#degree');
+                    degreeDropDown.empty();
+                    data.forEach(function (element) {
+                        degreeDropDown.append(`<option value=""></option>`);
+                        degreeDropDown.append(`<option value="${element.id}">${element.title}</option>`);
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را دوباره به‌روزرسانی کنید');
+                }
+            });
         })
 
 
-        $(window).on('click', function () {
-            $('#degree').on('change', function () {
-                $.ajax({
-                    url: '{% url 'educational:get_degree_semesters_of_an_uni' %}',
-                    type: "POST",
-                    data: {
-                        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                        'd_id': $('#degree').val(),
-                        'u_id': $('#uni').val()
-                    },
-                    success: function (data) {
-                        data.forEach(function (element) {
-                            let degreeSemesterDropDown = $('#degree-semester');
-                            degreeSemesterDropDown.empty();
-                            degreeSemesterDropDown.append(`<option value=""></option>`);
-                            degreeSemesterDropDown.append(`
-                                <option value="${element.id}">${element.title} ${element.u_name}</option>`
-                            );
-                        })
-                    },
-                    error: function (error) {
-                        alert('لطفا صفحه را به‌روزرسانی کنید');
-                    }
-                });
-            })
+        $('#degree').on('change', function () {
+            $.ajax({
+                url: '{% url 'educational:get_degree_semesters_of_an_uni' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                    'd_id': $('#degree').val(),
+                    'u_id': $('#uni').val()
+                },
+                success: function (data) {
+                    data.forEach(function (element) {
+                        let degreeSemesterDropDown = $('#degree-semester');
+                        degreeSemesterDropDown.empty();
+                        degreeSemesterDropDown.append(`<option value=""></option>`);
+                        degreeSemesterDropDown.append(`
+                            <option value="${element.id}">${element.title} ${element.u_name}</option>`
+                        );
+                    })
+                },
+                error: function (error) {
+                    alert('لطفا صفحه را به‌روزرسانی کنید');
+                }
+            });
         })
     </script>
 {% endblock %}
