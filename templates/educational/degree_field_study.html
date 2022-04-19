@@ -35,7 +35,13 @@
                 }
             });
         })
-
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#sec_exists').css('display', 'none');
+                $('#deg_exists').css('display', 'none');
+                $('#sec_not_exists').css('display', 'none');
+            }, 3000)
+        })
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -65,15 +71,22 @@
                                     <div class="card">
                                         <div class="nk-block nk-block-lg">
                                             <div class="card card-preview">
-                                                {% if error %}
-                                                    <div class="alert m-5 alert-warning alert-icon"><em
-                                                            class="icon ni ni-alert-circle"></em> این رشته قبلا ثبت شده است .
+                                                {% if degree_exists %}
+                                                    <div class="alert m-5 alert-danger alert-icon" id="deg_exists">
+                                                        <em class="icon ni ni-alert-circle"></em>
+                                                        این رشته قبلا ثبت شده است.
+                                                    </div>
+                                                {% endif %}
+                                                {% if section_exists %}
+                                                    <div class="alert m-5 alert-danger alert-icon" id="sec_exists">
+                                                        <em class="icon ni ni-alert-circle"></em>
+                                                        این مقطع قبلا ثبت شده است.
                                                     </div>
                                                 {% endif %}
                                                 {% if degree_error %}
-                                                    <div class="alert m-5 alert-warning alert-icon">
+                                                    <div class="alert m-5 alert-warning alert-icon" id="sec_not_exists">
                                                         <em class="icon ni ni-alert-circle"></em>
-                                                        باید اول مقطعی ایجاد کنید
+                                                        باید اول یک مقطع ایجاد کنید
                                                     </div>
                                                 {% endif %}
                                                 {% if remove %}
