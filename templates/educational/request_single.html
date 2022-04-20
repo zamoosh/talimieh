@@ -96,16 +96,14 @@
                                                             وضعیت پیشرفت
                                                         </a>
                                                     </li>
-{#                                                    {% if o_con %}#}
+                                                    {% if o_con %}
                                                         <li class="nav-item">
                                                             <a class="nav-link text text-info"
                                                                href="#"
-                                                               data-id="options">
-                                                                {#                                                            <em class="icon ni ni-activity"></em>#}
-                                                                    پرداختی‌ها
+                                                               data-id="options"> پرداختی‌ها
                                                             </a>
                                                         </li>
-{#                                                    {% endif %}#}
+                                                    {% endif %}
                                                     {% if c_con %}
                                                         <li class="nav-item">
                                                             <a class="nav-link text text-warning"
@@ -452,53 +450,67 @@
                                                     </div>
 
                                                     <!-- options -->
-{#                                                    {% if o_con %}#}
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                            <tr>
-                                                                <th scope="col">ردیف</th>
-                                                                <th scope="col">نام</th>
-                                                                <th scope="col">قیمت</th>
-                                                                <th scope="col">انتخاب</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            {% for o in options %}
-                                                                <tr>
-                                                                    <th scope="row">{{ forloop.counter }}</th>
-                                                                    <td>{{ o.name }}</td>
-                                                                    <td>{{ o.price }}</td>
-                                                                    <td>
-                                                                        <input type="checkbox">
-                                                                    </td>
-                                                                </tr>
-                                                            {% endfor %}
-                                                            </tbody>
-                                                        </table>
-                                                        <!--
-                                                        <div class="nk-block content" id="options">
-                                                            <div class="profile-ud-list">
-                                                                <div class="profile-ud-item">
-                                                                    <div class="profile-ud wider">
-                                                                        <span class="profile-ud-label text-indigo">نام کاربر</span>
-                                                                        <span class="profile-ud-value">
-                                                                       {{ r.user.first_name }} {{ r.user.last_name }}
-                                                                    </span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="profile-ud-item">
-                                                                    <div class="profile-ud wider">
-                                                                        <span class="profile-ud-label text-indigo">نام کاربر</span>
-                                                                        <span class="profile-ud-value">
-                                                                       {{ r.user.first_name }} {{ r.user.last_name }}
-                                                                    </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                    {% if o_con %}
+                                                        <div class="nk-block content" id="options" style="display: none">
+                                                            <p class="mb-5">برای انتخاب روی هر گزینه کلیک کنید</p>
+                                                            <form action="{% url 'educational:option_for_request' r.id %}"
+                                                                  method="post">
+                                                                <table class="table table-hover">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th scope="col">ردیف</th>
+                                                                        <th scope="col">نام</th>
+                                                                        <th scope="col">قیمت</th>
+                                                                        <th scope="col">انتخاب</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% csrf_token %}
+                                                                    {% for o in options %}
+                                                                        <tr>
+                                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                                            <td><label
+                                                                                    for="{{ o.id }}">{{ o.name }}</label>
+                                                                            </td>
+                                                                            <td><label
+                                                                                    for="{{ o.id }}">{{ o.price }}</label>
+                                                                            </td>
+                                                                            <td>
+                                                                                {% if r|has_option:o %}
+                                                                                    <div class="custom-control custom-checkbox">
+                                                                                        <input type="checkbox"
+                                                                                               class="custom-control-input"
+                                                                                               id="{{ o.id }}"
+                                                                                               name="options"
+                                                                                               value="{{ o.id }}"
+                                                                                               checked>
+                                                                                        <label class="custom-control-label"
+                                                                                               for="{{ o.id }}">
+                                                                                        </label>
+                                                                                    </div>
+                                                                                {% else %}
+                                                                                    <div class="custom-control custom-checkbox">
+                                                                                        <input type="checkbox"
+                                                                                               class="custom-control-input"
+                                                                                               id="{{ o.id }}"
+                                                                                               name="options"
+                                                                                               value="{{ o.id }}">
+                                                                                        <label class="custom-control-label"
+                                                                                               for="{{ o.id }}">
+                                                                                        </label>
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                                <button type="submit"
+                                                                        class="btn btn-dim btn-outline-success">ثبت
+                                                                </button>
+                                                            </form>
                                                         </div>
-                                                        -->
-{#                                                    {% endif %}#}
+                                                    {% endif %}
 
                                                     <!-- confirmation -->
                                                     {% if c_con %}
@@ -512,7 +524,6 @@
                                                                     </span>
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="profile-ud-item">
                                                                     <div class="profile-ud wider">
                                                                         <span class="profile-ud-label text-indigo">نام کاربر</span>

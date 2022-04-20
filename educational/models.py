@@ -20,7 +20,7 @@ class YearSemester(models.Model):
         return self.status
 
     def __str__(self):
-        return f'{self.title},status: {self.status}'
+        return f'{self.title} status: {self.status}'
 
 
 class DegreeFieldStudy(models.Model):
@@ -113,15 +113,15 @@ class Option(models.Model):
     update_date = models.DateTimeField(null=True, blank=True, auto_now=True)
 
     def __str__(self):
-        return f'option: {self.name} {self.price}'
+        return f'{self.name}'
 
 
 class SelectedOption(models.Model):
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'selected option: {self.option.name} {self.option.price} {self.user.first_name}'
+        return f'{self.option.name}'
 
 
 class SelectedSemester(models.Model):
@@ -129,7 +129,7 @@ class SelectedSemester(models.Model):
     educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'selected semester: {self.semester}'
+        return f'{self.semester}'
 
 
 def owner_image(instance, filename):
