@@ -33,5 +33,6 @@ def user_document_upload(request):
         data['sem_id'] = request.POST.get('degree-semester')
         data['field_study'] = request.POST.get('field_study')
         request_generator(request.user, request.POST.getlist('images'), data)
+        request.session['message'] = True
         return redirect(reverse('educational:requests'))
     return redirect(reverse('educational:uni_request_submit'))

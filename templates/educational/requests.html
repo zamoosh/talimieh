@@ -34,8 +34,22 @@
                                 <div class="nk-block">
                                     <div class="card">
                                         <div class="card card-preview">
+
                                             <div class="card-inner">
                                                 {% if requests or reject_requests %}
+
+                                                    <!-- request creation message -->
+                                                    {% if message %}
+                                                        <div class="example-alert">
+                                                            <div class="alert alert-success alert-icon">
+                                                                <em class="icon ni ni-alert-circle"></em>
+                                                                <strong>درخواست</strong>
+                                                                شما با موفقیت ثبت شد!
+                                                            </div>
+                                                        </div>
+                                                        <br/><br/>
+                                                    {% endif %}
+
                                                     <!-- alert -->
                                                     <div class="example-alert">
                                                         <div class="alert alert-info alert-icon">

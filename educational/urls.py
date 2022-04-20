@@ -38,6 +38,7 @@ urlpatterns = [
     path('reports/', reports, name='reports'),
 
     path('requests/', requests, name='requests'),
+    path('requests/<str:message>/', requests, name='requests_with_message'),
     path('request-single/<int:r_id>/', request_single_confirm, name='request_single_confirm'),
     path('request-single-detail/', request_single_detail, name='request_single_detail'),
     path('request-single-remove/<int:r_id>/', request_single_remove, name='request_single_remove'),

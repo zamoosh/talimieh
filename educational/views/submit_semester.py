@@ -45,7 +45,6 @@ def submit_semester(request):
                             sem.save()
             return redirect(reverse('educational:semesters'))
         uni = Universities.objects.get(id=context['uni'])
-        uni.status = False
         uni.save()
     # return render(request, f'{app_name.name}/{__name__.split(".")[-1]}.html', context)
     return render(request, 'educational/submit_semester.html', context)
