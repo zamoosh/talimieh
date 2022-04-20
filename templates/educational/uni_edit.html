@@ -25,9 +25,9 @@
             buttonLoader();
         })
 
-        $(window).on('load', function (e) {
+        $(window).on('load', function () {
             $.ajax({
-                url: '{% url 'educational:get_degree_field_sections' %}',
+                url: '{% url 'educational:get_section' %}',
                 type: "POST",
                 data: {
                     'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
@@ -49,18 +49,19 @@
 
         $('#section').on('change', function () {
             $.ajax({
-                url: '{% url 'educational:get_degree_semesters' %}',
+                url: '{% url 'educational:get_sections_degrees' %}',
                 type: "POST",
                 data: {
                     'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                    'd_id': $('#section')[0].value
+                    'd_id': $('#section')[0].value,
                 },
                 success: function (data) {
                     buttonLoader();
                     let degreeUl = $('#degrees');
                     degreeUl.empty();
+                    let degreeSelected = {{ degree_selected_id }}
                     data.forEach(function (element) {
-                        if (element.id in {{ degree_selected_id }})
+                        if (degreeSelected.includes(element.id))
                             degreeUl.append(`
                                 <li class="custom-control degree-field custom-checkbox mr-5">
                                     <input type="checkbox"

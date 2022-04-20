@@ -100,5 +100,17 @@ def get_degree_semesters(request):
 
 
 @login_required
+def get_sections_degrees(request):
+    section = DegreeFieldStudy.objects.get(id=request.POST.get('d_id'))
+    degrees = DegreeFieldStudy.objects.filter(parent=section)
+    sem_list = []
+    for degree in degrees:
+        sem_list.append(
+            {'id': degree.id, 'title': degree.__str__()}
+        )
+    return JsonResponse(sem_list, safe=False)
+
+
+@login_required
 def have_section(request):
     return JsonResponse(DegreeFieldStudy.objects.filter(parent__isnull=True).exists(), safe=False)
