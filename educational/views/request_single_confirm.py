@@ -35,6 +35,7 @@ def request_single_confirm(request, r_id):
                 r.request_expert_educational = user
                 r.step = EducationalRequest.REQUEST_STEPS[6]
                 r.final_status = True
+                StudentCard.objects.create(educational_request=r).save()
             m.save()
         r.save()
         return redirect(reverse('educational:request_single_detail', kwargs={'r_id': r_id}))
