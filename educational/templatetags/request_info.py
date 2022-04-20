@@ -31,6 +31,26 @@ def get_request_uni(r):
 
 
 # for single semester selection
+@register.filter(name='get_request_entrance')
+def get_request_entrance(r):
+    if r == '':
+        return ''
+    if r.selectedsemester_set.all().exists():
+        return r.selectedsemester_set.all()[0].semester.entrance_price
+    return 'ندارد'
+
+
+# for single semester selection
+@register.filter(name='get_request_expert')
+def get_request_expert(r):
+    if r == '':
+        return ''
+    if r.selectedsemester_set.all().exists():
+        return r.selectedsemester_set.all()[0].semester.expert_price
+    return 'ندارد'
+
+
+# for single semester selection
 @register.filter(name='get_request_section')
 def get_request_section(r):
     if r == '':

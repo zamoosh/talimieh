@@ -25,6 +25,8 @@ class User(AbstractUser):
     place_issue = models.CharField(max_length=15, blank=True, null=True)
     whatsapp = models.CharField(max_length=15, blank=True, null=True)
     first_login = models.BooleanField(default=True)
+    student_num = models.CharField(max_length=10, blank=True, null=True)
+    admin_create = models.BooleanField(default=False)
 
     class Meta:
         permissions = [
