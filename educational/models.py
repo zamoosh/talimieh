@@ -129,7 +129,7 @@ class SelectedSemester(models.Model):
     educational_request = models.ForeignKey(EducationalRequest, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'selected semester: {self.semester} {self.educational_request.paid}'
+        return f'selected semester: {self.semester}'
 
 
 def owner_image(instance, filename):

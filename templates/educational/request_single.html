@@ -3,7 +3,7 @@
 {% load can_reject %}
 {% load static %}
 {% load jformat %}
-{% load get_request_current_coast %}
+{% load request_info %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 
 {% block css %}
@@ -202,6 +202,31 @@
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo">کد رهگیری</span>
                                                                     <span class="profile-ud-value">{{ r.tracking_code }}</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">دانشگاه درخواستی</span>
+                                                                    <span class="profile-ud-value">
+                                                                        {{ r|get_request_uni }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">مقطع درخواست</span>
+                                                                    <span class="profile-ud-value">
+                                                                        {{ r|get_request_section }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">رشته‌ی درخواستی</span>
+                                                                    <span class="profile-ud-value">
+                                                                        {{ r|get_request_degree_field_study }}
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
