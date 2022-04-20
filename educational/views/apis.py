@@ -67,7 +67,7 @@ def get_degree_field_sections(request):
     if request.method == 'POST' and request.POST.get('u_id'):
         u = Universities.objects.get(id=request.POST.get('u_id'))
         sections_id = u.semester_set.filter(degree_field_study__parent__isnull=False,
-                                            status=True).values_list('degree_field_study__parent', flat=True)
+                                            status=True).values_list('degree_field_study__parent', flat=True).distinct()
         for section in DegreeFieldStudy.objects.filter(id__in=sections_id):
             context.append(
                 {'id': section.id, 'title': section.title}

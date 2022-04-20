@@ -36,8 +36,8 @@ def get_request_entrance(r):
     if r == '':
         return ''
     if r.selectedsemester_set.all().exists():
-        return r.selectedsemester_set.all()[0].semester.entrance_price
-    return 'ندارد'
+        return f'{r.selectedsemester_set.all()[0].semester.entrance_price} تومان'
+    return '0 تومان'
 
 
 # for single semester selection
@@ -46,8 +46,8 @@ def get_request_expert(r):
     if r == '':
         return ''
     if r.selectedsemester_set.all().exists():
-        return r.selectedsemester_set.all()[0].semester.expert_price
-    return 'ندارد'
+        return f'{r.selectedsemester_set.all()[0].semester.expert_price} تومان'
+    return '0 تومان'
 
 
 # for single semester selection

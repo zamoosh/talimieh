@@ -20,6 +20,10 @@ def request_single_detail(request, r_id):
         context['o_con_edit'] = False
         context['o_con_show'] = False
         context['c_con'] = False
+        if int(r.step[1] == 5 or 6 or 7):
+            context['o_con_show'] = True
+        if int(r.step[1]) == 7:
+            context['c_con'] = True
         if r.reject is False and (
                 request.user.is_superuser or request.user.user_permissions.filter(name__contains='see')):
             if int(r.step[1]) == 1:
