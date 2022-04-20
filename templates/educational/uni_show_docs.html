@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{% load uni_info %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 {% block css %}
 
@@ -22,17 +23,26 @@
                                 <div class="nk-block">
                                     <div class="nk-block-head nk-block-head">
                                         <div class="nk-block-head-content">
-                                            <h4 class="nk-block-title">
+                                            <h3 class="nk-block-title">
                                                 دانشگاه
-                                                '<strong class="text text-danger">{{ uni.uni_name }}</strong>'
-                                            </h4>
+                                                '<strong class="text text-info">{{ uni.uni_name }}</strong>'
+                                            </h3>
                                             <div class="nk-block-des">
-                                                <p>مدارک موردنیاز و توضیحات دانشگاه را در زیر ویرایش کنید</p>
+                                                <p class="text text-gray">مدارک موردنیاز و توضیحات دانشگاه را در زیر ویرایش کنید</p>
+                                                <p class="text text-danger">لطفا هر مدرک را در یک خط بنویسید</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card">
                                         <div class="card card-inner">
+                                            {% if message %}
+                                                <div class="example-alert mb-3">
+                                                    <div class="alert alert-success alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        تغییرات ذخیره شد
+                                                    </div>
+                                                </div>
+                                            {% endif %}
                                             <div class="preview-block">
                                                 <form action="{% url 'educational:uni_edit_docs' uni.id %}"
                                                       method="post">
@@ -47,7 +57,10 @@
                                                                 <textarea
                                                                         class="form-control no-resize"
                                                                         id="doc"
-                                                                        name="doc">{{ uni.document }}</textarea>
+                                                                        placeholder="کارت سربازی
+دیپلم
+کارت بیمه"
+                                                                        name="doc">{% if uni.document %}{{ uni|get_uni_docs:uni.document }}{% endif %}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -60,7 +73,10 @@
                                                                 <textarea
                                                                         class="form-control no-resize"
                                                                         id="comment"
-                                                                        name="comment">{{ uni.comment }}</textarea>
+                                                                        placeholder="مورد اول
+مورد دوم
+مورد سوم"
+                                                                        name="comment">{% if uni.comment %}{{ uni|get_uni_docs:uni.comment }}{% endif %}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
