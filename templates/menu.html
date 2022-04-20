@@ -33,9 +33,11 @@
                                                         class="nk-menu-link"><span
                                     class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
                                     class="nk-menu-text">رشته ها</span></a></li>
+                            <!-- card
                             <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span
                                     class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
                                     class="nk-menu-text">کارت ها</span></a></li>
+                            -->
                             <li class="nk-menu-item"><a href="{% url 'educational:semesters' %}"
                                                         class="nk-menu-link"><span
                                     class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
@@ -60,6 +62,9 @@
                                                 class="nk-menu-link"><span
                             class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
                             class="nk-menu-text">درخواست ها</span></a></li>
+                    <li class="nk-menu-item"><a href="{% url 'educational:cards' request.user.id %}" class="nk-menu-link"><span
+                            class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
+                            class="nk-menu-text">کارت‌ها</span></a></li>
                     <li class="nk-menu-heading"><h6 class="overline-title text-primary-alt">دانشجویان</h6></li>
                     <li class="nk-menu-item"><a href="{% url 'client:user_document' %}" class="nk-menu-link"><span
                             class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span><span
