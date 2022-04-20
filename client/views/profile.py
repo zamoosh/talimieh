@@ -21,6 +21,7 @@ def profile(request):
         context['req']['place_issue'] = request.POST.get('place_issue', '').strip()
         context['req']['whatsapp'] = request.POST.get('whatsapp', '').strip()
         user = User.objects.get(id=request.user.id)
+        user.first_login = False
         user.first_name = context['req']['first_name']
         user.last_name = context['req']['last_name']
         user.father_name = context['req']['father_name']
@@ -43,4 +44,9 @@ def profile(request):
             user.pass_expiration = request.POST.get('pass_expiration')
         user.save()
         return HttpResponseRedirect(reverse('client:profile'))
+    user = User.objects.get(id=request.user.id)
+    if user.first_login is False:
+        context['birth_date'] = user.birth_date.__str__()
+        context['pass_issue_date'] = user.pass_issue_date.__str__()
+        context['pass_expiration'] = user.pass_expiration.__str__()
     return render(request, 'client/profile.html', context)

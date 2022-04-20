@@ -179,10 +179,11 @@
                                                                         <label class="form-label" for="birth_date">تاریخ ولادت</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
-                                                                                name="birth_date" type="text"
-                                                                                class="form-control date-picker"
-                                                                                data-date-format="yyyy-mm-dd"
-                                                                                value="{{ request.user.birth_date }}">
+                                                                                name="birth_date" type="date"
+                                                                                class="form-control"
+                                                                                required
+                                                                                max="2022-01-01"
+                                                                                value="{% if request.user.birth_date %}{{ birth_date }}{% endif %}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -191,10 +192,11 @@
                                                                         <label class="form-label" for="pass_issue_date">تاریخ صدور پاس</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
-                                                                                name="pass_issue_date" type="text"
-                                                                                class="form-control date-picker"
-                                                                                data-date-format="yyyy-mm-dd"
-                                                                                value="{{ request.user.pass_issue_date }}">
+                                                                                name="pass_issue_date" type="date"
+                                                                                class="form-control"
+                                                                                required
+                                                                                max="2022-01-01"
+                                                                                value="{% if request.user.pass_issue_date %}{{ pass_issue_date }}{% endif %}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -203,10 +205,11 @@
                                                                         <label class="form-label" for="pass_expiration">تاریخ انقضای پاس</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
-                                                                                name="pass_expiration" type="text"
-                                                                                class="form-control date-picker"
-                                                                                data-date-format="yyyy-mm-dd"
-                                                                                value="{{ request.user.pass_expiration }}">
+                                                                                name="pass_expiration" type="date"
+                                                                                class="form-control"
+                                                                                required
+                                                                                max="2022-01-01"
+                                                                                value="{% if request.user.pass_expiration %}{{ pass_expiration }}{% endif %}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
