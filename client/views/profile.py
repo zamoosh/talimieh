@@ -48,6 +48,7 @@ def profile(request):
         if request.POST.get('pass_expiration'):
             user.pass_expiration = request.POST.get('pass_expiration')
         user.save()
+        request.session['confirm_changes'] = True
         return HttpResponseRedirect(reverse('client:profile'))
     user = User.objects.get(id=request.user.id)
     if user.first_login is False:
@@ -56,4 +57,7 @@ def profile(request):
         context['pass_expiration'] = user.pass_expiration.__str__()
     elif user.admin_create:
         context['change_password'] = True
+    if request.session.get('confirm_changes'):
+        context['confirm_changes'] = True
+        del request.session['confirm_changes']
     return render(request, 'client/profile.html', context)

@@ -150,9 +150,9 @@
                     'u_id': $('#uni').val()
                 },
                 success: function (data) {
+                    let degreeSemesterDropDown = $('#degree-semester');
+                    degreeSemesterDropDown.empty();
                     data.forEach(function (element) {
-                        let degreeSemesterDropDown = $('#degree-semester');
-                        degreeSemesterDropDown.empty();
                         degreeSemesterDropDown.append(`<option value=""></option>`);
                         degreeSemesterDropDown.append(`
                             <option value="${element.id}">${element.title} ${element.u_name}</option>`
