@@ -28,8 +28,7 @@ def edit_university_terms(request, u_id):
         common = university.semester_set.filter(degree_field_study__in=selected_degree, status=True)
         delete = university.semester_set.filter(~Q(degree_field_study__in=selected_degree), status=True)
         for item in delete:
-            # item.delete()
-            item.status = False
+            item.delete()
         add = []
         common_degree = []
         for item in common:
