@@ -33,41 +33,45 @@
                                                             <div class="col-12">
                                                                 <div class="btn-top-uni">
                                                                     <a href="{% url 'educational:upload_new_doc' %}"
-                                                                       class="btn btn-secondary mr-4 mt-3 float-sm-right">آپلود
-                                                                        مدارک
+                                                                       class="btn btn-dim btn-sm btn-outline-info mr-4 mt-3 float-sm-right">
+                                                                        آپلود مدرک جدید
                                                                     </a>
                                                                 </div>
-                                                                <table class="nowrap table">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>عنوان فایل</th>
-                                                                        <th>دانلود</th>
-                                                                        <th>پیش‌نمایش</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody id="uni">
-                                                                    {% for document in documents %}
+                                                                {% if documents %}
+                                                                    <table class="nowrap table">
+                                                                        <thead>
                                                                         <tr>
-                                                                            <td>{{ document.title }}</td>
-                                                                            <td>
-                                                                                <a href="{{ document.image.url }}"
-                                                                                   download>دانلود</a>
-                                                                            </td>
-                                                                            <td>
-                                                                                <a href="#"
-                                                                                   id="click-modal{{ forloop.counter0 }}"
-                                                                                   class="mr-4 mt-3 float-sm-right"
-                                                                                   data-toggle="modal"
-                                                                                   data-target="#image{{ forloop.counter0 }}">
-                                                                                    <img src="{{ document.image.url }}"
-                                                                                         alt="" style="width: 50px"
-                                                                                         id="image-pre{{ forloop.counter0 }}">
-                                                                                </a>
-                                                                            </td>
+                                                                            <th>عنوان فایل</th>
+                                                                            <th>دانلود</th>
+                                                                            <th>پیش‌نمایش</th>
                                                                         </tr>
-                                                                    {% endfor %}
-                                                                    </tbody>
-                                                                </table>
+                                                                        </thead>
+                                                                        <tbody id="uni">
+                                                                        {% for document in documents %}
+                                                                            <tr>
+                                                                                <td>{{ document.title }}</td>
+                                                                                <td>
+                                                                                    <a href="{{ document.image.url }}"
+                                                                                       download>دانلود</a>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="#"
+                                                                                       id="click-modal{{ forloop.counter0 }}"
+                                                                                       class="mr-4 mt-3 float-sm-right"
+                                                                                       data-toggle="modal"
+                                                                                       data-target="#image{{ forloop.counter0 }}">
+                                                                                        <img src="{{ document.image.url }}"
+                                                                                             alt="" style="width: 50px"
+                                                                                             id="image-pre{{ forloop.counter0 }}">
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                {% else %}
+                                                                    <h6 class="text text-danger mr-4 mt-3">هنوز مدرکی وجود ندارد</h6>
+                                                                {% endif %}
                                                             </div>
                                                         </div>
                                                     </div>

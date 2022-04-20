@@ -13,6 +13,7 @@ urlpatterns = [
     path('degree-field-study/', degree_field_study, name="degree_field_study"),
     path('create-degree-section/', create_degree_section, name="create_degree_section"),
     path('get_degree_field_sections/api/', get_degree_field_sections, name='get_degree_field_sections'),
+    path('get_section/api/', get_section, name='get_section'),
 
     path('semesters/', semesters, name="semesters"),
     path('new-semester/', new_semester, name="new_semester"),
@@ -20,6 +21,7 @@ urlpatterns = [
 
     path('semester/api/', if_any_semester_active, name="if_any_semester_active"),
     path('get_degree/api/<int:t_id>/', get_degree, name="get_degree"),
+    path('have-section/api/', have_section, name='have_section'),
     path('get_degree_semesters/', get_degree_semesters, name='get_degree_semesters'),
 
     path('upload-new-doc/', upload_new_doc, name='upload_new_doc'),
@@ -27,6 +29,7 @@ urlpatterns = [
 
     path('uni-reqest/', uni_request, name="uni_request"),
     path('uni/api/', get_uni, name="get_uni"),
+    path('get-uni-for-request/api/', get_uni_for_request, name='get_uni_for_request'),
     path('uni/api/has-semester/', uni_has_semester, name='uni_has_semester'),
     path('uni-reqest-submit/', uni_request_submit, name="uni_request_submit"),
     path('uni-edit/<int:u_id>', edit_university_terms, name='uni_edit_terms'),

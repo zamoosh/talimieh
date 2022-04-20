@@ -1,6 +1,7 @@
 from .imports import *
 
 
+@login_required
 def semesters(request):
     if not (request.user.user_permissions.filter(name__icontains='see') or request.user.is_superuser):
         return render(request, '404_page.html')

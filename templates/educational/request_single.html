@@ -3,6 +3,7 @@
 {% load can_reject %}
 {% load static %}
 {% load jformat %}
+{% load get_request_current_coast %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 
 {% block css %}
@@ -107,7 +108,7 @@
 
                                                     <!-- request cost -->
                                                     <div class="nk-block">
-                                                        sdfw
+                                                        {{ r|get_request_current_coast }}
                                                     </div>
                                                     <br><br>
 
@@ -171,14 +172,6 @@
                                                     <div class="nk-block content" id="request" style="display: none">
                                                         <!-- request content -->
                                                         <div class="profile-ud-list">
-                                                            <div class="profile-ud-item">
-                                                                <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label text-indigo">موصوع درخواست</span>
-                                                                    <span class="profile-ud-value">
-                                                                       {{ r.title }}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider"><span
                                                                         class="profile-ud-label text-indigo">معدل کاربر</span><span

@@ -4,23 +4,37 @@
 {% block title %}رشته ها - نسل تعلیمیه{% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
+
     <script>
-        const csrftoken = '{{ csrf_token }}';
+        let createDegree = $('#create-degree');
         $.ajax({
-            url: '{% url 'educational:get_degree_field_sections' %}',
-            type: "GET",
-            send: function (xhr) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            },
-            success: function (data) {
-                data.forEach(function (item) {
-                    $('#degree').append(`<option value="${item.id}">${item.title}</option>`);
-                })
+            url: '{% url 'educational:have_section' %}',
+            type: 'GET',
+            success: function (haveSection) {
+                if (!haveSection)
+                    createDegree.disabled = true;
             },
             error: function (error) {
-                console.log(error);
             }
-        });
+        })
+        createDegree.on('click', function () {
+            $.ajax({
+                url: '{% url 'educational:get_section' %}',
+                type: "GET",
+                success: function (data) {
+                    let degree = $('#degree');
+                    degree.empty();
+                    degree.append(`<option value=""></option>`);
+                    data.forEach(function (element) {
+                        degree.append(`<option value="${element.id}">${element.title}</option>`);
+                    })
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -44,6 +58,12 @@
                                                         است .
                                                     </div>
                                                 {% endif %}
+                                                {% if degree_error %}
+                                                    <div class="alert m-5 alert-warning alert-icon">
+                                                        <em class="icon ni ni-alert-circle"></em>
+                                                        باید اول مقطعی ایجاد کنید
+                                                    </div>
+                                                {% endif %}
                                                 {% if remove %}
                                                     <div class="alert m-5 alert-success alert-icon"><em
                                                             class="icon ni ni-check-circle"></em> رشته حذف شد .
@@ -55,27 +75,31 @@
                                                     </div>
                                                 {% endif %}
                                                 <div class="btn-top-uni">
-                                                    <a href="#"
-                                                       class="btn btn-sm btn-secondary mr-4 mt-3 float-sm-right"
-                                                       data-toggle="modal" data-target="#create_section">ایجاد مقطع</a>
+                                                    <!-- create section -->
+                                                    <button href="#"
+                                                            class="btn btn-sm btn-dim btn-outline-success mr-5 mt-3 float-right"
+                                                            data-toggle="modal" data-target="#create_section">ایجاد مقطع
+                                                    </button>
 
-                                                    <a href="#"
-                                                       class="btn btn-sm btn-secondary mr-4 mt-3 float-sm-right"
-                                                       data-toggle="modal" data-target="#create_degree_field_study">ایجاد
-                                                        رشته</a>
+                                                    <!-- create degree -->
+                                                    <button href="#" id="create-degree"
+                                                            class="btn btn-sm btn-dim btn-outline-success mr-4 mt-3 float-sm-right"
+                                                            data-toggle="modal"
+                                                            data-target="#create_degree_field_study">ایجاد رشته
+                                                    </button>
                                                 </div>
                                                 <div class="card-inner">
                                                     <div class="col-12">
                                                         <div class="row">
                                                             <div class="col-12">
-                                                                <table class="datatable-init-export nowrap table"
+                                                                <table class="datatable-init-export nowrap table table-hover"
                                                                        data-export-title="خروجی" id="unitable">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>عنوان رشته / مقطع</th>
                                                                         <th>مقطع</th>
                                                                         <th>مدارک مورد نیاز</th>
-                                                                        <th></th>
+                                                                        <th>حذف</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody id="uni">
@@ -103,28 +127,12 @@
                                                                             <td>{% if degree_field_study.document %}
                                                                                 {{ degree_field_study.document }}{% endif %}</td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
-                                                                                <ul class="nk-tb-actions gx-1">
-                                                                                    <li>
-                                                                                        <div class="drodown">
-                                                                                            <a href=""
-                                                                                               class="dropdown-toggle btn btn-icon btn-trigger"
-                                                                                               data-toggle="dropdown">
-                                                                                                <em class="icon ni ni-more-h"></em>
-                                                                                            </a>
-                                                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                                                <ul class="link-list-opt no-bdr">
-                                                                                                    <li>
-                                                                                                        <a href="{% url 'educational:degree_field_study' %}?remove={{ degree_field_study.id }}"><em
-                                                                                                                class="icon ni ni-delete"></em><span>حذف</span></a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </li>
-                                                                                </ul>
+                                                                                <a href="{% url 'educational:degree_field_study' %}?remove={{ degree_field_study.id }}"
+                                                                                   class="btn btn-sm btn-dim btn-outline-danger">
+                                                                                    حذف
+                                                                                </a>
                                                                             </td>
                                                                         </tr>
-
                                                                     {% endfor %}
                                                                     </tbody>
                                                                 </table>
@@ -160,7 +168,7 @@
                     </a>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{% url 'educational:degree_field_study' %}">
+                    <form method="post" action="{% url 'educational:degree_field_study' %}">
                         {% csrf_token %}
                         <!-- degree title -->
                         <div class="form-group">
@@ -178,8 +186,7 @@
                         <div class="form-group">
                             <div class="form-control-wrap">
                                 <select name="section" class="form-select js-select2 select2-hidden-accessible"
-                                        required
-                                        tabindex="-1" aria-hidden="true" id="degree">
+                                        tabindex="-1" aria-hidden="true" id="degree" required>
                                     <option value=""></option>
                                 </select>
                                 <label class="form-label-outlined" for="degree">مقطع تحصیلی</label>
