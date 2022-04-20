@@ -34,6 +34,8 @@ urlpatterns = [
     path('uni-reqest-submit/', uni_request_submit, name="uni_request_submit"),
     path('uni-edit/<int:u_id>', edit_university_terms, name='uni_edit_terms'),
     path('uni-degrees-show/', uni_degrees_show, name='uni_degrees_show'),
+    path('uni-edit-docs/<int:u_id>/', uni_edit_docs, name='uni_edit_docs'),
+    path('uni-show-docs/<int:u_id>/', uni_show_docs, name='uni_show_docs'),
 
     path('reports/', reports, name='reports'),
 
