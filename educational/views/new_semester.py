@@ -19,4 +19,5 @@ def new_semester(request):
             print(item, sem)
         request.session['degrees'] = context['request']
         return HttpResponseRedirect(reverse('educational:submit_semester'))
+    context['any_semester_active'] = YearSemester.objects.filter(status=True).exists()
     return render(request, 'educational/new_semester.html', context)
