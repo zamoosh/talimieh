@@ -17,7 +17,8 @@ def request_single_detail(request):
         context['e_con_2'] = False
         context['f_con_2'] = False
         context['e_con_3'] = False
-        context['o_con'] = False
+        context['o_con_edit'] = False
+        context['o_con_show'] = False
         context['c_con'] = False
         if r.reject is False and (
                 request.user.is_superuser or request.user.user_permissions.filter(name__contains='see')):
@@ -29,11 +30,17 @@ def request_single_detail(request):
                 context['f_con'] = True
             elif int(r.step[1]) == 4:
                 context['e_con_2'] = True
-                context['o_con'] = True
+                context['o_con_edit'] = True
             elif int(r.step[1]) == 5:
                 context['f_con_2'] = True
+                context['o_con_show'] = True
+                context['o_paid'] = True
             elif int(r.step[1]) == 6:
                 context['e_con_3'] = True
+                context['o_con_show'] = True
+                context['o_paid'] = True
             elif int(r.step[1]) == 7:
                 context['c_con'] = True
+                context['o_con_show'] = True
+                context['o_paid'] = True
         return render(request, 'educational/request_single.html', context)

@@ -43,3 +43,45 @@ def has_option(r, o):
     if len(r.selectedoption_set.filter(option=o)) == 1:
         return True
     return False
+
+
+@register.filter(name='has_register_confirm')
+def has_register_confirm(r):
+    if int(r.step[1]) > 1:
+        return True
+    return False
+
+
+@register.filter(name='has_educational_confirm_1')
+def has_educational_confirm_1(r):
+    if int(r.step[1]) > 2:
+        return True
+    return False
+
+
+@register.filter(name='has_financial_confirm_1')
+def has_financial_confirm_1(r):
+    if int(r.step[1]) > 3:
+        return True
+    return False
+
+
+@register.filter(name='has_educational_confirm_2')
+def has_educational_confirm_2(r):
+    if int(r.step[1]) > 4:
+        return True
+    return False
+
+
+@register.filter(name='has_financial_confirm_2')
+def has_financial_confirm_2(r):
+    if int(r.step[1]) > 5:
+        return True
+    return False
+
+
+@register.filter(name='has_educational_confirm_3')
+def has_educational_confirm_3(r):
+    if int(r.step[1]) > 6:
+        return True
+    return False

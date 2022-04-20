@@ -96,7 +96,7 @@
                                                             وضعیت پیشرفت
                                                         </a>
                                                     </li>
-                                                    {% if o_con %}
+                                                    {% if o_con_show or o_con_edit %}
                                                         <li class="nav-item">
                                                             <a class="nav-link text text-info"
                                                                href="#"
@@ -125,11 +125,18 @@
 
                                                     <!-- request cost -->
                                                     <div class="nk-block">
-                                                        <p class="text text-purple">
-                                                            قیمت فعلی پرداختی: {{ r|get_request_current_coast }}
-                                                        </p>
+                                                        {% if c_con %}
+                                                            <h7 class="text text-success">
+                                                                هزینه‌ی درخواست کاملا پرداخت شده: {{ r|get_request_current_coast }}
+                                                            </h7>
+                                                        {% else %}
+                                                            <h7 class="text text-danger">
+                                                                قیمت فعلی پرداختی: {{ r|get_request_current_coast }}
+                                                            </h7>
+                                                        {% endif %}
+
                                                     </div>
-                                                    <br><br>
+                                                    <br>
 
                                                     <!-- person info -->
                                                     <div class="nk-block content" id="personal">
@@ -254,11 +261,21 @@
                                                         <div class="profile-ud-list">
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label text-indigo">پرداخت</span>
+                                                                    <span class="profile-ud-label text-indigo">هزینه‌ی دانشگاه</span>
                                                                     {% if r.paid %}
                                                                         <span class="profile-ud-value text-success">شده</span>
                                                                     {% else %}
                                                                         <span class="profile-ud-value text-danger">نشده</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">هزینه‌های اضافی</span>
+                                                                    {% if o_paid %}
+                                                                        <span class="profile-ud-value text-success">پرداخت شده</span>
+                                                                    {% else %}
+                                                                        <span class="profile-ud-value text-danger">پرداخت نشده</span>
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -306,16 +323,22 @@
                                                     <!-- status info -->
                                                     <div class="nk-block content" id="status" style="display: none">
                                                         <div class="profile-ud-list">
+
+                                                            <!-- experts -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label text-indigo">کارشناسان:</span>
+                                                                    <h6 class="profile-ud-label text-dark">کارشناسان:</h6>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- confirms -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label text-indigo">تائید‌ها:</span>
+                                                                    <h6 class="profile-ud-label text-dark">تائید‌ها:</h6>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- register expert -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo">کارشناس ثبت‌نام</span>
@@ -331,26 +354,26 @@
                                                                 </span>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- register status -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label text-indigo">رد شده یا نه</span>
+                                                                    <span class="profile-ud-label text-indigo">تائید ثبت‌نام</span>
                                                                     <span class="profile-ud-value">
-                                                                    {% if r.reject %}
-                                                                        <span class="text text-danger">
-                                                                        رد شده است
-                                                                        </span>
-                                                                    {% elif r.final_status %}
+                                                                    {% if r|has_register_confirm %}
                                                                         <span class="text text-success">
-                                                                        تائید کامل شده است
+                                                                        تائید شده است
                                                                         </span>
                                                                     {% else %}
-                                                                        <span class="text text-gray">
-                                                                        شناور
+                                                                        <span class="text text-danger">
+                                                                        نشده
                                                                         </span>
                                                                     {% endif %}
                                                                 </span>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- educational expert -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo">کارشناس آموزشی</span>
@@ -366,11 +389,13 @@
                                                                 </span>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- educational status 1 -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label text-indigo">تائید دوم آموزشی</span>
+                                                                    <span class="profile-ud-label text-indigo">تائید اول آموزشی</span>
                                                                     <span class="profile-ud-value">
-                                                                    {% if r.educational_status_2 %}
+                                                                    {% if r|has_educational_confirm_1 %}
                                                                         <span class="text text-success">
                                                                         تائید شده است
                                                                         </span>
@@ -382,6 +407,8 @@
                                                                 </span>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- financial expert -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo">کارشناس مالی</span>
@@ -398,11 +425,12 @@
                                                                 </div>
                                                             </div>
 
+                                                            <!-- financial status 1 -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
-                                                                    <span class="profile-ud-label text-indigo">تائید دوم مالی</span>
+                                                                    <span class="profile-ud-label text-indigo">تائید اول مالی</span>
                                                                     <span class="profile-ud-value">
-                                                                    {% if r.financial_status_2 %}
+                                                                    {% if r|has_financial_confirm_1 %}
                                                                         <span class="text text-success">
                                                                         تائید شده است
                                                                         </span>
@@ -415,12 +443,89 @@
                                                                 </div>
                                                             </div>
 
+                                                            <!-- blank -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo"></span>
                                                                 </div>
                                                             </div>
 
+                                                            <!-- educational status 2 -->
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">تائید دوم آموزشی</span>
+                                                                    <span class="profile-ud-value">
+                                                                    {% if r|has_educational_confirm_2 %}
+                                                                        <span class="text text-success">
+                                                                        تائید شده است
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text text-danger">
+                                                                        نشده
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- blank -->
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo"></span>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- financial status 2 -->
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">تائید دوم مالی</span>
+                                                                    <span class="profile-ud-value">
+                                                                    {% if r|has_financial_confirm_2 %}
+                                                                        <span class="text text-success">
+                                                                        تائید شده است
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text text-danger">
+                                                                        نشده
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- blank -->
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo"></span>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- educational status 3 -->
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo">تائید سوم آموزشی</span>
+                                                                    <span class="profile-ud-value">
+                                                                        {% if r|has_educational_confirm_3 %}
+                                                                            <span class="text text-success">
+                                                                            تائید شده است
+                                                                            </span>
+                                                                        {% else %}
+                                                                            <span class="text text-danger">
+                                                                            نشده
+                                                                            </span>
+                                                                        {% endif %}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- blank -->
+                                                            <div class="profile-ud-item">
+                                                                <div class="profile-ud wider">
+                                                                    <span class="profile-ud-label text-indigo"></span>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- final status -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo">تائید نهایی</span>
@@ -432,12 +537,14 @@
                                                                 </div>
                                                             </div>
 
+                                                            <!-- blank -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo"></span>
                                                                 </div>
                                                             </div>
 
+                                                            <!-- request step in persian -->
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label text-indigo">مرحله‌ی درخواست</span>
@@ -450,11 +557,64 @@
                                                     </div>
 
                                                     <!-- options -->
-                                                    {% if o_con %}
+                                                    {% if o_con_show or o_con_edit %}
                                                         <div class="nk-block content" id="options" style="display: none">
-                                                            <p class="mb-5">برای انتخاب روی هر گزینه کلیک کنید</p>
-                                                            <form action="{% url 'educational:option_for_request' r.id %}"
-                                                                  method="post">
+                                                            {% if o_con_edit %}
+                                                                <p class="mb-5">برای انتخاب روی هر گزینه کلیک کنید</p>
+                                                                <form action="{% url 'educational:option_for_request' r.id %}"
+                                                                      method="post">
+                                                                    <table class="table table-hover">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th scope="col">ردیف</th>
+                                                                            <th scope="col">نام</th>
+                                                                            <th scope="col">قیمت</th>
+                                                                            <th scope="col">انتخاب</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        {% csrf_token %}
+                                                                        {% for o in options %}
+                                                                            <tr>
+                                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                                <td><label for="{{ o.id }}">{{ o.name }}</label></td>
+                                                                                <td><label for="{{ o.id }}">{{ o.price }}</label></td>
+                                                                                <td>
+                                                                                    {% if r|has_option:o %}
+                                                                                        <div class="custom-control custom-checkbox">
+                                                                                            <input type="checkbox"
+                                                                                                   class="custom-control-input"
+                                                                                                   id="{{ o.id }}"
+                                                                                                   name="options"
+                                                                                                   value="{{ o.id }}"
+                                                                                                   checked>
+                                                                                            <label class="custom-control-label"
+                                                                                                   for="{{ o.id }}">
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    {% else %}
+                                                                                        <div class="custom-control custom-checkbox">
+                                                                                            <input type="checkbox"
+                                                                                                   class="custom-control-input"
+                                                                                                   id="{{ o.id }}"
+                                                                                                   name="options"
+                                                                                                   value="{{ o.id }}">
+                                                                                            <label class="custom-control-label"
+                                                                                                   for="{{ o.id }}">
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                            </tr>
+                                                                        {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <button type="submit"
+                                                                            class="btn btn-dim btn-outline-success">ثبت
+                                                                    </button>
+                                                                </form>
+                                                            {% endif %}
+                                                            {% if o_con_show %}
                                                                 <table class="table table-hover">
                                                                     <thead>
                                                                     <tr>
@@ -469,12 +629,8 @@
                                                                     {% for o in options %}
                                                                         <tr>
                                                                             <th scope="row">{{ forloop.counter }}</th>
-                                                                            <td><label
-                                                                                    for="{{ o.id }}">{{ o.name }}</label>
-                                                                            </td>
-                                                                            <td><label
-                                                                                    for="{{ o.id }}">{{ o.price }}</label>
-                                                                            </td>
+                                                                            <td><label for="{{ o.id }}">{{ o.name }}</label></td>
+                                                                            <td><label for="{{ o.id }}">{{ o.price }}</label></td>
                                                                             <td>
                                                                                 {% if r|has_option:o %}
                                                                                     <div class="custom-control custom-checkbox">
@@ -483,7 +639,8 @@
                                                                                                id="{{ o.id }}"
                                                                                                name="options"
                                                                                                value="{{ o.id }}"
-                                                                                               checked>
+                                                                                               checked
+                                                                                               disabled>
                                                                                         <label class="custom-control-label"
                                                                                                for="{{ o.id }}">
                                                                                         </label>
@@ -494,7 +651,8 @@
                                                                                                class="custom-control-input"
                                                                                                id="{{ o.id }}"
                                                                                                name="options"
-                                                                                               value="{{ o.id }}">
+                                                                                               value="{{ o.id }}"
+                                                                                               disabled>
                                                                                         <label class="custom-control-label"
                                                                                                for="{{ o.id }}">
                                                                                         </label>
@@ -505,10 +663,7 @@
                                                                     {% endfor %}
                                                                     </tbody>
                                                                 </table>
-                                                                <button type="submit"
-                                                                        class="btn btn-dim btn-outline-success">ثبت
-                                                                </button>
-                                                            </form>
+                                                            {% endif %}
                                                         </div>
                                                     {% endif %}
 
