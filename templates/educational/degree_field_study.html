@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load jformat %}
+{% load degree_info %}
 {% block title %}رشته ها - نسل تعلیمیه{% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
@@ -49,13 +50,24 @@
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
                                 <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <div class="nk-block-des">
+                                                <h5 class="text text-gray">رشته، مقاطع و مدارک موردنیاز آن‌ها را اینجا ببینید</h5>
+                                                <p class="text">
+                                                    در قسمت ایجاد
+                                                    <span class="text text-danger">رشته</span>
+                                                    لطفا هر مدرک را در یک خط بنویسید
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="card">
                                         <div class="nk-block nk-block-lg">
                                             <div class="card card-preview">
                                                 {% if error %}
                                                     <div class="alert m-5 alert-warning alert-icon"><em
-                                                            class="icon ni ni-alert-circle"></em> این رشته قبلا ثبت شده
-                                                        است .
+                                                            class="icon ni ni-alert-circle"></em> این رشته قبلا ثبت شده است .
                                                     </div>
                                                 {% endif %}
                                                 {% if degree_error %}
@@ -103,31 +115,30 @@
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody id="uni">
-                                                                    {% for degree_field_study in degree_field_studys %}
+                                                                    {% for degree in degree_field_studys %}
                                                                         <tr>
                                                                             <td>
-                                                                                {% if degree_field_study.parent is null %}
+                                                                                {% if degree.parent is null %}
                                                                                     <span class="text text-gray">
-                                                                                        {{ degree_field_study.title }}
+                                                                                        {{ degree.title }}
                                                                                     </span>
                                                                                 {% else %}
                                                                                     <span class="text text-azure">
-                                                                                        {{ degree_field_study.title }}
+                                                                                        {{ degree.title }}
                                                                                     </span>
                                                                                 {% endif %}
                                                                             </td>
                                                                             <td>
-                                                                                {% if degree_field_study.parent %}
+                                                                                {% if degree.parent %}
                                                                                     <span class="text text-primary">
-                                                                                        {{ degree_field_study.parent }}
+                                                                                        {{ degree.parent }}
                                                                                     </span>
-
                                                                                 {% endif %}
                                                                             </td>
-                                                                            <td>{% if degree_field_study.document %}
-                                                                                {{ degree_field_study.document }}{% endif %}</td>
+                                                                            <td>{% if degree.document %}
+                                                                                {{ degree|get_degree_doc }}{% endif %}</td>
                                                                             <td class="nk-tb-col nk-tb-col-tools">
-                                                                                <a href="{% url 'educational:degree_field_study' %}?remove={{ degree_field_study.id }}"
+                                                                                <a href="{% url 'educational:degree_field_study' %}?remove={{ degree.id }}"
                                                                                    class="btn btn-sm btn-dim btn-outline-danger">
                                                                                     حذف
                                                                                 </a>
