@@ -100,14 +100,6 @@
                                                             وضعیت پیشرفت
                                                         </a>
                                                     </li>
-                                                    {% if o_con_show or o_con_edit %}
-                                                        <li class="nav-item">
-                                                            <a class="nav-link text text-info"
-                                                               href="#"
-                                                               data-id="options"> پرداختی‌ها
-                                                            </a>
-                                                        </li>
-                                                    {% endif %}
                                                     {% if c_con %}
                                                         <li class="nav-item">
                                                             <a class="nav-link text text-warning"
@@ -138,15 +130,83 @@
                                                             </div>
                                                         {% endif %}
                                                         {% if c_con %}
-                                                            <h7 class="text text-success">
-                                                                هزینه‌ی درخواست کاملا پرداخت شده: {{ r|get_request_current_coast }}
-                                                            </h7>
+                                                            <div>
+                                                                <h7 class="text text-success">
+                                                                    هزینه‌ی درخواست کاملا پرداخت شده: {{ r|get_request_total_coast }}
+                                                                </h7>
+                                                            </div>
                                                         {% else %}
-                                                            <h7 class="text text-danger">
-                                                                قیمت فعلی پرداختی: {{ r|get_request_current_coast }}
-                                                            </h7>
+                                                            <div>
+                                                                <h7 class="text text-primary">
+                                                                    مبلغ کل پرداختی: {{ r|get_request_total_coast }}
+                                                                </h7>
+                                                            </div>
                                                         {% endif %}
 
+                                                        <!-- expert price -->
+                                                        {% if r|has_financial_confirm_1 %}
+                                                            <div>
+                                                                <h7 class="text text-success">
+                                                                    هزینه‌ی کارشناس پرداخت شده: {{ r|get_request_expert_coast }}
+                                                                </h7>
+                                                            </div>
+                                                        {% else %}
+                                                            <div>
+                                                                <h7 class="text text-danger">
+                                                                    هزینه‌ی کارشناس پرداخت نشده: {{ r|get_request_expert_coast }}
+                                                                </h7>
+                                                            </div>
+                                                        {% endif %}
+
+                                                        <!-- entrance price -->
+                                                        {% if r|has_financial_confirm_2 %}
+                                                            <div>
+                                                                <h7 class="text text-success">
+                                                                    هزینه‌ی ورودی پرداخت شده: {{ r|get_request_entrance_coast }}
+                                                                </h7>
+                                                            </div>
+                                                        {% else %}
+                                                            <div>
+                                                                <h7 class="text text-danger">
+                                                                    هزینه‌ی ورودی پرداخت نشده: {{ r|get_request_entrance_coast }}
+                                                                </h7>
+                                                            </div>
+                                                        {% endif %}
+
+                                                        <!-- options price -->
+                                                        {% if r|request_has_option %}
+                                                            {% if r|has_financial_confirm_2 %}
+                                                                <div>
+                                                                    <h7 class="text text-success">
+                                                                        هزینه‌ی قابلیت‌ها پرداخت
+                                                                        شده: {{ r|get_request_options_coast }}
+                                                                    </h7>
+                                                                </div>
+                                                            {% else %}
+                                                                <div>
+                                                                    <h7 class="text text-danger">
+                                                                        هزینه‌ی قابلیت‌ها پرداخت
+                                                                        نشده: {{ r|get_request_options_coast }}
+                                                                    </h7>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endif %}
+
+                                                        <!-- current paid -->
+                                                        <div>
+                                                            <h7 class="text text-info">
+                                                                مبلغ پرداخت شده تا الان:
+                                                                {{ r|get_request_current_paid }}
+                                                            </h7>
+                                                        </div>
+
+                                                        <!-- current remaining -->
+                                                        <div>
+                                                            <h7 class="text text-info">
+                                                                مبلغ باقی‌مانده‌ی پرداختی
+                                                                {{ r|get_request_remaining_coast }}
+                                                            </h7>
+                                                        </div>
                                                     </div>
                                                     <br>
 
@@ -290,6 +350,105 @@
                                                                         <span class="profile-ud-value text-danger">پرداخت نشده</span>
                                                                     {% endif %}
                                                                 </div>
+                                                            </div>
+                                                            <div class="profile-ud-item col-12">
+                                                                {% if o_con_show or o_con_edit %}
+                                                                    {% if o_con_edit %}
+                                                                        <p class="mb-5">برای انتخاب روی هر گزینه کلیک کنید</p>
+                                                                        <form action="{% url 'educational:option_for_request' r.id %}"
+                                                                              method="post">
+                                                                            <table class="table table-hover">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th scope="col">ردیف</th>
+                                                                                    <th scope="col">نام</th>
+                                                                                    <th scope="col">قیمت</th>
+                                                                                    <th scope="col">انتخاب</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {% csrf_token %}
+                                                                                {% for o in options %}
+                                                                                    <tr>
+                                                                                        <th scope="row">{{ forloop.counter }}</th>
+                                                                                        <td><label for="{{ o.id }}">{{ o.name }}</label></td>
+                                                                                        <td><label for="{{ o.id }}">{{ o.price }}</label></td>
+                                                                                        <td>
+                                                                                            {% if r|has_option:o %}
+                                                                                                <div class="custom-control custom-checkbox">
+                                                                                                    <input type="checkbox"
+                                                                                                           class="custom-control-input"
+                                                                                                           id="{{ o.id }}"
+                                                                                                           name="options"
+                                                                                                           value="{{ o.id }}"
+                                                                                                           checked>
+                                                                                                    <label class="custom-control-label"
+                                                                                                           for="{{ o.id }}">
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            {% else %}
+                                                                                                <div class="custom-control custom-checkbox">
+                                                                                                    <input type="checkbox"
+                                                                                                           class="custom-control-input"
+                                                                                                           id="{{ o.id }}"
+                                                                                                           name="options"
+                                                                                                           value="{{ o.id }}">
+                                                                                                    <label class="custom-control-label"
+                                                                                                           for="{{ o.id }}">
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            {% endif %}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                {% endfor %}
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <button type="submit"
+                                                                                    class="btn btn-dim btn-outline-success">ثبت
+                                                                            </button>
+                                                                        </form>
+                                                                    {% endif %}
+                                                                    {% if not request.user.is_superuser and perms.client.normal_person %}
+                                                                        {% if o_con_show and selected_options%}
+                                                                            <table class="table table-hover">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th scope="col">ردیف</th>
+                                                                                    <th scope="col">نام</th>
+                                                                                    <th scope="col">قیمت</th>
+                                                                                    <th scope="col">انتخاب</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {% csrf_token %}
+                                                                                {% for o in options %}
+                                                                                    <tr>
+                                                                                        {% if r|has_option:o %}
+                                                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                                                            <td><label for="{{ o.id }}">{{ o.name }}</label></td>
+                                                                                            <td><label for="{{ o.id }}">{{ o.price }}</label></td>
+                                                                                            <td>
+                                                                                                <div class="custom-control custom-checkbox">
+                                                                                                    <input type="checkbox"
+                                                                                                           class="custom-control-input"
+                                                                                                           id="{{ o.id }}"
+                                                                                                           name="options"
+                                                                                                           value="{{ o.id }}"
+                                                                                                           checked
+                                                                                                           disabled>
+                                                                                                    <label class="custom-control-label"
+                                                                                                           for="{{ o.id }}">
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        {% endif %}
+                                                                                    </tr>
+                                                                                {% endfor %}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                            {% endif %}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -569,6 +728,7 @@
                                                     </div>
 
                                                     <!-- options -->
+                                                    <!--
                                                     {% if o_con_show or o_con_edit %}
                                                         <div class="nk-block content" id="options" style="display: none">
                                                             {% if o_con_edit %}
@@ -626,58 +786,49 @@
                                                                     </button>
                                                                 </form>
                                                             {% endif %}
-                                                            {% if o_con_show %}
-                                                                <table class="table table-hover">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th scope="col">ردیف</th>
-                                                                        <th scope="col">نام</th>
-                                                                        <th scope="col">قیمت</th>
-                                                                        <th scope="col">انتخاب</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    {% csrf_token %}
-                                                                    {% for o in options %}
+                                                            {% if not request.user.is_superuser and perms.client.normal_person %}
+                                                                {% if o_con_show %}
+                                                                    <table class="table table-hover">
+                                                                        <thead>
                                                                         <tr>
-                                                                            <th scope="row">{{ forloop.counter }}</th>
-                                                                            <td><label for="{{ o.id }}">{{ o.name }}</label></td>
-                                                                            <td><label for="{{ o.id }}">{{ o.price }}</label></td>
-                                                                            <td>
-                                                                                {% if r|has_option:o %}
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox"
-                                                                                               class="custom-control-input"
-                                                                                               id="{{ o.id }}"
-                                                                                               name="options"
-                                                                                               value="{{ o.id }}"
-                                                                                               checked
-                                                                                               disabled>
-                                                                                        <label class="custom-control-label"
-                                                                                               for="{{ o.id }}">
-                                                                                        </label>
-                                                                                    </div>
-                                                                                {% else %}
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox"
-                                                                                               class="custom-control-input"
-                                                                                               id="{{ o.id }}"
-                                                                                               name="options"
-                                                                                               value="{{ o.id }}"
-                                                                                               disabled>
-                                                                                        <label class="custom-control-label"
-                                                                                               for="{{ o.id }}">
-                                                                                        </label>
-                                                                                    </div>
-                                                                                {% endif %}
-                                                                            </td>
+                                                                            <th scope="col">ردیف</th>
+                                                                            <th scope="col">نام</th>
+                                                                            <th scope="col">قیمت</th>
+                                                                            <th scope="col">انتخاب</th>
                                                                         </tr>
-                                                                    {% endfor %}
-                                                                    </tbody>
-                                                                </table>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        {% csrf_token %}
+                                                                        {% for o in options %}
+                                                                            <tr>
+                                                                                {% if r|has_option:o %}
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td><label for="{{ o.id }}">{{ o.name }}</label></td>
+                                                                                    <td><label for="{{ o.id }}">{{ o.price }}</label></td>
+                                                                                    <td>
+                                                                                        <div class="custom-control custom-checkbox">
+                                                                                            <input type="checkbox"
+                                                                                                   class="custom-control-input"
+                                                                                                   id="{{ o.id }}"
+                                                                                                   name="options"
+                                                                                                   value="{{ o.id }}"
+                                                                                                   checked
+                                                                                                   disabled>
+                                                                                            <label class="custom-control-label"
+                                                                                                   for="{{ o.id }}">
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                {% endif %}
+                                                                            </tr>
+                                                                        {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                {% endif %}
                                                             {% endif %}
                                                         </div>
                                                     {% endif %}
+                                                    -->
 
                                                     <!-- confirmation -->
                                                     {% if c_con %}
@@ -703,7 +854,7 @@
                                                                     <div class="profile-ud wider">
                                                                         <span class="profile-ud-label text-indigo">هزینه‌ی کارشناس</span>
                                                                         <span class="profile-ud-value">
-                                                                       {{ r|get_request_expert }}
+                                                                       {{ r|get_request_expert_coast }}
                                                                         </span>
                                                                     </div>
                                                                 </div>

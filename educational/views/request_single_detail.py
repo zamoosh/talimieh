@@ -11,6 +11,7 @@ def request_single_detail(request, r_id):
         context['documents'] = r.ownerdocument_set.all()
         context['amount_of_doc'] = r.ownerdocument_set.all().__len__()
         context['options'] = Option.objects.all()
+        context['selected_options'] = r.selectedoption_set.all()
         context['r_con'] = False
         context['e_con'] = False
         context['f_con'] = False
@@ -20,12 +21,11 @@ def request_single_detail(request, r_id):
         context['o_con_edit'] = False
         context['o_con_show'] = False
         context['c_con'] = False
-        if int(r.step[1] == 5 or 6 or 7):
+        if int(r.step[1]) == 4 or int(r.step[1]) == 5 or int(r.step[1]) == 6 or int(r.step[1]) == 7:
             context['o_con_show'] = True
         if int(r.step[1]) == 7:
             context['c_con'] = True
-        if r.reject is False and (
-                request.user.is_superuser or request.user.user_permissions.filter(name__contains='see')):
+        if r.reject is False and (request.user.is_superuser or request.user.user_permissions.filter(name__contains='see')):
             if int(r.step[1]) == 1:
                 context['r_con'] = True
             elif int(r.step[1]) == 2:

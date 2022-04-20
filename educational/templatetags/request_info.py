@@ -8,15 +8,78 @@ def can_reject(r):
     return False
 
 
-@register.filter(name='get_request_current_coast')
-def get_request_current_coast(r):
+@register.filter(name='get_request_remaining_coast')
+def get_request_remaining_coast(r):
+    total_coast = 0
+    total_coast += get_request_total_coast(r, True) - get_request_current_paid(r, True)
+    if total_coast == 0:
+        return 'تمامی هزینه‌ها پرداخت شده‌اند'
+    return f'{total_coast}  تومان'
+
+
+@register.filter(name='get_request_total_coast')
+def get_request_total_coast(r, num=False):
     total_coast = 0
     if r.selectedoption_set.all().exists():
-        for s_o in r.selectedoption_set.all():
-            total_coast += int(s_o.option.price)
+        for select_option in r.selectedoption_set.all():
+            total_coast += int(select_option.option.price)
     for sem in r.selectedsemester_set.all():
         total_coast += int(sem.semester.expert_price)
         total_coast += int(sem.semester.entrance_price)
+    if num:
+        return total_coast
+    return f'{total_coast}  تومان'
+
+
+@register.filter(name='get_request_current_paid')
+def get_request_current_paid(r, num=False):
+    total_coast = 0
+    if int(r.step[1]) > 3:
+        total_coast += get_request_expert_coast(r, True)
+    if int(r.step[1]) > 5:
+        total_coast += get_request_entrance_coast(r, True)
+    if request_has_option(r):
+        total_coast += get_request_options_coast(r, True)
+    if num:
+        return total_coast
+    return f'{total_coast}  تومان'
+
+
+@register.filter(name='get_request_expert_coast')
+def get_request_expert_coast(r, num=False):
+    total_coast = 0
+    for sem in r.selectedsemester_set.all():
+        total_coast += int(sem.semester.expert_price)
+    if num:
+        return total_coast
+    return f'{total_coast}  تومان'
+
+
+@register.filter(name='get_request_entrance_coast')
+def get_request_entrance_coast(r, num=False):
+    total_coast = 0
+    for sem in r.selectedsemester_set.all():
+        total_coast += int(sem.semester.entrance_price)
+    if num:
+        return total_coast
+    return f'{total_coast}  تومان'
+
+
+@register.filter(name='request_has_option')
+def request_has_option(r):
+    if r.selectedoption_set.all().exists():
+        return True
+    return False
+
+
+@register.filter(name='get_request_options_coast')
+def get_request_options_coast(r, num=False):
+    total_coast = 0
+    if r.selectedoption_set.all().exists():
+        for select_option in r.selectedoption_set.all():
+            total_coast += int(select_option.option.price)
+    if num:
+        return total_coast
     return f'{total_coast}  تومان'
 
 
