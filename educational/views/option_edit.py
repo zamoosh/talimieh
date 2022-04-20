@@ -3,6 +3,8 @@ from .imports import *
 
 @login_required
 def option_edit(request, o_id):
+    if not (request.user.user_permissions.filter(name__icontains='see') or request.user.is_superuser):
+        return redirect(reverse('page_not_found'))
     o = Option.objects.get(id=o_id)
     if request.method == 'GET':
         context = {}

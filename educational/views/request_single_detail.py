@@ -1,10 +1,10 @@
 from .imports import *
 
 
-def request_single_detail(request):
-    if request.GET.get('r'):
+def request_single_detail(request, r_id):
+    if request.method == 'GET':
         context = {}
-        r = EducationalRequest.objects.get(id=request.GET.get('r'))
+        r = EducationalRequest.objects.get(id=r_id)
         context['r'] = r
         context['selected_semesters'] = r.selectedsemester_set.all()
         context['user'] = r.user
@@ -43,4 +43,7 @@ def request_single_detail(request):
                 context['c_con'] = True
                 context['o_con_show'] = True
                 context['o_paid'] = True
+        if request.session.get('option'):
+            context['message'] = True
+            del request.session['option']
         return render(request, 'educational/request_single.html', context)

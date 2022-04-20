@@ -31,7 +31,7 @@ urlpatterns = [
     path('uni/api/', get_uni, name="get_uni"),
     path('get-uni-for-request/api/', get_uni_for_request, name='get_uni_for_request'),
     path('uni/api/has-semester/', uni_has_semester, name='uni_has_semester'),
-    path('uni-reqest-submit/', uni_request_submit, name="uni_request_submit"),
+    path('uni-request-submit/', uni_request_submit, name="uni_request_submit"),
     path('uni-edit/<int:u_id>', edit_university_terms, name='uni_edit_terms'),
     path('uni-degrees-show/', uni_degrees_show, name='uni_degrees_show'),
     path('uni-edit-docs/<int:u_id>/', uni_edit_docs, name='uni_edit_docs'),
@@ -40,9 +40,8 @@ urlpatterns = [
     path('reports/', reports, name='reports'),
 
     path('requests/', requests, name='requests'),
-    path('requests/<str:message>/', requests, name='requests_with_message'),
     path('request-single/<int:r_id>/', request_single_confirm, name='request_single_confirm'),
-    path('request-single-detail/', request_single_detail, name='request_single_detail'),
+    path('request-single-detail/<int:r_id>/', request_single_detail, name='request_single_detail'),
     path('request-single-remove/<int:r_id>/', request_single_remove, name='request_single_remove'),
     path('request-single-transitions/api/', get_transaction_of_educational_request, name='request_single_transition'),
 

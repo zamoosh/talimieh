@@ -32,6 +32,28 @@
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
                                 <div class="nk-block">
+                                    <div class="nk-block-head nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            {% if person_con %}
+                                                <h4 class="nk-block-title mb-3">
+                                                    درخواست‌های
+                                                    <span class="text-primary">
+                                                        {{ request.user.first_name }} {{ request.user.last_name }}
+                                                    </span>
+                                                </h4>
+                                            {% endif %}
+                                            <div class="nk-block-des">
+                                                <h6 class="text text-gray">
+                                                    <em class="ni ni-notice"></em>
+                                                    برای مشاهده‌ی جزئیات هر
+                                                    <span class="text text-danger">درخواست</span>
+                                                    روی
+                                                    <span class="text text-info">مشاهده</span>
+                                                    کلیک کنید
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="card">
                                         <div class="card card-preview">
 
@@ -40,7 +62,7 @@
 
                                                     <!-- request creation message -->
                                                     {% if message %}
-                                                        <div class="example-alert">
+                                                        <div class="example-alert mb-3">
                                                             <div class="alert alert-success alert-icon">
                                                                 <em class="icon ni ni-alert-circle"></em>
                                                                 <strong>درخواست</strong>
@@ -49,19 +71,6 @@
                                                         </div>
                                                         <br/><br/>
                                                     {% endif %}
-
-                                                    <!-- alert -->
-                                                    <div class="example-alert">
-                                                        <div class="alert alert-info alert-icon">
-                                                            <em class="icon ni ni-alert-circle"></em>
-                                                            برای دیدن جزئیات بیشتر
-                                                            <strong>روی مشاهده</strong>
-                                                            کلیک
-                                                            کنید
-                                                        </div>
-                                                    </div>
-
-                                                    <br>
 
                                                     <!-- not stable requests -->
                                                     {% if requests %}
@@ -90,7 +99,7 @@
 
                                                                     </td>
                                                                     <td>
-                                                                        <a href="{% url 'educational:request_single_detail' %}?r={{ r.id }}"
+                                                                        <a href="{% url 'educational:request_single_detail' r.id %}"
                                                                            type="button"
                                                                            class="btn btn-dim btn-outline-info">مشاهده</a>
                                                                     </td>
@@ -133,7 +142,7 @@
                                                                     </td>
                                                                     <td>{{ r.get_step }}</td>
                                                                     <td>
-                                                                        <a href="{% url 'educational:request_single_detail' %}?r={{ r.id }}"
+                                                                        <a href="{% url 'educational:request_single_detail' r.id %}"
                                                                            type="button"
                                                                            class="btn btn-dim btn-indc">مشاهده</a>
                                                                     </td>
