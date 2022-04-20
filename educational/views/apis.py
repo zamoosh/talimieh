@@ -75,6 +75,7 @@ def get_degree_field_sections(request):
         return JsonResponse(context, safe=False)
 
 
+# get all SECTIONS
 @login_required
 def get_section(request):
     context = []
@@ -86,6 +87,7 @@ def get_section(request):
     return JsonResponse(context, safe=False)
 
 
+# get SEMESTERS of a DEGREE
 @login_required
 def get_degree_semesters(request):
     section = DegreeFieldStudy.objects.get(id=request.POST.get('d_id'))
@@ -99,33 +101,34 @@ def get_degree_semesters(request):
     return JsonResponse(sem_list, safe=False)
 
 
-# get degrees of a university with section
+# get SEMESTERS of a UNIVERSITY with specifying the UNIVERSITY's SECTIONS
 @login_required
 def get_uni_degrees(request):
     uni = Universities.objects.get(id=request.POST.get('u_id'))
     section = DegreeFieldStudy.objects.get(id=request.POST.get('d_id'))
     degrees = DegreeFieldStudy.objects.filter(parent=section, semester__university=uni)
-    degree_list = []
+    sem_list = []
     for degree in degrees:
         scholarship = False
         if degree.semester_set.get(university=uni).scholarship:
             scholarship = True
-        degree_list.append(
+        sem_list.append(
             {'id': degree.id, 'title': degree.__str__(), 'scholarship': scholarship}
-            )
-    return JsonResponse(degree_list, safe=False)
+        )
+    return JsonResponse(sem_list, safe=False)
 
 
+# get DEGREES of a specific SECTION
 @login_required
 def get_sections_degrees(request):
     section = DegreeFieldStudy.objects.get(id=request.POST.get('d_id'))
     degrees = DegreeFieldStudy.objects.filter(parent=section)
-    sem_list = []
+    degree_list = []
     for degree in degrees:
-        sem_list.append(
+        degree_list.append(
             {'id': degree.id, 'title': degree.__str__()}
         )
-    return JsonResponse(sem_list, safe=False)
+    return JsonResponse(degree_list, safe=False)
 
 
 @login_required
