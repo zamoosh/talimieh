@@ -35,7 +35,7 @@
                                     <div class="card">
                                         <div class="card card-preview">
                                             <div class="card-inner">
-                                                {% if requests or reject_request %}
+                                                {% if requests or reject_requests %}
                                                     <!-- alert -->
                                                     <div class="example-alert">
                                                         <div class="alert alert-info alert-icon">
@@ -50,21 +50,22 @@
                                                     <br>
 
                                                     <!-- not stable requests -->
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                        <tr>
-                                                            <th class="text text-indigo" scope="col">ردیف</th>
-                                                            <th class="text text-indigo" scope="col">کاربر</th>
-                                                            <th class="text text-indigo" scope="col">وضعیت</th>
-                                                            <th class="text text-indigo" scope="col">مشاهده</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {% for r in requests %}
+                                                    {% if requests %}
+                                                        <table class="table table-hover">
+                                                            <thead>
                                                             <tr>
-                                                                <th scope="row">{{ forloop.counter }}</th>
-                                                                <td class="text text-azure">{{ r.user.first_name }} {{ r.user.last_name }}</td>
-                                                                <td>
+                                                                <th class="text text-indigo" scope="col">ردیف</th>
+                                                                <th class="text text-indigo" scope="col">کاربر</th>
+                                                                <th class="text text-indigo" scope="col">وضعیت</th>
+                                                                <th class="text text-indigo" scope="col">مشاهده</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for r in requests %}
+                                                                <tr>
+                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                    <td class="text text-azure">{{ r.user.first_name }} {{ r.user.last_name }}</td>
+                                                                    <td>
                                                                 <span class="align-center text text-azure">
                                                                     {{ r.get_step }}
                                                                     {% if r.final_status %}
@@ -73,16 +74,19 @@
                                                                     {% endif %}
                                                                 </span>
 
-                                                                </td>
-                                                                <td>
-                                                                    <a href="{% url 'educational:request_single_detail' %}?r={{ r.id }}"
-                                                                       type="button"
-                                                                       class="btn btn-dim btn-outline-info">مشاهده</a>
-                                                                </td>
-                                                            </tr>
-                                                        {% endfor %}
-                                                        </tbody>
-                                                    </table>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="{% url 'educational:request_single_detail' %}?r={{ r.id }}"
+                                                                           type="button"
+                                                                           class="btn btn-dim btn-outline-info">مشاهده</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    {% endif %}
+
+                                                    <!-- rejected requests -->
                                                     {% if reject_requests %}
                                                         <br>
                                                         <h5 class="text-danger">درخواست‌های رد شده</h5>
@@ -109,13 +113,14 @@
                                                                             <span class="text text-gray align-center">
                                                                             رد شده است
                                                                             <em class="icon ni ni-cross-circle"
-                                                                                 style="font-size: 1.475rem"></em>
+                                                                                style="font-size: 1.475rem"></em>
                                                                             </span>
                                                                         {% endif %}
                                                                     </td>
                                                                     <td>{{ r.get_step }}</td>
                                                                     <td>
-                                                                        <a href="{% url 'educational:request_single_detail' %}?r={{ r.id }}" type="button"
+                                                                        <a href="{% url 'educational:request_single_detail' %}?r={{ r.id }}"
+                                                                           type="button"
                                                                            class="btn btn-dim btn-indc">مشاهده</a>
                                                                     </td>
                                                                 </tr>

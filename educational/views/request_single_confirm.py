@@ -9,7 +9,7 @@ def request_single_confirm(request, r_id):
         r = EducationalRequest.objects.get(id=r_id)
         if r.reject is False:
             m = Message.objects.create(
-                text=f'درخواست شما مبنی بر {r.title} توسط {request.user} تائید شد',
+                text=f'درخواست شما توسط {request.user} تائید شد',
                 educational_request=r,
                 owner=r.user,
                 message_expert=request.user,

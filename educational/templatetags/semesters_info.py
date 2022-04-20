@@ -6,7 +6,7 @@ register = template.Library()
 @register.filter(name='get_semester_expert_price')
 def get_semester_expert_price(uni: educational.models.Universities, degree_field_study):
     if uni.semester_set.filter(degree_field_study=degree_field_study):
-        sem = uni.semester_set.get(degree_field_study=degree_field_study)
+        sem = uni.semester_set.get(degree_field_study=degree_field_study, degree_field_study__parent__isnull=False)
         return sem.expert_price
     return ''
 

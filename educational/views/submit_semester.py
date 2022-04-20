@@ -35,44 +35,15 @@ def submit_semester(request):
                     detail[i[0][len('expert_price_'):]]['expert_price'] = i[1]
             for i in context['degree_fields']:
                 if str(i.id) in detail:
-                    if i.semester_set.filter(~Q(university=None)):
-                        for item in i.semester_set.filter(~Q(university=None)):
-                            if item.university.id == context['uni']:
-                                item.expert_price = detail[str(i.id)]['expert_price']
-                                item.entrance_price = detail[str(i.id)]['entrance_price']
-                                item.scholarship = detail[str(i.id)]['scholarship']
-                                item.save()
-                            else:
-                                # uni = Universities.objects.get(id=context['uni'])
-                                semester = Semester()
-                                semester.university_id = context['university'].id
-                                semester.degree_field_study_id = i.id
-                                semester.year_semester_id = context['term'].id
-                                semester.status = True
-                                semester.expert_price = detail[str(i.id)]['expert_price']
-                                semester.entrance_price = detail[str(i.id)]['entrance_price']
-                                semester.scholarship = detail[str(i.id)]['scholarship']
-                                semester.university.status = True
-                                # uni.status = True
-                                # uni.save()
-                                semester.save()
-                    else:
-                        # uni = Universities.objects.get(id=context['uni'])
-                        semester = Semester()
-                        semester.university_id = context['university'].id
-                        semester.degree_field_study_id = i.id
-                        semester.year_semester_id = context['term'].id
-                        semester.status = True
-                        semester.expert_price = detail[str(i.id)]['expert_price']
-                        semester.entrance_price = detail[str(i.id)]['entrance_price']
-                        semester.scholarship = detail[str(i.id)]['scholarship']
-                        semester.university.status = True
-                        # uni.status = True
-                        # uni.save()
-                        semester.save()
-            return HttpResponseRedirect(reverse('educational:semesters'))
+                    if i.semester_set.filter(university=context['university']):
+                        for sem in i.semester_set.filter(Q(university=context['university'])):
+                            sem.expert_price = detail[str(i.id)]['expert_price']
+                            sem.entrance_price = detail[str(i.id)]['entrance_price']
+                            sem.scholarship = detail[str(i.id)]['scholarship']
+                            sem.save()
+            return redirect(reverse('educational:semesters'))
         uni = Universities.objects.get(id=context['uni'])
-        uni.register_status = False
+        uni.status = False
         uni.save()
     # return render(request, f'{app_name.name}/{__name__.split(".")[-1]}.html', context)
     return render(request, 'educational/submit_semester.html', context)
