@@ -93,17 +93,16 @@
                 }
             });
         })
-    </script>
 
-    <script>
-        $(window).on('click', function (e) {
+
+        $(window).on('click', function () {
             $('#uni').on('change', function () {
                 $.ajax({
                     url: '{% url 'educational:get_degree_field_sections' %}',
                     type: "POST",
                     data: {
                         'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                        'u_id': $('#uni')[0].value
+                        'u_id': $('#uni').val()
                     },
                     success: function (data) {
                         let degreeDropDown = $('#degree');
@@ -119,24 +118,26 @@
                 });
             })
         })
-    </script>
 
-    <script>
-        $(window).on('click', function (e) {
+
+        $(window).on('click', function () {
             $('#degree').on('change', function () {
                 $.ajax({
-                    url: '{% url 'educational:get_degree_semesters' %}',
+                    url: '{% url 'educational:get_degree_semesters_of_an_uni' %}',
                     type: "POST",
                     data: {
                         'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                        'd_id': $('#degree')[0].value
+                        'd_id': $('#degree').val(),
+                        'u_id': $('#uni').val()
                     },
                     success: function (data) {
                         data.forEach(function (element) {
                             let degreeSemesterDropDown = $('#degree-semester');
                             degreeSemesterDropDown.empty();
                             degreeSemesterDropDown.append(`<option value=""></option>`);
-                            degreeSemesterDropDown.append(`<option value="${element.id}">${element.title}</option>`);
+                            degreeSemesterDropDown.append(`
+                                <option value="${element.id}">${element.title} ${element.u_name}</option>`
+                            );
                         })
                     },
                     error: function (error) {
@@ -145,10 +146,6 @@
                 });
             })
         })
-    </script>
-
-    <script>
-
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}

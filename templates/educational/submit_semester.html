@@ -46,6 +46,7 @@
                                                             {% csrf_token %}
                                                             <div class="row g-4">
                                                                 <div class="col-lg-12">
+                                                                {% if degree_fields %}
                                                                     <table class="nowrap table"
                                                                            id="unitable">
                                                                         <thead>
@@ -59,10 +60,10 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody id="uni">
-                                                                            {% for degree_field in degree_fields %}
+                                                                            {% for deg in degree_fields %}
                                                                                 <tr>
                                                                                     <td>{{ university.uni_name }}</td>
-                                                                                    <td>{{ degree_field.title }}</td>
+                                                                                    <td>{{ deg.title }}</td>
                                                                                     <td>{{ year.title }} / {{ term.title }}</td>
                                                                                     <td>
                                                                                         <div class="form-control-wrap">
@@ -72,9 +73,9 @@
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    id="expert_price"
-                                                                                                   name="expert_price_{{ degree_field.id }}"
+                                                                                                   name="expert_price_{{ deg.id }}"
                                                                                                    required
-                                                                                                   value="{{ university|get_semester_expert_price:degree_field }}"
+                                                                                                   value="{{ university|get_semester_expert_price:deg }}"
                                                                                                    placeholder="قیمت کارشناسی">
                                                                                         </div>
                                                                                     </td>
@@ -86,33 +87,37 @@
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    id="entrance_price"
-                                                                                                   name="entrance_price_{{ degree_field.id }}"
+                                                                                                   name="entrance_price_{{ deg.id }}"
                                                                                                    required
-                                                                                                   value="{{ university|get_semester_entrance_price:degree_field }}"
+                                                                                                   value="{{ university|get_semester_entrance_price:deg }}"
                                                                                                    placeholder="قیمت اخذ ورودی">
                                                                                         </div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        {% if university|has_scholarship:degree_field %}
+                                                                                        {% if university|has_scholarship:deg %}
                                                                                             <div class="custom-control custom-control-sm custom-switch">
                                                                                                 <input type="checkbox"
                                                                                                        checked
                                                                                                        class="custom-control-input focused"
-                                                                                                       id="{{ degree_field.id }}"
-                                                                                                       name="scholarship_{{ degree_field.id }}"
-                                                                                                       value="{{ degree_field.id }}">
+                                                                                                       id="{{ deg.id }}"
+                                                                                                       name="scholarship_{{ deg.id }}"
+                                                                                                       value="{{ deg.id }}">
                                                                                                 <label class="custom-control-label focused"
-                                                                                                       for="{{ degree_field.id }}">فعال</label>
+                                                                                                       for="{{ deg.id }}">
+                                                                                                    فعال
+                                                                                                </label>
                                                                                             </div>
                                                                                         {% else %}
                                                                                             <div class="custom-control custom-control-sm custom-switch">
                                                                                                 <input type="checkbox"
                                                                                                        class="custom-control-input"
-                                                                                                       id="{{ degree_field.id }}"
-                                                                                                       name="scholarship_{{ degree_field.id }}"
-                                                                                                       value="{{ degree_field.id }}">
+                                                                                                       id="{{ deg.id }}"
+                                                                                                       name="scholarship_{{ deg.id }}"
+                                                                                                       value="{{ deg.id }}">
                                                                                                 <label class="custom-control-label"
-                                                                                                       for="{{ degree_field.id }}">فعال</label>
+                                                                                                       for="{{ deg.id }}">
+                                                                                                    فعال
+                                                                                                </label>
                                                                                             </div>
                                                                                         {% endif %}
                                                                                     </td>
@@ -120,12 +125,21 @@
                                                                             {% endfor %}
                                                                         </tbody>
                                                                     </table>
+                                                                {% else %}
+                                                                    <h5 class="text-gray">
+                                                                        تمامی رشته‌های
+                                                                        <span class="text-info">این مقطع</span>
+                                                                        با موفقت
+                                                                        <span class="text-danger">حذف</span>
+                                                                        شدند
+                                                                    </h5>
+                                                                {% endif %}
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <div class="form-group">
                                                                         <button type="submit"
-                                                                                class="btn float-right btn-lg btn-primary">
-                                                                            ثبت
+                                                                                class="btn btn-dim float-right btn-outline-success">
+                                                                            ثبت / ادامه
                                                                         </button>
                                                                     </div>
                                                                 </div>
