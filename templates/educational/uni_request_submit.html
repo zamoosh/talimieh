@@ -17,7 +17,29 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'assets/js/jquery-validate-form.js' %}"></script>
     <script>
+        $(function () {
+            $('form[name="request-form"]').validate({
+                errorElement: 'span',
+                rules: {
+                    average: 'required',
+                    former_university: 'required',
+                    former_field_study: 'required',
+                    uni: 'required',
+                    degree: 'required',
+                    'degree-semester': 'required',
+                },
+                messages: {
+                    average: 'پر کردن این قسمت الزامی است',
+                    former_university: 'پر کردن این قسمت الزامی است',
+                    former_field_study: 'پر کردن این قسمت الزامی است',
+                    uni: 'پر کردن این قسمت الزامی است',
+                    degree: 'پر کردن این قسمت الزامی است',
+                    'degree-semester': 'پر کردن این قسمت الزامی است',
+                }
+            })
+        })
         $.ajax({
             url: '{% url 'client:get_document' %}',
             type: "GET",
@@ -163,7 +185,7 @@
                                     <div class="card p-5">
                                     {% if request.user.ownerdocument_set.exists %}
                                         <form action="{% url 'client:user_document_upload' %}" method="post"
-                                              enctype="multipart/form-data">
+                                              enctype="multipart/form-data" name="request-form">
                                             <div class="card-inner">
                                                 <div class="preview-block">
                                                     <div class="example-alert mb-4">
