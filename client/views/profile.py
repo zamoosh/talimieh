@@ -22,16 +22,40 @@ def profile(request):
         context['req']['whatsapp'] = request.POST.get('whatsapp', '').strip()
         user = User.objects.get(id=request.user.id)
         user.first_login = False
-        user.first_name = context['req']['first_name']
-        user.last_name = context['req']['last_name']
+        if not context['req']['first_name'].isnumeric():
+            user.first_name = context['req']['first_name']
+        else:
+            request.session['name_err'] = True
+            return redirect(reverse('client:profile'))
+        if not context['req']['last_name'].isnumeric():
+            user.last_name = context['req']['last_name']
+        else:
+            request.session['last_name_err'] = True
+            return redirect(reverse('client:profile'))
         user.father_name = context['req']['father_name']
         user.email = context['req']['email']
         user.ancestor_name = context['req']['ancestor_name']
         user.nick_name = context['req']['nick_name']
-        user.pass_number = context['req']['pass_number']
-        user.place_birth = context['req']['place_birth']
-        user.place_issue = context['req']['place_issue']
-        user.whatsapp = context['req']['whatsapp']
+        if context['req']['pass_number'].isnumeric():
+            user.pass_number = context['req']['pass_number']
+        else:
+            request.session['pass_number_err'] = True
+            return redirect(reverse('client:profile'))
+        if not context['req']['place_birth'].isnumeric():
+            user.place_birth = context['req']['place_birth']
+        else:
+            request.session['place_birth'] = True
+            return redirect(reverse('client:profile'))
+        if not context['req']['place_issue'].isnumeric():
+            user.place_issue = context['req']['place_issue']
+        else:
+            request.session['place_issue'] = True
+            return redirect(reverse('client:profile'))
+        if context['req']['whatsapp'].isnumeric():
+            user.whatsapp = request.POST.get('pre_number') + request.POST.get('whatsapp')
+        else:
+            request.session['whatsapp_err'] = True
+            return redirect(reverse('client:profile'))
         if request.POST.get('password'):
             if len(request.POST.get('password')) >= 8:
                 user.set_password(request.POST.get('password'))
@@ -60,4 +84,22 @@ def profile(request):
     if request.session.get('confirm_changes'):
         context['confirm_changes'] = True
         del request.session['confirm_changes']
+    if request.session.get('name_err'):
+        context['name_err'] = True
+        del request.session['name_err']
+    if request.session.get('last_name_err'):
+        context['last_name_err'] = True
+        del request.session['last_name_err']
+    if request.session.get('pass_number_err'):
+        context['pass_number_err'] = True
+        del request.session['pass_number_err']
+    if request.session.get('place_birth'):
+        context['place_birth'] = True
+        del request.session['place_birth']
+    if request.session.get('place_issue'):
+        context['place_issue'] = True
+        del request.session['place_issue']
+    if request.session.get('whatsapp_err'):
+        context['whatsapp_err'] = True
+        del request.session['whatsapp_err']
     return render(request, 'client/profile.html', context)

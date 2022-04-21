@@ -17,6 +17,6 @@ def user_document_upload(request):
             r.ownerdocument_set.add(od)
         r.tracking_code = str(r.id)
         r.save()
-        request.session['message'] = True
+        request.session['message'] = (True, r.id)
         return redirect(reverse('educational:requests'))
     return redirect(reverse('educational:uni_request_submit'))

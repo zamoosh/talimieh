@@ -179,34 +179,34 @@
                             <div class="nk-content-body">
                                 <div class="nk-block">
                                     <div class="card p-5">
-                                    {% if request.user.ownerdocument_set.exists %}
-                                        <form action="{% url 'client:user_document_upload' %}" method="post"
-                                              enctype="multipart/form-data" name="request-form">
-                                            <div class="card-inner">
-                                                <div class="preview-block">
-                                                    <div class="example-alert mb-4">
-                                                        <div class="alert alert-warning alert-icon">
-                                                            <em class="icon ni ni-alert-circle"></em>
-                                                            <strong class="text-lg-center">
-                                                                پر کردن تمامی قسمت‌ها الزامی است
-                                                            </strong>
+                                        {% if doc_con %}
+                                            <form action="{% url 'client:user_document_upload' %}" method="post"
+                                                  enctype="multipart/form-data" name="request-form">
+                                                <div class="card-inner">
+                                                    <div class="preview-block">
+                                                        <div class="example-alert mb-4">
+                                                            <div class="alert alert-warning alert-icon">
+                                                                <em class="icon ni ni-alert-circle"></em>
+                                                                <strong class="text-lg-center">
+                                                                    پر کردن تمامی قسمت‌ها الزامی است
+                                                                </strong>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row gy-4">
+                                                        <div class="row gy-4">
 
-                                                            <!-- user average -->
+                                                            <!-- former field study -->
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label class="form-label"
-                                                                           for="average">
-                                                                        معدل
+                                                                           for="former_field_study">
+                                                                        رشته‌ی تحصیلی قبلی
                                                                     </label>
                                                                     <div class="form-control-wrap">
                                                                         <input type="text" required
                                                                                class="form-control"
-                                                                               name="average"
-                                                                               placeholder="معدل"
-                                                                               id="average">
+                                                                               name="former_field_study"
+                                                                               placeholder="رشته‌ی تحصیلی قبلی"
+                                                                               id="former_field_study">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -228,19 +228,19 @@
                                                                 </div>
                                                             </div>
 
-                                                            <!-- former field study -->
+                                                            <!-- user average -->
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label class="form-label"
-                                                                           for="former_field_study">
-                                                                        رشته‌ی تحصیلی قبلی
+                                                                           for="average">
+                                                                        معدل
                                                                     </label>
                                                                     <div class="form-control-wrap">
                                                                         <input type="text" required
                                                                                class="form-control"
-                                                                               name="former_field_study"
-                                                                               placeholder="رشته‌ی تحصیلی قبلی"
-                                                                               id="former_field_study">
+                                                                               name="average"
+                                                                               placeholder="معدل"
+                                                                               id="average">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -304,57 +304,60 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                </div>
-                                                {% csrf_token %}
-                                                <div class="row gy-3 mb-3">
-                                                    <div class="col-12">
-                                                        <span class="pt-5">مدارک شما:</span>
-                                                        <div class="card-inner">
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th scope="col">ردیف</th>
-                                                                    <th scope="col">تصویر مدرک</th>
-                                                                    <th scope="col">عنوان مدرک</th>
-                                                                    <th scope="col">انتخاب</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody id="table-body-row">
+                                                    </div>
+                                                    {% csrf_token %}
+                                                    <div class="row gy-3 mb-3">
+                                                        <div class="col-12">
+                                                            <span class="pt-5">مدارک شما:</span>
+                                                            <div class="card-inner">
+                                                                <table class="table table-striped">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th scope="col">ردیف</th>
+                                                                        <th scope="col">تصویر مدرک</th>
+                                                                        <th scope="col">عنوان مدرک</th>
+                                                                        <th scope="col">انتخاب</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody id="table-body-row">
 
-                                                                </tbody>
-                                                            </table>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <button type="submit" id="submit"
+                                                                class="btn float-right btn-primary"
+                                                                disabled>
+                                                            ثبت اطلاعات
+                                                        </button>
+                                                        <a type="button" href="{% url 'educational:upload_new_doc' %}"
+                                                           class="btn btn-dim btn-outline-info float-left">
+                                                            آپلود مدرک جدید
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button type="submit" id="submit"
-                                                            class="btn float-right btn-primary"
-                                                            disabled>
-                                                        ثبت اطلاعات
-                                                    </button>
-                                                    <a type="button" href="{% url 'educational:upload_new_doc' %}"
-                                                       class="btn btn-dim btn-outline-info float-left">
-                                                        آپلود مدرک جدید
-                                                    </a>
+                                            </form>
+                                        {% else %}
+                                            <div class="example-alert mb-4">
+                                                <div class="alert alert-info alert-icon">
+                                                    <em class="icon ni ni-alert-circle"></em>
+                                                    <strong class="text-lg-center">
+                                                        لطفا قبل از ساخت درخواست،‌ مدارک ضروری را آپلود کنید
+                                                    </strong>
                                                 </div>
+                                                مدارک ضروری:
+                                                عکس پرسونلی، عکس پاسپورت، آخرین مدرک تحصیلی
+                                                <p>{{ doc_len }} مدرک آپلود شده</p>
                                             </div>
-                                        </form>
-                                    {% else %}
-                                        <div class="example-alert mb-4">
-                                            <div class="alert alert-info alert-icon">
-                                                <em class="icon ni ni-alert-circle"></em>
-                                                <strong class="text-lg-center">
-                                                    لطفا قبل از ساخت درخواست،‌ مدارک خود را آپلود کنید
-                                                </strong>
+                                            <div class="form-group">
+                                                <a type="button" href="{% url 'educational:upload_new_doc' %}"
+                                                   class="btn btn-dim btn-outline-info float-left">
+                                                    آپلود مدرک جدید
+                                                </a>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <a type="button" href="{% url 'educational:upload_new_doc' %}"
-                                               class="btn btn-dim btn-outline-info float-left">
-                                                آپلود مدرک جدید
-                                            </a>
-                                        </div>
-                                    {% endif %}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
