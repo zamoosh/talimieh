@@ -57,7 +57,50 @@
                                                             <label class="form-label center">
                                                                 <span class="text-primary">محل آپلود مدرک</span>
                                                             </label>
-                                                            <form action="{% url 'educational:submit_upload' %}"
+                                                            {% if to_request %}
+                                                                <form action="{% url 'educational:set_doc_to_request' r_id %}"
+                                                                      method="post" enctype="multipart/form-data"
+                                                                      name="upload">
+                                                                    {% csrf_token %}
+                                                                    <div class="upload-zone dropzone dz-clickable"
+                                                                         id="upload-area"
+                                                                         data-accepted-files="image/*">
+                                                                        <div class="dz-message" data-dz-message="">
+                                                                        <span class="dz-message-text">
+                                                                            کلیک کیند
+                                                                        </span>
+                                                                            <input type="file" hidden name="file"
+                                                                                   id="input-input">
+                                                                            <button type="button"
+                                                                                    class="btn btn-primary"
+                                                                                    id="input-btn">آپلود فایل
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="center mb-2">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label class="form-label center"
+                                                                                   for="title">
+                                                                                <span class="text-primary">عنوان مدرک</span>
+                                                                            </label>
+                                                                            <div class="form-control-wrap">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       id="title"
+                                                                                       name="title"
+                                                                                       required
+                                                                                       placeholder="عنوان مدرک">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="center">
+                                                                        <input type="submit"
+                                                                               class="btn btn-primary col-sm-2"
+                                                                               value="ارسال" id="submit">
+                                                                    </div>
+                                                                </form>
+                                                            {% else %}
+                                                                <form action="{% url 'educational:submit_upload' %}"
                                                                   method="post" enctype="multipart/form-data" name="upload">
                                                                 {% csrf_token %}
                                                                 <div class="upload-zone dropzone dz-clickable"
@@ -94,6 +137,7 @@
                                                                        value="ارسال" id="submit">
                                                                 </div>
                                                             </form>
+                                                            {% endif %}
                                                         </div>
                                                         <img id="image" class="img-fluid card-img">
                                                     </div>
