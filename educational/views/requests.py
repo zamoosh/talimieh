@@ -5,8 +5,9 @@ from .imports import *
 def requests(request):
     context = {}
     if request.session.get('message'):
-        del request.session['message']
         context['message'] = True
+        context['request_tracking_code'] = request.session.get('message')[1]
+        del request.session['message']
     context['reject_requests'] = EducationalRequest.objects.filter(reject=True)
     if request.user.is_superuser:
         context['requests'] = EducationalRequest.objects.filter(reject=False)

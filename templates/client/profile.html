@@ -17,16 +17,37 @@
             $("#pass_expiration").persianDatepicker();
         });
 
+        $('.datepicker').on('click', function (e) {
+            e.preventDefault();
+            $(this).attr("autocomplete", "off");
+        });
+
 
         $(function () {
             $("form[name='register']").validate({
                 rules: {
                     first_name: 'required',
                     last_name: 'required',
+                    father_name: 'required',
+                    pass_number: 'required',
+                    birth_date: 'required',
+                    pass_issue_date: 'required',
+                    pass_expiration: 'required',
+                    place_birth: 'required',
+                    place_issue: 'required',
+                    pre_number: 'required',
                 },
                 messages: {
                     first_name: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
-                    last_name: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است'
+                    last_name: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    father_name: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    pass_number: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    birth_date: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    pass_issue_date: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    pass_expiration: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    place_birth: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    place_issue: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
+                    pre_number: 'انتخاب کنید'
                 }
             })
         })
@@ -102,6 +123,60 @@
                                                         <em class="icon ni ni-check-circle"></em>
                                                         <strong>تغییرات</strong>
                                                         با موفقیت ذخیره شدند
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if name_err %}
+                                                <div class="example-alert mb-5" id="confirm_alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        <strong>نام</strong>
+                                                        وارد شده معتبر نیست
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if last_name_err %}
+                                                <div class="example-alert mb-5" id="confirm_alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        <strong>نام‌خانوادگی</strong>
+                                                        وارد شده معتبر نیست
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if pass_number_err %}
+                                                <div class="example-alert mb-5" id="confirm_alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        <strong>شماره‌پاسپورت</strong>
+                                                        وارد شده معتبر نیست
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if place_birth %}
+                                                <div class="example-alert mb-5" id="confirm_alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        <strong>محل ولادت</strong>
+                                                        معتبر نیست
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if place_issue %}
+                                                <div class="example-alert mb-5" id="confirm_alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        <strong>محل صدور</strong>
+                                                        معتبر نیست
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if whatsapp_err %}
+                                                <div class="example-alert mb-5" id="confirm_alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        <strong>شماره‌ی واتساپ</strong>
+                                                        وارد شده معتبر نیست
                                                     </div>
                                                 </div>
                                             {% endif %}
@@ -195,11 +270,13 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="first_name">نام</label>
+                                                                        <label class="form-label text-danger" for="first_name">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="first_name" type="text"
                                                                                 class="form-control"
                                                                                 id="first_name"
+                                                                                required
                                                                                 value="{{ request.user.first_name }}">
                                                                         </div>
                                                                     </div>
@@ -207,6 +284,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="last_name">نام خانوادگی</label>
+                                                                        <label class="form-label text-danger" for="last_name">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="last_name" type="text"
@@ -219,11 +297,13 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="father_name">نام پدر</label>
+                                                                        <label class="form-label text-danger" for="father_name">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="father_name" type="text"
                                                                                 class="form-control"
                                                                                 id="father_name"
+                                                                                required
                                                                                 value="{% if request.user.father_name %}{{ request.user.father_name }}{% endif %}">
                                                                         </div>
                                                                     </div>
@@ -279,11 +359,13 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="pass_number">شماره پاسپورت</label>
+                                                                        <label class="form-label text-danger" for="pass_number">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="pass_number" type="text"
                                                                                 class="form-control"
                                                                                 id="pass_number"
+                                                                                required
                                                                                 value="{% if request.user.pass_number %}{{ request.user.pass_number }}{% endif %}">
                                                                         </div>
                                                                     </div>
@@ -291,6 +373,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="birth_date">تاریخ ولادت</label>
+                                                                        <label class="form-label text-danger" for="birth_date">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="birth_date" type="date"
@@ -303,6 +386,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="pass_issue_date">تاریخ صدور پاس</label>
+                                                                        <label class="form-label text-danger" for="pass_issue_date">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="pass_issue_date" type="date"
@@ -315,6 +399,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="pass_expiration">تاریخ انقضای پاس</label>
+                                                                        <label class="form-label text-danger" for="pass_expiration">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="pass_expiration" type="date"
@@ -327,11 +412,13 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="place_birth">محل ولادت</label>
+                                                                        <label class="form-label text-danger" for="place_birth">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="place_birth" type="text"
                                                                                 class="form-control"
                                                                                 id="place_birth"
+                                                                                required
                                                                                 value="{% if request.user.place_birth %}{{ request.user.place_birth }}{% endif %}">
                                                                         </div>
                                                                     </div>
@@ -339,11 +426,13 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="place_issue">محل صدور</label>
+                                                                        <label class="form-label text-danger" for="place_issue">*</label>
                                                                         <div class="form-control-wrap">
                                                                             <input
                                                                                 name="place_issue" type="text"
                                                                                 class="form-control"
                                                                                 id="place_issue"
+                                                                                required
                                                                                 value="{% if request.user.place_issue %}{{ request.user.place_issue }}{% endif %}">
                                                                         </div>
                                                                     </div>
@@ -352,11 +441,24 @@
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="whatsapp">شماره واتساپ</label>
                                                                         <div class="form-control-wrap">
-                                                                            <input
-                                                                                name="whatsapp" type="number"
-                                                                                class="form-control"
-                                                                                id="whatsapp"
-                                                                                value="{% if request.user.whatsapp %}{{ request.user.whatsapp }}{% endif %}">
+                                                                            <div class="row g-gs">
+                                                                                <div class="col-md-8">
+                                                                                    <input
+                                                                                            name="whatsapp"
+                                                                                            type="number"
+                                                                                            class="form-control"
+                                                                                            id="whatsapp"
+                                                                                            value="{% if request.user.whatsapp %}{{ request.user|get_whatsapp_number }}{% endif %}">
+                                                                                </div>
+                                                                                <div class="col-md-4">
+                                                                                    <select name="pre_number"
+                                                                                            id="pre_number" required
+                                                                                            class="form-control form-control-select">
+                                                                                        <option {% if request.user.whatsapp|whatsapp_contains:'+93' %}selected{% endif %} value="+93">93+</option>
+                                                                                        <option {% if request.user.whatsapp|whatsapp_contains:'+946' %}selected{% endif %} value="+946">946+</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>

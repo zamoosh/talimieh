@@ -27,7 +27,9 @@ urlpatterns = [
     path('get-degree-semesters-of-an-uni/api/', get_uni_degrees, name='get_degree_semesters_of_an_uni'),
 
     path('upload-new-doc/', upload_new_doc, name='upload_new_doc'),
+    path('upload-new-doc-to-request/', upload_new_doc, name='upload_new_doc_to_request'),
     path('submit-upload/', submit_upload, name='submit_upload'),
+    path('submit-upload/<int:r_id>/', submit_upload, name='set_doc_to_request'),
 
     path('uni-reqest/', uni_request, name="uni_request"),
     path('uni/api/', get_uni, name="get_uni"),
