@@ -3,8 +3,6 @@ from .imports import *
 
 @login_required
 def option_for_request(request, r_id):
-    if not (request.user.user_permissions.filter(name__icontains='see') or request.user.is_superuser):
-        return redirect(reverse('page_not_found'))
     if request.method == 'POST':
         r = EducationalRequest.objects.get(id=r_id)
         checked_options = Option.objects.filter(id__in=request.POST.getlist('options'))

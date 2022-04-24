@@ -34,7 +34,7 @@
         let rePass = $('#re-password');
         let btn = $('#submit');
         function passWordChecker() {
-            let alert = $('#alert');
+            let alert = $('#password_alert');
             if (pass.val() !== rePass.val() || (pass.val() === '' || rePass.val() === '')) {
                 btn[0].disabled = true;
                 alert.css('display', 'block');
@@ -64,6 +64,12 @@
                 btn.prop('disabled', true);
         })
 
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#confirm_alert').css('display', 'none');
+            }, 3000)
+        })
+
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -82,11 +88,20 @@
                                         <div class="card-aside-wrap">
                                             <div class="card-inner card-inner-lg">
                                             {% if change_password %}
-                                                <div class="example-alert mb-5" id="alert">
-                                                    <div class="alert alert-danger alert-icon"><em
-                                                            class="icon ni ni-cross-circle"></em>
+                                                <div class="example-alert mb-5" id="password_alert">
+                                                    <div class="alert alert-danger alert-icon">
+                                                        <em class="icon ni ni-cross-circle"></em>
                                                         <strong>پسوردها</strong>
                                                         با هم مطابقت ندارند یا خالی هستند
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if confirm_changes %}
+                                                <div class="example-alert mb-5" id="confirm_alert">
+                                                    <div class="alert alert-success alert-icon">
+                                                        <em class="icon ni ni-check-circle"></em>
+                                                        <strong>تغییرات</strong>
+                                                        با موفقیت ذخیره شدند
                                                     </div>
                                                 </div>
                                             {% endif %}
@@ -281,7 +296,6 @@
                                                                                 name="birth_date" type="date"
                                                                                 class="form-control"
                                                                                 required
-                                                                                max="2022-01-01"
                                                                                 value="{% if request.user.birth_date %}{{ birth_date }}{% endif %}">
                                                                         </div>
                                                                     </div>
@@ -294,7 +308,6 @@
                                                                                 name="pass_issue_date" type="date"
                                                                                 class="form-control"
                                                                                 required
-                                                                                max="2022-01-01"
                                                                                 value="{% if request.user.pass_issue_date %}{{ pass_issue_date }}{% endif %}">
                                                                         </div>
                                                                     </div>
@@ -307,7 +320,6 @@
                                                                                 name="pass_expiration" type="date"
                                                                                 class="form-control"
                                                                                 required
-                                                                                max="2022-01-01"
                                                                                 value="{% if request.user.pass_expiration %}{{ pass_expiration }}{% endif %}">
                                                                         </div>
                                                                     </div>
