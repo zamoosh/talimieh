@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-aa#b^&qc1sjmv1ldudd+_*v!*n@j#*f&4y@v-8b=mya)6rhe-^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,23 +81,23 @@ WSGI_APPLICATION = 'talimieh.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': os.environ.get("DATABASE_ENGINE", "django.db.backends.mysql"),
-#         'NAME': os.environ.get("DATABASE_NAME", "talimieh"),
-#         'USER': os.environ.get("DATABASE_USER", "root"),
-#         'PASSWORD': os.environ.get("DATABASE_PASSWORD", "mdavoodi2020"),
-#         'HOST': os.environ.get("DATABASE_HOST", "127.0.0.1"),
-#         'PORT': os.environ.get("DATABASE_PORT", ''),
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get("DATABASE_ENGINE", "django.db.backends.mysql"),
+        'NAME': os.environ.get("DATABASE_NAME", "talimieh_stage"),
+        'USER': os.environ.get("DATABASE_USER", "talimieh_stage"),
+        'PASSWORD': os.environ.get("DATABASE_PASSWORD", "k;^j*0FP^T-)"),
+        'HOST': os.environ.get("DATABASE_HOST", "cpanel.vps-vds.com"),
+        'PORT': os.environ.get("DATABASE_PORT", ''),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
