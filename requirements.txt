@@ -1,5 +1,4 @@
 Django
 django-jalali
-jdatetime
 mysqlclient
 Pillow
