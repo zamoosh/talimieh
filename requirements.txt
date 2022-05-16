@@ -2,3 +2,4 @@ Django
 django-jalali
 mysqlclient
 Pillow
+unidecode
