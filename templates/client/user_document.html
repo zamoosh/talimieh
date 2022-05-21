@@ -41,8 +41,9 @@
                                                                     <table class="nowrap table">
                                                                         <thead>
                                                                         <tr>
-                                                                            <th>عنوان فایل</th>
+                                                                            <th>عنوان مدرک</th>
                                                                             <th>دانلود</th>
+                                                                            <th>نام فایل</th>
                                                                             <th>پیش‌نمایش</th>
                                                                         </tr>
                                                                         </thead>
@@ -54,6 +55,7 @@
                                                                                     <a href="{{ document.image.url }}"
                                                                                        download>دانلود</a>
                                                                                 </td>
+                                                                                <td>{{ document.image.name }}</td>
                                                                                 <td>
                                                                                     <a href="#"
                                                                                        id="click-modal{{ forloop.counter0 }}"

@@ -29,6 +29,7 @@ urlpatterns = [
     path('upload-new-doc/', upload_new_doc, name='upload_new_doc'),
     path('upload-new-doc-to-request/', upload_new_doc, name='upload_new_doc_to_request'),
     path('submit-upload/', submit_upload, name='submit_upload'),
+    path('upload-image/', image_uploader, name='upload_image'),
     path('submit-upload/<int:r_id>/', submit_upload, name='set_doc_to_request'),
 
     path('uni-reqest/', uni_request, name="uni_request"),
