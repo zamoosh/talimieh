@@ -107,8 +107,7 @@
                                                                     </div>
                                                                 </form>
                                                             {% else %}
-                                                                <form action="{% url 'educational:submit_upload' %}"
-                                                                  method="post" enctype="multipart/form-data" name="upload">
+                                                                <form action="{% url 'educational:submit_upload' %}">
                                                                 {% csrf_token %}
                                                                 <div class="upload-zone dropzone dz-clickable"
                                                                      id="upload-area"
