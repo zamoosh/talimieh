@@ -52,8 +52,10 @@
                                                                             <tr>
                                                                                 <td>{{ document.title }}</td>
                                                                                 <td>
+                                                                                    {% if document.image %}
                                                                                     <a href="{{ document.image.url }}"
                                                                                        download>دانلود</a>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                                 <td>{{ document.image.name }}</td>
                                                                                 <td>

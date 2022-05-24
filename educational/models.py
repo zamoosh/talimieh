@@ -147,8 +147,9 @@ def owner_image(instance, filename):
 class OwnerDocument(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
-    image = models.ImageField(blank=True, null=True, upload_to=owner_image)
+    image = models.ImageField(blank=True, null=True)
     educational_request = models.ManyToManyField(EducationalRequest)
+    eof = models.IntegerField(max_length=1, default=0)
 
     def save(self, *args, **kwargs):
         if self.image:
@@ -157,7 +158,7 @@ class OwnerDocument(models.Model):
                 self.image = None
                 super(OwnerDocument, self).save()
                 self.image = img
-            super(OwnerDocument, self).save()
+        super(OwnerDocument, self).save()
 
     def __str__(self):
         return f' {str(self.id)} {self.title} {self.user.first_name} {self.user.last_name} {str(self.user.id)}'
