@@ -2,7 +2,7 @@ class FileUpload {
 
     constructor(input) {
         this.input = input
-        this.max_length = 9999999 * 1024 * 10;
+        this.max_length = 1000 * 1000 * 8;
     }
 
     create_progress_bar() {
