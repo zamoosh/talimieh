@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = 'django-insecure-aa#b^&qc1sjmv1ldudd+_*v!*n@j#*f&4y@v-8b=mya)6rhe-^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -77,27 +75,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'talimieh.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': os.environ.get("DATABASE_ENGINE", "django.db.backends.mysql"),
-#         'NAME': os.environ.get("DATABASE_NAME", "talimieh"),
-#         'USER': os.environ.get("DATABASE_USER", "root"),
-#         'PASSWORD': os.environ.get("DATABASE_PASSWORD", "mdavoodi2020"),
-#         'HOST': os.environ.get("DATABASE_HOST", "127.0.0.1"),
-#         'PORT': os.environ.get("DATABASE_PORT", ''),
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get("DATABASE_ENGINE", "django.db.backends.mysql"),
+        'NAME': os.environ.get("DATABASE_NAME", "talimieh_stage"),
+        'USER': os.environ.get("DATABASE_USER", "talimieh_stage"),
+        'PASSWORD': os.environ.get("DATABASE_PASSWORD", "k;^j*0FP^T-)"),
+        'HOST': os.environ.get("DATABASE_HOST", "cpanel.vps-vds.com"),
+        'PORT': os.environ.get("DATABASE_PORT", ''),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -117,18 +114,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -138,7 +136,6 @@ STATIC_URL = os.environ.get("STATIC_URL", '/static/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
 
 MEDIA_ROOT = os.environ.get("MEDIA_ROOT", os.path.join(BASE_DIR, 'media'))
 

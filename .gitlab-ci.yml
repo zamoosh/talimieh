@@ -1,0 +1,10 @@
+stages: [prepare, build, deploy]
+variables:
+    PROJECT_NAME: "talimieh"
+build_all:
+  stage: build
+  script:
+    - "echo starting"
+include:
+  - 'cicd/deploy.yml'
+  - 'cicd/deploy-stage.yml'

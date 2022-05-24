@@ -6,35 +6,42 @@
 
 {% endblock %}
 {% block js %}
+    <script src="{% static 'assets/js/app.js' %}"></script>
     <script src="{% static 'assets/js/jquery-validate-form.js' %}"></script>
     <script>
+        $(window).on('refresh', function () {
+            $('#image').empty();
+        });
         $(function () {
-            $('#input-input').empty();
+            $('#fileupload').empty();
             $('form[name="upload"]').validate({
                 rules: {
                     title: 'required',
-                    'input-input': 'required'
+                    'fileupload': 'required'
                 },
                 messages: {
                     title: 'لطفا اسم مدرک خود را وارد کیند',
-                    'input-input': 'لطفا مدرک خود را وارد کنید'
+                    'fileupload': 'لطفا مدرک خود را وارد کنید'
                 }
             })
         })
-        $('#submit').on('click', function () {
-            if ($('#input-input').val() === '')
+        let img = $('#image');
+        if (img.val() === '')
+            img.hide();
+        $('#send').on('click', function () {
+            if ($('#fileupload').val() === '')
                 alert('لطفا مدرک خود را انتخاب کنید');
         })
         let uploadArea = document.getElementById('upload-area');
         uploadArea.addEventListener('click', function () {
-            let inp = document.getElementById('input-input');
+            let inp = document.getElementById('fileupload');
             inp.click();
             inp.addEventListener('change', (event) => {
+                img.show();
                 document.getElementById('image').src = window.URL.createObjectURL(event.currentTarget.files[0]);
             })
         })
     </script>
-
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
 {% block body %}
@@ -70,10 +77,10 @@
                                                                             کلیک کیند
                                                                         </span>
                                                                             <input type="file" hidden name="file"
-                                                                                   id="input-input">
+                                                                                   id="fileupload">
                                                                             <button type="button"
                                                                                     class="btn btn-primary"
-                                                                                    id="input-btn">آپلود فایل
+                                                                                    id="input-btn">انتخاب فایل
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -96,7 +103,7 @@
                                                                     <div class="center">
                                                                         <input type="submit"
                                                                                class="btn btn-primary col-sm-2"
-                                                                               value="ارسال" id="submit">
+                                                                               value="ارسال" id="send">
                                                                     </div>
                                                                 </form>
                                                             {% else %}
@@ -111,12 +118,16 @@
                                                                             کلیک کیند
                                                                         </span>
                                                                         <input type="file" hidden name="file"
-                                                                               id="input-input">
-                                                                        <button type="button" class="btn btn-primary"
-                                                                                id="input-btn">آپلود فایل
-                                                                        </button>
+                                                                               id="fileupload">
+                                                                        <div class="w-100 mb-3">
+                                                                            <button type="button" class="btn btn-primary" id="input-btn">انتخاب فایل</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+                                                                    <div class="w-100 center">
+                                                                        <div id="submit" class="btn btn-primary">آپلود</div>
+                                                                        <div id="uploaded_files"></div>
+                                                                    </div>
                                                                 <div class="center mb-2">
                                                                     <div class="form-group col-md-6">
                                                                         <label class="form-label center" for="title">
@@ -133,13 +144,17 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="center">
-                                                                    <input type="submit" class="btn btn-primary col-sm-2"
-                                                                       value="ارسال" id="submit">
+                                                                    <input type="submit"
+                                                                           class="btn btn-primary col-sm-2"
+                                                                           value="ارسال" id="send">
                                                                 </div>
                                                             </form>
                                                             {% endif %}
                                                         </div>
-                                                        <img id="image" class="img-fluid card-img">
+                                                    <div class="col-12 align-self-center center">
+                                                        <img id="image" class="img-thumbnail"
+                                                             style="width: 80%">
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>

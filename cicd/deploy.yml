@@ -1,0 +1,17 @@
+deploy:
+  stage: deploy
+  variables:
+    IMAGE_ID: "scr.novinparva.com/talimieh/website:"
+  only:
+    refs:
+      - master
+    changes:
+      - cicd/version.txt
+  environment:
+    name: $PROJECT_NAME
+  dependencies:
+    - build_all
+  script:
+    - pwd
+    - export VERSION=$(cat cicd/version.txt)
+    - helm upgrade --install talimieh-prod cicd/talimieh --set image.tag=$VERSION -f cicd/talimieh/values.yaml
