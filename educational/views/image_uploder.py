@@ -8,6 +8,7 @@ from educational.models import OwnerDocument, User
 
 @csrf_exempt
 def image_uploader(request):
+    accepted_types = ['png', 'jpg', 'jpeg', 'pdf', 'word']
     if request.method == 'POST':
         file = request.FILES['file'].read()
         file_name = request.POST['filename']
@@ -35,6 +36,9 @@ def image_uploader(request):
                 image.save()
                 if int(end):
                     res = JsonResponse({'data': 'Uploaded Successfully', 'existingPath': image.image.name})
+                    if not image.image.name.split('.')[-1] in accepted_types:
+                        print('not accepted!')
+                        res = JsonResponse({'data': 'فایل تائید نشد'})
                 else:
                     res = JsonResponse({'existingPath': image.image.name})
                 return res
