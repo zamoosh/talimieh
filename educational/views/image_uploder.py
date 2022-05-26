@@ -12,6 +12,8 @@ def image_uploader(request):
     if request.method == 'POST':
         file = request.FILES['file'].read()
         file_name = request.POST['filename']
+        if not file_name.split('.')[-1] in accepted_types:
+            return JsonResponse({'data': 'لطفا فرمت مناسب را انتخاب کنید!'}, status=400)
         existing_path = request.POST['existingPath']
         end = request.POST['end']
         next_slice = request.POST['nextSlice']
@@ -36,9 +38,6 @@ def image_uploader(request):
                 image.save()
                 if int(end):
                     res = JsonResponse({'data': 'Uploaded Successfully', 'existingPath': image.image.name})
-                    if not image.image.name.split('.')[-1] in accepted_types:
-                        print('not accepted!')
-                        res = JsonResponse({'data': 'فایل تائید نشد'})
                 else:
                     res = JsonResponse({'existingPath': image.image.name})
                 return res

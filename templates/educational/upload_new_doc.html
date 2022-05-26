@@ -37,22 +37,7 @@
             let inp = document.getElementById('fileupload');
             inp.click();
             inp.addEventListener('change', (event) => {
-                let acceptedTypes = ['png', 'jpg', 'pdf', 'word', 'jpeg'];
-                let type = inp.value.split('.')[inp.value.split('.').length - 1];
-                if (acceptedTypes.includes(type)) {
-                    img.show();
-                    document.getElementById('image').src = window.URL.createObjectURL(event.currentTarget.files[0]);
-                    document.getElementById('image_container').style.setProperty('display', 'block', 'important');
-                    document.getElementById('image_container').classList.add('center');
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'لطفا یک فرمت قابل‌قبول انتخاب کنید!'
-                    });
-                    inp.value = '';
-                    document.getElementById('image').src = '';
-                    document.getElementById('image_container').style.setProperty('display', 'none', 'important');
-                }
+
                 {#img.show();#}
                 {#document.getElementById('image').src = window.URL.createObjectURL(event.currentTarget.files[0]);#}
             })
