@@ -82,12 +82,13 @@ class FileUpload {
             contentType: false,
             data: formData,
             error: function (xhr) {
-                alert(xhr.statusText);
+                if (xhr.status === 400)
+                    alert(xhr.responseJSON['data']);
             },
             success: function (res) {
                 if (nextChunk < self.file.size) {
                     // upload file in chunks
-                    existingPath = res.existingPath
+                    existingPath = res.existingPath;
                     self.upload_file(nextChunk, existingPath);
                 } else {
                     // upload complete
