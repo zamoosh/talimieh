@@ -26,6 +26,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('accounts/', include('client.urls')),
     path('educational/', include('educational.urls')),
+    path('document/patterns/', include('document_pattern.urls')),
 
     path('page-not-found/', page_not_found, name='page_not_found')
 ]

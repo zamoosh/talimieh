@@ -10,8 +10,8 @@ class FileUpload {
                             <i class="fa fa-file-o" aria-hidden="true"></i>
                         </div>
                         <div class="file-details">
-                            <p class="filename"></p>
-                            <small class="textbox"></small>
+                            <p class="filename center"></p>
+                            <small class="textbox center"></small>
                             <div class="progress" style="margin-top: 5px;">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                                 </div>

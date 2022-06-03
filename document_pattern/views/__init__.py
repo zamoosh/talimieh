@@ -1,0 +1,4 @@
+from .document_pattern_list import document_pattern_list
+from .document_pattern_create import document_pattern_create
+from .document_pattern_edit import document_pattern_edit
+from .document_pattern_delete import document_pattern_delete
