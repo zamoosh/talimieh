@@ -9,8 +9,9 @@
     <script src="{% static 'assets/js/app.js' %}"></script>
     <script src="{% static 'assets/js/jquery-validate-form.js' %}"></script>
     <script>
-        $(window).on('refresh', function () {
+        $(window).on('load', function () {
             $('#image').empty();
+            $('#fileupload').empty();
         });
         $(function () {
             $('#fileupload').empty();
@@ -30,15 +31,40 @@
             img.hide();
         $('#send').on('click', function () {
             if ($('#fileupload').val() === '')
-                alert('لطفا مدرک خود را انتخاب کنید');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'لطفا مدرکی انتخاب و آن را آپلود کنید!'
+                });
         })
         let uploadArea = document.getElementById('upload-area');
         uploadArea.addEventListener('click', function () {
             let inp = document.getElementById('fileupload');
             inp.click();
             inp.addEventListener('change', (event) => {
-                img.show();
-                document.getElementById('image').src = window.URL.createObjectURL(event.currentTarget.files[0]);
+                let acceptedTypes = ['png', 'jpg', 'pdf', 'word', 'jpeg'];
+                let type = inp.value.split('.')[inp.value.split('.').length - 1];
+                if (acceptedTypes.includes(type)) {
+                    $('#upload_button_area').show();
+                    img.attr("style", "display: block");
+                    let title = $('#title');
+                    title.on('keyup keydown', () => {
+                        if (title.val() === '')
+                            $('#submit').attr('disabled', 'true');
+                        else
+                            $('#submit').removeAttr('disabled');
+                    })
+                    document.getElementById('image').src = window.URL.createObjectURL(event.currentTarget.files[0]);
+                    document.getElementById('image_container').style.setProperty('display', 'block', 'important');
+                    document.getElementById('image_container').classList.add('center');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'لطفا یک فرمت قابل‌قبول انتخاب کنید!'
+                    });
+                    inp.value = '';
+                    document.getElementById('image').src = '';
+                    document.getElementById('image_container').style.setProperty('display', 'none', 'important');
+                }
             })
         })
     </script>
@@ -73,8 +99,8 @@
                                                                          id="upload-area"
                                                                          data-accepted-files="image/*">
                                                                         <div class="dz-message" data-dz-message="">
-                                                                        <span class="dz-message-text">
-                                                                            کلیک کیند
+                                                                        <span class="dz-message-text mb-2">
+                                                                            فرمت‌های قابل قبول: png, jpg, pdf, word, jpeg
                                                                         </span>
                                                                             <input type="file" hidden name="file"
                                                                                    id="fileupload">
@@ -102,31 +128,33 @@
                                                                     </div>
                                                                     <div class="center">
                                                                         <input type="submit"
-                                                                               class="btn btn-primary col-sm-2"
-                                                                               value="ارسال" id="send">
+                                                                               class="btn btn-primary col-sm-1 center"
+                                                                               value="ذخیره" id="send">
                                                                     </div>
                                                                 </form>
                                                             {% else %}
-                                                                <form action="{% url 'educational:submit_upload' %}"
-                                                                  method="post" enctype="multipart/form-data" name="upload">
+                                                                <form action="{% url 'educational:submit_upload' %}" name="upload">
                                                                 {% csrf_token %}
-                                                                <div class="upload-zone dropzone dz-clickable"
+                                                                <div class="upload-zone dropzone dz-clickable mb-3"
                                                                      id="upload-area"
                                                                      data-accepted-files="image/*">
                                                                     <div class="dz-message" data-dz-message="">
-                                                                        <span class="dz-message-text">
-                                                                            کلیک کیند
+                                                                        <span class="dz-message-text mb-2">
+                                                                            فرمت‌های قابل قبول: png, jpg, pdf, word, jpeg
                                                                         </span>
                                                                         <input type="file" hidden name="file"
                                                                                id="fileupload">
                                                                         <div class="w-100 mb-3">
-                                                                            <button type="button" class="btn btn-primary" id="input-btn">انتخاب فایل</button>
+                                                                            <button type="button" class="btn btn-primary">انتخاب فایل</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                    <div class="w-100 center">
-                                                                        <div id="submit" class="btn btn-primary">آپلود</div>
-                                                                        <div id="uploaded_files"></div>
+                                                                    <div id="upload_button_area" class="center w-100 mb-2" style="flex-direction: column;
+                                                                                                                                  display: none !important;">
+                                                                        <div>
+                                                                            <button disabled id="submit" class="btn btn-primary">آپلود</button>
+                                                                        </div>
+                                                                        <div id="uploaded_files" class="w-60"></div>
                                                                     </div>
                                                                 <div class="center mb-2">
                                                                     <div class="form-group col-md-6">
@@ -145,15 +173,16 @@
                                                                 </div>
                                                                 <div class="center">
                                                                     <input type="submit"
-                                                                           class="btn btn-primary col-sm-2"
-                                                                           value="ارسال" id="send">
+                                                                           class="btn btn-primary col-sm-1 center"
+                                                                           value="ذخیره" id="send">
                                                                 </div>
                                                             </form>
                                                             {% endif %}
                                                         </div>
-                                                    <div class="col-12 align-self-center center">
+                                                    <div class="col-12 align-self-center center" id="image_container">
                                                         <img id="image" class="img-thumbnail"
-                                                             style="width: 80%">
+                                                             style="width: 100%;
+                                                                    display: none;">
                                                     </div>
                                                     </div>
                                                 </div>

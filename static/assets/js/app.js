@@ -1,7 +1,7 @@
 class FileUpload {
 
     constructor(input) {
-        this.input = input
+        this.input = input;
         this.max_length = 1000 * 1000 * 8;
     }
 
@@ -10,8 +10,8 @@ class FileUpload {
                             <i class="fa fa-file-o" aria-hidden="true"></i>
                         </div>
                         <div class="file-details">
-                            <p class="filename"></p>
-                            <small class="textbox"></small>
+                            <p class="filename center"></p>
+                            <small class="textbox center"></small>
                             <div class="progress" style="margin-top: 5px;">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                                 </div>
@@ -38,7 +38,7 @@ class FileUpload {
         var formData = new FormData();
         var nextChunk = start + this.max_length + 1;
         var currentChunk = this.file.slice(start, nextChunk);
-        var uploadedChunk = start + currentChunk.size
+        var uploadedChunk = start + currentChunk.size;
         if (uploadedChunk >= this.file.size) {
             end = 1;
         } else {
@@ -46,13 +46,12 @@ class FileUpload {
         }
         formData.append('file', currentChunk)
         formData.append('filename', this.file.name)
-        // $('.filename').text(this.file.name)
-        $('.textbox').text("درحال آپلود عکس")
+        $('.filename').text(this.file.name)
+        $('.textbox').text("در حال آپلود عکس")
         formData.append('end', end)
         formData.append('existingPath', existingPath);
         formData.append('nextSlice', nextChunk);
-        formData.append('title', $('#title').val());
-        formData.append('image', $('input[name="file"]')[0].files[0])
+        formData.append('title', jQuery("#title").val());
         $.ajaxSetup({
             headers: {
                 "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -68,8 +67,8 @@ class FileUpload {
                         } else {
                             var percent = Math.round((uploadedChunk / self.file.size) * 100);
                         }
-                        $('.progress-bar').css('width', percent + '%')
-                        $('.progress-bar').text(percent + '%')
+                        $('.progress-bar').css('width', percent + '%');
+                        $('.progress-bar').text(percent + '%');
                     }
                 });
                 return xhr;
@@ -83,12 +82,13 @@ class FileUpload {
             contentType: false,
             data: formData,
             error: function (xhr) {
-                alert(xhr.statusText);
+                if (xhr.status === 400)
+                    alert(xhr.responseJSON['data']);
             },
             success: function (res) {
                 if (nextChunk < self.file.size) {
                     // upload file in chunks
-                    existingPath = res.existingPath
+                    existingPath = res.existingPath;
                     self.upload_file(nextChunk, existingPath);
                 } else {
                     // upload complete
