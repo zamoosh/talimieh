@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}ویرایش طرح مدرک - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+    <script>
+        {% if update %}
+            Swal.fire({
+                icon: 'success',
+                title: 'تغییرات با موفقیت ذخیره شدند!'
+            })
+        {% endif %}
+    </script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <a href="{% url 'document_pattern:list' %}" class="btn btn-dim btn-primary my-2"> برگشت به طرح‌مدارک</a>
+                                    <div class="card">
+                                        <div class="card-inner">
+                                            <div class="preview-block">
+                                                <span class="preview-title-lg overline-title">فرم ایجاد طرح‌مدرک</span>
+                                                <form action="{% url 'document_pattern:edit' document_pattern.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="row gy-4">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="title">نام (موضوع)</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-icon form-icon-right">
+                                                                        <em class="icon ni ni-article"></em>
+                                                                    </div>
+                                                                    <input type="text" class="form-control"
+                                                                       id="title"
+                                                                       name="title"
+                                                                       required
+                                                                       value="{{ document_pattern.title }}"
+                                                                       placeholder="نام طرح مدرک">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="types">پسوندها (لطفا با فاصله از هم جدا کندی)</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-text-hint">
+                                                                        <span class="overline-title">type</span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control"
+                                                                       id="types"
+                                                                       name="types"
+                                                                       value="{{ document_pattern.get_types }}"
+                                                                       placeholder="png jpg jpeg pdf word ...">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                       for="description">توضیحات</label>
+                                                                <div class="form-control-wrap">
+                                                                <textarea
+                                                                    class="form-control no-resize"
+                                                                    id="description"
+                                                                    name="description"
+                                                                    placeholder="توضیحات طرح‌مدرک">{% if document_pattern.description %}{{ document_pattern.description }}{% endif %}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-dim btn-primary mt-2">
+                                                        ثبت اطلاعات
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

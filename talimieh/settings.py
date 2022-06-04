@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'client',
     'educational',
     'payment',
+    'document_pattern.apps.DocumentPatternConfig'
 ]
 
 MIDDLEWARE = [

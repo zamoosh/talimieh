@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}طرح‌های مدرک - نسل تعلیمیه{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block js %}
+    <script src="{% static 'assets/js/libs/datatable-btns.js' %}"></script>
+{% endblock %}
+{% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
+{% block body %}
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            {% include 'menu.html' %}
+            <div class="nk-wrap ">
+                {% include 'header.html' %}
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="card-inner">
+                                            <a href="{% url 'document_pattern:create' %}" class="btn btn-dim btn-primary float-right mb-3">
+                                                افزودن طرح‌مدرک جدید
+                                            </a>
+                                            <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">نام</th>
+                                                <th scope="col">توضیحات</th>
+                                                <th scope="col">پسوند‌های مورد پذیرش</th>
+                                                <th scope="col">گزینه‌ها</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for d in document_patterns %}
+                                                <tr>
+                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                    <td>{% if d.title %}{{ d.title }}{% else %}ندارد{% endif %} </td>
+                                                    <td>{{ d.description }}</td>
+                                                    <td>{{ d.get_types }}</td>
+                                                    <td>
+                                                        <ul class="gx-1">
+                                                            <li>
+                                                                <div class="drodown">
+                                                                    <a href=""
+                                                                       class="dropdown-toggle btn btn-icon btn-trigger"
+                                                                       data-toggle="dropdown" aria-expanded="false">
+                                                                        <em class="icon ni ni-more-h"></em>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-right"
+                                                                         style="">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li>
+                                                                                <a href="{% url 'document_pattern:delete' d.id %}">
+                                                                                    <em class="icon ni ni-delete"></em>
+                                                                                    <span class="text-danger">حذف</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="{% url 'document_pattern:edit' d.id %}">
+                                                                                    <em class="icon ni ni-edit"></em>
+                                                                                    <span class="text-primary">ویرایش</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

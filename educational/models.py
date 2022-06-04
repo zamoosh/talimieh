@@ -149,7 +149,8 @@ class OwnerDocument(models.Model):
     title = models.CharField(max_length=25)
     image = models.ImageField(blank=True, null=True)
     educational_request = models.ManyToManyField(EducationalRequest)
-    eof = models.IntegerField(max_length=1, default=0)
+    eof = models.IntegerField(default=0)
+    document_pattern = models.ForeignKey(DocumentPattern, on_delete=models.SET_NULL, null=True)
 
     def save(self, *args, **kwargs):
         if self.image:

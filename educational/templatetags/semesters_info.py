@@ -36,4 +36,4 @@ def if_any_semester_active():
 
 @register.simple_tag
 def get_number_of_semesters():
-    return YearSemester.objects.all().__len__()
+    return YearSemester.objects.filter(parent=None).__len__()
