@@ -9,4 +9,5 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.urls import reverse
 from utils.user_checker import is_normal
+from document_pattern.models import DocumentPattern
 import json

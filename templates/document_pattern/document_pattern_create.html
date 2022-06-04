@@ -3,15 +3,23 @@
 {% load jformat %}
 {% block title %}پروفایل - نسل تعلیمیه{% endblock %}
 {% block css %}
-
 {% endblock %}
 {% block js %}
+    <script src="{% static 'assets/js/bundle.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+    <script src="{% static 'assets/js/demo-settings.js' %}"></script>
     <script>
         {% if save %}
             Swal.fire({
                 icon: 'success',
                 title: 'طرح‌مدرک با موفقیت ساخته شد!'
             })
+        {% endif %}
+        {% if numeric_error %}
+            Swal.fire({
+                    icon: 'error',
+                    title: 'لطفا یک مقدار عددی وارد کنید!'
+                })
         {% endif %}
     </script>
 
@@ -33,19 +41,19 @@
                                         <div class="card-inner">
                                             <div class="preview-block">
                                                 <span class="preview-title-lg overline-title">فرم ایجاد طرح‌مدرک</span>
-                                                <form action="{% url 'document_pattern:create' %}" method="post">
+                                                <form action="{% url 'document_pattern:create' %}" method="post" enctype="multipart/form-data">
                                                     {% csrf_token %}
                                                     <div class="row gy-4">
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
-                                                                <label class="form-label" for="name">نام (موضوع)</label>
+                                                                <label class="form-label" for="title">نام (موضوع)</label>
                                                                 <div class="form-control-wrap">
                                                                     <div class="form-icon form-icon-right">
                                                                         <em class="icon ni ni-article"></em>
                                                                     </div>
                                                                     <input type="text" class="form-control"
-                                                                       id="name"
-                                                                       name="name"
+                                                                       id="title"
+                                                                       name="title"
                                                                        required
                                                                        placeholder="نام طرح مدرک">
                                                                 </div>
@@ -65,16 +73,75 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="size">حداکثر سایز مدرک به MB</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-text-hint">
+                                                                        <span class="overline-title">SIZE IN MB</span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control"
+                                                                       id="size"
+                                                                       name="size"
+                                                                       value="16"
+                                                                       placeholder="default: 16MB">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="height">عرض عکس به پیکسل PX</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-text-hint">
+                                                                        <span class="overline-title">WIDTH</span>
+                                                                    </div>
+                                                                    <input type="number" class="form-control"
+                                                                       id="height"
+                                                                       name="height"
+                                                                       value="3000">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="width">ارتفاع عکس به پیکسل PX</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-text-hint">
+                                                                        <span class="overline-title">HEIGHT</span>
+                                                                    </div>
+                                                                    <input type="number" class="form-control"
+                                                                       id="width"
+                                                                       name="width"
+                                                                       value="3000">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
                                                                 <label class="form-label"
                                                                        for="description">توضیحات</label>
                                                                 <div class="form-control-wrap">
-                                                                <textarea
-                                                                    class="form-control no-resize"
-                                                                    id="description"
-                                                                    name="description"
-                                                                    placeholder="توضیحات طرح‌مدرک"></textarea>
+                                                                    <textarea
+                                                                        class="form-control"
+                                                                        id="description"
+                                                                        name="description"
+                                                                        placeholder="توضیحی دهید که دانشجو با خواندن آن راهنمایی شود"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label">آپلود نمونه (اختیاری)</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="custom-file">
+                                                                        <input type="file"
+                                                                            class="custom-file-input"
+                                                                            id="image"
+                                                                            name="image">
+                                                                        <label class="custom-file-label"
+                                                                               for="image">فایل را انتخاب کنید
+                                                                        </label>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

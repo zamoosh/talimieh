@@ -31,12 +31,24 @@
                                                     <div class="col-12">
                                                         <div class="row">
                                                             <div class="col-12">
-                                                                <div class="btn-top-uni">
-                                                                    <a href="{% url 'educational:upload_new_doc' %}"
-                                                                       class="btn btn-dim btn-sm btn-outline-info mr-4 mt-3 float-sm-right">
-                                                                        آپلود مدرک جدید
-                                                                    </a>
+                                                                <form action="{% url 'educational:upload_new_doc' %}" method="get">
+                                                                    <div class="form-group">
+                                                                    <label class="form-label">انتخاب نوع مدرک ارسالی</label>
+                                                                    <div class="form-control-wrap">
+                                                                        <select class="form-select" name="document_pattern" data-ui="lg" data-search="on">
+                                                                            {% for doc_patt in document_pattern %}
+                                                                                <option selected value=""></option>
+                                                                                <option value="{{ doc_patt.id }}">{{ doc_patt.title }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
+                                                                <div class="btn-top-uni">
+                                                                    <button  class="btn btn-dim btn-sm btn-outline-info float-sm-right">
+                                                                        آپلود مدرک جدید
+                                                                    </button>
+                                                                </div>
+                                                                </form>
                                                                 {% if documents %}
                                                                     <table class="nowrap table">
                                                                         <thead>
@@ -73,8 +85,6 @@
                                                                         {% endfor %}
                                                                         </tbody>
                                                                     </table>
-                                                                {% else %}
-                                                                    <h6 class="text text-danger mr-4 mt-3">هنوز مدرکی وجود ندارد</h6>
                                                                 {% endif %}
                                                             </div>
                                                         </div>
