@@ -5,7 +5,13 @@
 {% block js %}
     <script type="text/javascript" src="{% static "assets/js/libs/datatable-btns.js" %}"></script>
     <script>
-        for (let i = 0; i < {{ amount_of_doc }}; i++) {
+        {% if select %}
+            Swal.fire({
+                icon: 'error',
+                title: 'لطفا انتخاب کنید که چه مدرکی آپلود میکنید!'
+            })
+        {% endif %}
+        for (let i = 0; i < {{ documents|length }}; i++) {
             document.getElementById(`click-modal${i}`).addEventListener('click', function () {
                 document.getElementById(`img-modal${i}`).src = document.getElementById(`image-pre${i}`).src;
             })
@@ -33,21 +39,27 @@
                                                             <div class="col-12">
                                                                 <form action="{% url 'educational:upload_new_doc' %}" method="get">
                                                                     <div class="form-group">
-                                                                    <label class="form-label">انتخاب نوع مدرک ارسالی</label>
-                                                                    <div class="form-control-wrap">
-                                                                        <select class="form-select" name="document_pattern" data-ui="lg" data-search="on">
-                                                                            {% for doc_patt in document_pattern %}
-                                                                                <option selected value=""></option>
-                                                                                <option value="{{ doc_patt.id }}">{{ doc_patt.title }}</option>
-                                                                            {% endfor %}
-                                                                        </select>
+                                                                        <div class="row row-cols-2">
+                                                                            <div class="col-12 align-self-center mb-3 mt-2 d-flex justify-content-center">
+                                                                                <h5 class="fw-bold">انتخاب نوع مدرک ارسالی (اجباری)</h5>
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                <div class="form-control-wrap">
+                                                                                    <select class="form-select" required name="document_pattern" data-ui="lg" data-search="on">
+                                                                                        {% for doc_patt in document_pattern %}
+                                                                                            <option selected value=""></option>
+                                                                                            <option value="{{ doc_patt.id }}">{{ doc_patt.title }}</option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                 </div>
+                                                                            </div>
+                                                                            <div class="col-12 align-self-center">
+                                                                                <button class="btn btn-dim btn-sm btn-outline-info mt-2 mb-5">
+                                                                                    آپلود مدرک جدید
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="btn-top-uni">
-                                                                    <button  class="btn btn-dim btn-sm btn-outline-info float-sm-right">
-                                                                        آپلود مدرک جدید
-                                                                    </button>
-                                                                </div>
                                                                 </form>
                                                                 {% if documents %}
                                                                     <table class="nowrap table">

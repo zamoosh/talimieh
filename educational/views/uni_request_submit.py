@@ -7,10 +7,8 @@ def uni_request_submit(request):
     if 'e_request' in request.session:
         context = request.session['e_request']
         context['uni_dic'] = Universities.objects.get(id=context['collage']).document
-    # context['unis'] = Universities.objects.filter(semester__in=Semester.objects.all())
     context['semesters'] = Semester.objects.filter(status=True)
     u = User.objects.get(id=request.user.id)
     context['doc_len'] = len(u.ownerdocument_set.all())
-    if len(u.ownerdocument_set.all()) >= 3:
-        context['doc_con'] = True
+    context['doc_con'] = True
     return render(request, 'educational/uni_request_submit.html', context)
