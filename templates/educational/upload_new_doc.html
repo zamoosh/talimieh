@@ -58,16 +58,19 @@
                     document.getElementById('image_container').style.setProperty('display', 'block', 'important');
                     document.getElementById('image_container').classList.add('center');
                 } else {
-                    if (inp.files[0].size >= maxSize)
+                    if (inp.files[0].size >= maxSize){
                         Swal.fire({
                             icon: 'error',
                             title: `لطفا فایلی با اندازه‌ی کمتر از ${maxSize} مگابایت انتخاب کنید`
                         });
-                    else
+                        setTimeout(() => {location.reload();}, 3000)
+                    } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'لطفا یک فرمت قابل‌قبول انتخاب کنید!'
                         });
+                        setTimeout(() => {location.reload();}, 3000)
+                    }
                     inp.value = '';
                     document.getElementById('image').src = '';
                     document.getElementById('image_container').style.setProperty('display', 'none', 'important');
@@ -147,6 +150,36 @@
                                                                     </div>
                                                                 </form>
                                                             {% else %}
+                                                                <div class="row row-cols-2">
+                                                                    <div class="col-6">
+                                                                        <div class="d-flex justify-content-center my-3">
+                                                                            <img class="img-thumbnail border"
+                                                                                 src="{{ document_pattern.image.url }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6 d-flex">
+                                                                        <div class="row row-cols-2 g-3">
+                                                                            <div class="col-4 align-self-center">
+                                                                                <p class="text-muted fw-bold fs-17px">فرمت‌ها:</p>
+                                                                            </div>
+                                                                            <div class="col-8 align-self-center">
+                                                                                <p class="fw-bold fs-17px">{{ document_pattern.get_types }}</p>
+                                                                            </div>
+                                                                            <div class="col-4 align-self-center">
+                                                                                <p class="text-muted fw-bold fs-17px">حداکثر سایز:</p>
+                                                                            </div>
+                                                                            <div class="col-8 align-self-center">
+                                                                                <p class="fw-bold fs-17px">{{ document_pattern.size }}MB</p>
+                                                                            </div>
+                                                                            <div class="col-4 align-self-center">
+                                                                                <p class="text-muted fw-bold fs-17px">حداکثر ابعاد:</p>
+                                                                            </div>
+                                                                            <div class="col-8 align-self-center">
+                                                                                <p class="fw-bold fs-17px">{{ document_pattern.width }} × {{ document_pattern.height }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <form action="{% url 'educational:submit_upload' %}" name="upload">
                                                                 {% csrf_token %}
                                                                 <div class="upload-zone dropzone dz-clickable mb-3 p-0"
@@ -184,18 +217,18 @@
                                                                         </label>
                                                                         <div class="form-control-wrap">
                                                                             <input type="text"
-                                                                                   class="form-control"
-                                                                                   id="title"
-                                                                                   name="title"
-                                                                                   required
-                                                                                   placeholder="عنوان مدرک">
+                                                                               class="form-control"
+                                                                               id="title"
+                                                                               name="title"
+                                                                               required
+                                                                               placeholder="عنوان مدرک">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="center">
                                                                     <input type="submit"
-                                                                           class="btn btn-primary col-sm-1 center"
-                                                                           value="ذخیره" id="send">
+                                                                       class="btn btn-primary col-sm-1 center"
+                                                                       value="ذخیره" id="send">
                                                                 </div>
                                                             </form>
                                                             {% endif %}
