@@ -58,7 +58,7 @@
                     document.getElementById('image_container').style.setProperty('display', 'block', 'important');
                     document.getElementById('image_container').classList.add('center');
                 } else {
-                    if (inp.files[0].size >= maxSize){
+                    if (inp.files[0].size / 1048576 >= maxSize){
                         Swal.fire({
                             icon: 'error',
                             title: `لطفا فایلی با اندازه‌ی کمتر از ${maxSize} مگابایت انتخاب کنید`
@@ -150,36 +150,38 @@
                                                                     </div>
                                                                 </form>
                                                             {% else %}
-                                                                <div class="row row-cols-2">
-                                                                    <div class="col-6">
-                                                                        <div class="d-flex justify-content-center my-3">
-                                                                            <img class="img-thumbnail border"
-                                                                                 src="{{ document_pattern.image.url }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-6 d-flex">
-                                                                        <div class="row row-cols-2 g-3">
-                                                                            <div class="col-4 align-self-center">
-                                                                                <p class="text-muted fw-bold fs-17px">فرمت‌ها:</p>
-                                                                            </div>
-                                                                            <div class="col-8 align-self-center">
-                                                                                <p class="fw-bold fs-17px">{{ document_pattern.get_types }}</p>
-                                                                            </div>
-                                                                            <div class="col-4 align-self-center">
-                                                                                <p class="text-muted fw-bold fs-17px">حداکثر سایز:</p>
-                                                                            </div>
-                                                                            <div class="col-8 align-self-center">
-                                                                                <p class="fw-bold fs-17px">{{ document_pattern.size }}MB</p>
-                                                                            </div>
-                                                                            <div class="col-4 align-self-center">
-                                                                                <p class="text-muted fw-bold fs-17px">حداکثر ابعاد:</p>
-                                                                            </div>
-                                                                            <div class="col-8 align-self-center">
-                                                                                <p class="fw-bold fs-17px">{{ document_pattern.width }} × {{ document_pattern.height }}</p>
+                                                                {% if document_pattern.image %}
+                                                                    <div class="row row-cols-2">
+                                                                        <div class="col-6">
+                                                                            <div class="d-flex justify-content-center my-3">
+                                                                                <img class="img-thumbnail border"
+                                                                                     src="{{ document_pattern.image.url }}">
                                                                             </div>
                                                                         </div>
+                                                                        <div class="col-6 d-flex">
+                                                                            <div class="row row-cols-2 g-3">
+                                                                                <div class="col-4 align-self-center">
+                                                                                    <p class="text-muted fw-bold fs-17px">فرمت‌ها:</p>
+                                                                                </div>
+                                                                                <div class="col-8 align-self-center">
+                                                                                    <p class="fw-bold fs-17px">{{ document_pattern.get_types }}</p>
+                                                                                </div>
+                                                                                <div class="col-4 align-self-center">
+                                                                                    <p class="text-muted fw-bold fs-17px">حداکثر سایز:</p>
+                                                                                </div>
+                                                                                <div class="col-8 align-self-center">
+                                                                                    <p class="fw-bold fs-17px">{{ document_pattern.size }}MB</p>
+                                                                                </div>
+                                                                                <div class="col-4 align-self-center">
+                                                                                    <p class="text-muted fw-bold fs-17px">حداکثر ابعاد:</p>
+                                                                                </div>
+                                                                                <div class="col-8 align-self-center">
+                                                                                    <p class="fw-bold fs-17px">{{ document_pattern.width }} × {{ document_pattern.height }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                {% endif %}
                                                                 <form action="{% url 'educational:submit_upload' %}" name="upload">
                                                                 {% csrf_token %}
                                                                 <div class="upload-zone dropzone dz-clickable mb-3 p-0"
