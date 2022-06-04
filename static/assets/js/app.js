@@ -52,6 +52,7 @@ class FileUpload {
         formData.append('existingPath', existingPath);
         formData.append('nextSlice', nextChunk);
         formData.append('title', jQuery("#title").val());
+        formData.append('document_pattern_size', $('#document_pattern_size').val());
         $.ajaxSetup({
             headers: {
                 "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -82,8 +83,19 @@ class FileUpload {
             contentType: false,
             data: formData,
             error: function (xhr) {
-                if (xhr.status === 400)
-                    alert(xhr.responseJSON['data']);
+                if (xhr.status === 400){
+                    if (xhr.responseJSON['size'] === false) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '😁😁😁😁😁'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: xhr.responseJSON['data']
+                        })
+                    }
+                }
             },
             success: function (res) {
                 if (nextChunk < self.file.size) {

@@ -13,6 +13,12 @@
                 title: 'تغییرات با موفقیت ذخیره شدند!'
             })
         {% endif %}
+        {% if numeric_error %}
+            Swal.fire({
+                    icon: 'error',
+                    title: 'لطفا یک مقدار عددی وارد کنید!'
+                })
+        {% endif %}
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -32,7 +38,7 @@
                                         <div class="card-inner">
                                             <div class="preview-block">
                                                 <span class="preview-title-lg overline-title">فرم ایجاد طرح‌مدرک</span>
-                                                <form action="{% url 'document_pattern:edit' document_pattern.id %}" method="post">
+                                                <form action="{% url 'document_pattern:edit' document_pattern.id %}" method="post" enctype="multipart/form-data">
                                                     {% csrf_token %}
                                                     <div class="row gy-4">
                                                         <div class="col-sm-6">
@@ -53,16 +59,60 @@
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
-                                                                <label class="form-label" for="types">پسوندها (لطفا با فاصله از هم جدا کندی)</label>
+                                                                <label class="form-label" for="types">پسوندها (لطفا با
+                                                                    فاصله از هم جدا کندی)</label>
                                                                 <div class="form-control-wrap">
                                                                     <div class="form-text-hint">
                                                                         <span class="overline-title">type</span>
                                                                     </div>
                                                                     <input type="text" class="form-control"
-                                                                       id="types"
-                                                                       name="types"
-                                                                       value="{{ document_pattern.get_types }}"
-                                                                       placeholder="png jpg jpeg pdf word ...">
+                                                                           id="types"
+                                                                           name="types"
+                                                                           value="{{ document_pattern.get_types }}"
+                                                                           placeholder="png jpg jpeg pdf word ...">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="size">حداکثر سایز مدرک به MB</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-text-hint">
+                                                                        <span class="overline-title">SIZE IN MB</span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control"
+                                                                       id="size"
+                                                                       name="size"
+                                                                       value="{{ document_pattern.size }}"
+                                                                       placeholder="default: 16MB">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="width">عرض عکس به پیکسل PX</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-text-hint">
+                                                                        <span class="overline-title">WIDTH</span>
+                                                                    </div>
+                                                                    <input type="number" class="form-control"
+                                                                       id="width"
+                                                                       name="width"
+                                                                       value="{{ document_pattern.width }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="height">ارتفاع عکس به پیکسل PX</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="form-text-hint">
+                                                                        <span class="overline-title">HEIGHT</span>
+                                                                    </div>
+                                                                    <input type="number" class="form-control"
+                                                                       id="height"
+                                                                       name="height"
+                                                                       value="{{ document_pattern.height }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -79,7 +129,35 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label">آپلود نمونه (اختیاری)</label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="custom-file">
+                                                                        <input type="file"
+                                                                               class="custom-file-input"
+                                                                               id="image"
+                                                                               name="image">
+                                                                        <label class="custom-file-label"
+                                                                               for="image">برای تغییر نمونه، عکس جدید آپلود کنید
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% if document_pattern.image %}
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label">عکس نمونه</label>
+                                                                <div class="form-control-wrap center">
+                                                                    <img src="{{ document_pattern.image.url }}"
+                                                                         class="img-thumbnail"
+                                                                         style="width: 80%;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    {% endif %}
                                                     <button type="submit" class="btn btn-dim btn-primary mt-2">
                                                         ثبت اطلاعات
                                                     </button>

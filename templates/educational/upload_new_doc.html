@@ -43,7 +43,8 @@
             inp.addEventListener('change', (event) => {
                 let acceptedTypes = ['png', 'jpg', 'pdf', 'word', 'jpeg'];
                 let type = inp.value.split('.')[inp.value.split('.').length - 1];
-                if (acceptedTypes.includes(type)) {
+                let maxSize = parseInt({{ document_pattern.size }});
+                if (acceptedTypes.includes(type) && inp.files[0].size / 1048576 <= maxSize) {
                     $('#upload_button_area').show();
                     img.attr("style", "display: block");
                     let title = $('#title');
@@ -57,10 +58,16 @@
                     document.getElementById('image_container').style.setProperty('display', 'block', 'important');
                     document.getElementById('image_container').classList.add('center');
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'لطفا یک فرمت قابل‌قبول انتخاب کنید!'
-                    });
+                    if (inp.files[0].size >= maxSize)
+                        Swal.fire({
+                            icon: 'error',
+                            title: `لطفا فایلی با اندازه‌ی کمتر از ${maxSize} مگابایت انتخاب کنید`
+                        });
+                    else
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'لطفا یک فرمت قابل‌قبول انتخاب کنید!'
+                        });
                     inp.value = '';
                     document.getElementById('image').src = '';
                     document.getElementById('image_container').style.setProperty('display', 'none', 'important');
@@ -95,13 +102,20 @@
                                                                       method="post" enctype="multipart/form-data"
                                                                       name="upload">
                                                                     {% csrf_token %}
-                                                                    <div class="upload-zone dropzone dz-clickable"
+                                                                    <div class="upload-zone dropzone dz-clickable p-0"
                                                                          id="upload-area"
                                                                          data-accepted-files="image/*">
                                                                         <div class="dz-message" data-dz-message="">
-                                                                        <span class="dz-message-text mb-2">
-                                                                            فرمت‌های قابل قبول: png, jpg, pdf, word, jpeg
-                                                                        </span>
+                                                                            <span class="dz-message-text">
+                                                                                فرمت‌های قابل قبول: png, jpg, pdf, word, jpeg
+                                                                            </span>
+                                                                            <span class="dz-message-text">
+                                                                                حداکثر سایز: {{ document_pattern.size }}
+                                                                                حداکثر ابعاد عکس: {{ document_pattern.width }} × {{ document_pattern.height }}
+                                                                            </span>
+                                                                            <span class="dz-message-text mb-2">
+                                                                                حداکثر ابعاد عکس: {{ document_pattern.width }} × {{ document_pattern.height }}
+                                                                            </span>
                                                                             <input type="file" hidden name="file"
                                                                                    id="fileupload">
                                                                             <button type="button"
@@ -135,12 +149,19 @@
                                                             {% else %}
                                                                 <form action="{% url 'educational:submit_upload' %}" name="upload">
                                                                 {% csrf_token %}
-                                                                <div class="upload-zone dropzone dz-clickable mb-3"
+                                                                <div class="upload-zone dropzone dz-clickable mb-3 p-0"
                                                                      id="upload-area"
                                                                      data-accepted-files="image/*">
                                                                     <div class="dz-message" data-dz-message="">
-                                                                        <span class="dz-message-text mb-2">
+                                                                        <span class="dz-message-text">
                                                                             فرمت‌های قابل قبول: png, jpg, pdf, word, jpeg
+                                                                        </span>
+                                                                        <span class="dz-message-text">
+                                                                            <input type="hidden" value="{{ document_pattern.id }}" id="document_pattern_size">
+                                                                            حداکثر سایز: {{ document_pattern.size }}MB
+                                                                        </span>
+                                                                        <span class="dz-message-text mb-2">
+                                                                            حداکثر ابعاد عکس: {{ document_pattern.width }} × {{ document_pattern.height }}
                                                                         </span>
                                                                         <input type="file" hidden name="file"
                                                                                id="fileupload">
