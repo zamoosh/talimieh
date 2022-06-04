@@ -151,6 +151,7 @@ class OwnerDocument(models.Model):
     educational_request = models.ManyToManyField(EducationalRequest)
     eof = models.IntegerField(default=0)
     document_pattern = models.ForeignKey(DocumentPattern, on_delete=models.SET_NULL, null=True)
+    extra = models.JSONField(default=dict)
 
     def save(self, *args, **kwargs):
         if self.image:
