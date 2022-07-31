@@ -12,9 +12,9 @@ def document_pattern_create(request):
             d.types['types'] = DocumentPattern.split_types(request.POST.get('types').split(' '))
         else:
             d.types['types'] = ['jpg', 'png', 'jpeg', 'gif', 'pdf', 'txt', 'word']
-        if request.POST.get('document_type') == '1' or request.POST.get('document_type') == '2':
-            d.document_type = request.POST.get('document_type')
-        d.document_type = request.POST.get('document_type')
+        # if request.POST.get('document_type') == '1' or request.POST.get('document_type') == '2':
+        #     d.document_type = request.POST.get('document_type')
+        # d.document_type = request.POST.get('document_type')
         context['document_pattern'] = d
         response = render(request, f'{__name__.replace("views.", "").replace(".", "/")}.html', context)
         if request.POST.get('size'):

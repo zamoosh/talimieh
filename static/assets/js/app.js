@@ -107,10 +107,10 @@ class FileUpload {
                 } else {
                     // upload complete
                     let textbox = $('.textbox');
-                    textbox.text("آپلود با موفقیت انجام شد !");
+                    textbox.text("لطفا صبر کنید!");
                     textbox.addClass('text-success');
                     $('#submit').hide();
-                    $('#send').show();
+                    $('#send').click();
                 }
             }
         });
