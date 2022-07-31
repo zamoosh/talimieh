@@ -9,10 +9,9 @@ class DocumentPattern(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     size = models.IntegerField(default=16)
-    width = models.IntegerField(default=4500)
-    height = models.IntegerField(default=4500)
-    image = models.ImageField(upload_to=document_pattern_image, null=True)
+    sample = models.FileField(upload_to=document_pattern_image, null=True)
     types = models.JSONField(default=dict)
+    extra = models.JSONField(default=dict)
     status = models.BooleanField(default=True)
 
     def get_types(self):

@@ -7,6 +7,7 @@
 {% endblock %}
 {% block js %}
     <script>
+    $(window).on('load', function () {
         {% if update %}
             Swal.fire({
                 icon: 'success',
@@ -15,10 +16,29 @@
         {% endif %}
         {% if numeric_error %}
             Swal.fire({
-                    icon: 'error',
-                    title: 'لطفا یک مقدار عددی وارد کنید!'
-                })
+                icon: 'error',
+                title: 'لطفا یک مقدار عددی وارد کنید!'
+            })
         {% endif %}
+
+        let inpTypes = $('input[name="document_type"]');
+
+        inpTypes.on('click', function () {
+            let wAndH = $(`div#video`)
+            if ($(this).attr('id') === 'video') {
+                wAndH.show();
+            } else {
+                wAndH.hide();
+            }
+        });
+
+        for (let i = 0; i < inpTypes.length; i++) {
+            if ($(inpTypes[i]).is(':checked')) {
+                inpTypes = $(inpTypes[i])
+                inpTypes.click();
+            }
+        }
+    });
     </script>
 {% endblock %}
 {% block bodyclass %} class="nk-body bg-lighter has-rtl npc-default pg-auth"{% endblock %}
@@ -41,6 +61,40 @@
                                                 <form action="{% url 'document_pattern:edit' document_pattern.id %}" method="post" enctype="multipart/form-data">
                                                     {% csrf_token %}
                                                     <div class="row gy-4">
+                                                        <div class="col-12 mb-4">
+                                                            <div class="row justify-content-around">
+                                                                <div class="col-6">
+                                                                    <div class="preview-block">
+                                                                        {#                                                                <span class="preview-title overline-title">Default</span>#}
+                                                                        <div class="custom-control custom-radio">
+                                                                            <input type="radio" id="textual" required
+                                                                                   name="document_type" value="1"
+                                                                                   {% if document_pattern.document_type == '1' %}checked{% endif %}
+                                                                                   class="custom-control-input">
+                                                                            <label class="custom-control-label"
+                                                                                   for="textual">
+                                                                                مدرک متنی
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="preview-block">
+                                                                        {#                                                                <span class="preview-title overline-title">Default</span>#}
+                                                                        <div class="custom-control custom-radio">
+                                                                            <input type="radio" id="video" required
+                                                                                   name="document_type" value="2"
+                                                                                   {% if document_pattern.document_type == '2' %}checked{% endif %}
+                                                                                   class="custom-control-input">
+                                                                            <label class="custom-control-label"
+                                                                                   for="video">
+                                                                                مدرک تصویری
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label class="form-label" for="title">نام (موضوع)</label>
@@ -88,34 +142,42 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="width">عرض عکس به پیکسل PX</label>
-                                                                <div class="form-control-wrap">
-                                                                    <div class="form-text-hint">
-                                                                        <span class="overline-title">WIDTH</span>
+
+                                                        <div class="col-6" id="video" style="display: none">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label class="form-label" for="height">عرض مدرک
+                                                                            به پیکسل PX</label>
+                                                                        <div class="form-control-wrap">
+                                                                            <div class="form-text-hint">
+                                                                                <span class="overline-title">WIDTH</span>
+                                                                            </div>
+                                                                            <input type="number" class="form-control"
+                                                                                   id="height"
+                                                                                   name="height"
+                                                                                   value="{{ document_pattern.extra.width }}">
+                                                                        </div>
                                                                     </div>
-                                                                    <input type="number" class="form-control"
-                                                                       id="width"
-                                                                       name="width"
-                                                                       value="{{ document_pattern.width }}">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label class="form-label" for="width">ارتفاع
+                                                                            مدرک به پیکسل PX</label>
+                                                                        <div class="form-control-wrap">
+                                                                            <div class="form-text-hint">
+                                                                                <span class="overline-title">HEIGHT</span>
+                                                                            </div>
+                                                                            <input type="number" class="form-control"
+                                                                                   id="width"
+                                                                                   name="width"
+                                                                                   value="{{ document_pattern.extra.height }}">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="height">ارتفاع عکس به پیکسل PX</label>
-                                                                <div class="form-control-wrap">
-                                                                    <div class="form-text-hint">
-                                                                        <span class="overline-title">HEIGHT</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control"
-                                                                       id="height"
-                                                                       name="height"
-                                                                       value="{{ document_pattern.height }}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
                                                                 <label class="form-label"

@@ -11,3 +11,4 @@ from django.urls import reverse
 from utils.user_checker import is_normal
 from document_pattern.models import DocumentPattern
 import json
+from library.is_id_real import is_id_real

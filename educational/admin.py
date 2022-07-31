@@ -7,7 +7,7 @@ class EducationalRequestAdmin(admin.ModelAdmin):
 
 
 class OwnerDocumentAdmin(admin.ModelAdmin):
-    list_display = ['user', 'title', 'image', 'id']
+    list_display = ['user', 'title', 'file', 'id']
 
 
 admin.site.register(EducationalRequest, EducationalRequestAdmin)
