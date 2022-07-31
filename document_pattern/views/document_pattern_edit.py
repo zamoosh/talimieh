@@ -9,9 +9,15 @@ def document_pattern_edit(request, doc_id):
     d = DocumentPattern.objects.get(id=doc_id)
     if request.method == 'POST':
         if request.POST.get('types'):
-            d.types['types'] = d.split_types(request.POST.get('types').split(' '))
+            d.types['types'] = DocumentPattern.split_types(request.POST.get('types').split(' '))
         else:
-            d.types['types'] = ['png', 'jpg', 'jpeg']
+            d.types['types'] = ['jpg', 'png', 'jpeg', 'gif', 'pdf', 'txt', 'word']
+        if request.POST.get('document_type') == '1' or request.POST.get('document_type') == '2':
+            d.document_type = request.POST.get('document_type')
+            if d.document_type == '1':
+                d.extra['width'] = None
+                d.extra['height'] = None
+        d.document_type = request.POST.get('document_type')
         if not request.POST.get('title'):
             return redirect(reverse('document_pattern:edit', kwargs={'doc_id': doc_id}))
         context['document_pattern'] = d
@@ -24,20 +30,20 @@ def document_pattern_edit(request, doc_id):
                 return response
         if request.POST.get('width'):
             if request.POST.get('width').isnumeric():
-                d.width = math.ceil(int(request.POST.get('width')))
+                d.extra['width'] = math.ceil(int(request.POST.get('width')))
             else:
                 context['numeric_error'] = True
                 return response
         if request.POST.get('height'):
             if request.POST.get('height').isnumeric():
-                d.height = math.ceil(int(request.POST.get('height')))
+                d.extra['height'] = math.ceil(int(request.POST.get('width')))
             else:
                 context['numeric_error'] = True
                 return response
         d.title = request.POST.get('title')
         d.description = request.POST.get('description')
         d.save()
-        d.image = request.FILES.get('image')
+        d.file = request.FILES.get('image')
         d.save()
         request.session['update'] = True
         return redirect(reverse('document_pattern:edit', kwargs={'doc_id': doc_id}))

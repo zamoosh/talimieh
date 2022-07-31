@@ -51,8 +51,10 @@ class FileUpload {
         formData.append('end', end)
         formData.append('existingPath', existingPath);
         formData.append('nextSlice', nextChunk);
-        formData.append('title', jQuery("#title").val());
+        formData.append('title', $("#title").val());
         formData.append('document_pattern_size', $('#document_pattern_size').val());
+        formData.append('accepted_types', acceptedTypes);
+        console.log(acceptedTypes);
         $.ajaxSetup({
             headers: {
                 "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -107,6 +109,8 @@ class FileUpload {
                     let textbox = $('.textbox');
                     textbox.text("آپلود با موفقیت انجام شد !");
                     textbox.addClass('text-success');
+                    $('#submit').hide();
+                    $('#send').show();
                 }
             }
         });

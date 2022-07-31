@@ -21,6 +21,18 @@
                     title: 'لطفا یک مقدار عددی وارد کنید!'
                 })
         {% endif %}
+
+        let inpTypes = $('input[name="document_type"]');
+        inpTypes.on('click', function () {
+            let wAndH = $(`div#video`)
+            if ($(this).attr('id') === 'video') {
+                wAndH.show();
+            }
+            else {
+                wAndH.hide();
+            }
+        });
+
     </script>
 
 {% endblock %}
@@ -44,6 +56,40 @@
                                                 <form action="{% url 'document_pattern:create' %}" method="post" enctype="multipart/form-data">
                                                     {% csrf_token %}
                                                     <div class="row gy-4">
+                                                        <div class="col-12 mb-4">
+                                                            <div class="row justify-content-around">
+                                                                <div class="col-6">
+                                                                    <div class="preview-block">
+                                                                        {#                                                                <span class="preview-title overline-title">Default</span>#}
+                                                                        <div class="custom-control custom-radio">
+                                                                            <input type="radio" id="textual" required
+                                                                                   name="document_type" value="1"
+                                                                                   class="custom-control-input">
+                                                                            <label class="custom-control-label"
+                                                                                   for="textual">
+                                                                                مدرک متنی
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="preview-block">
+                                                                        {#                                                                <span class="preview-title overline-title">Default</span>#}
+                                                                        <div class="custom-control custom-radio">
+                                                                            <input type="radio" id="video" required
+                                                                                   name="document_type" value="2"
+                                                                                   class="custom-control-input">
+                                                                            <label class="custom-control-label"
+                                                                                   for="video">
+                                                                                مدرک تصویری
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label class="form-label" for="title">نام (موضوع)</label>
@@ -69,6 +115,7 @@
                                                                     <input type="text" class="form-control"
                                                                        id="types"
                                                                        name="types"
+                                                                       required
                                                                        placeholder="png jpg jpeg pdf word ...">
                                                                 </div>
                                                             </div>
@@ -83,39 +130,48 @@
                                                                     <input type="text" class="form-control"
                                                                        id="size"
                                                                        name="size"
-                                                                       value="16"
                                                                        placeholder="default: 16MB">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="height">عرض عکس به پیکسل PX</label>
-                                                                <div class="form-control-wrap">
-                                                                    <div class="form-text-hint">
-                                                                        <span class="overline-title">WIDTH</span>
+
+
+                                                        <div class="col-6" id="video" style="display: none">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label class="form-label" for="height">عرض مدرک
+                                                                            به پیکسل PX</label>
+                                                                        <div class="form-control-wrap">
+                                                                            <div class="form-text-hint">
+                                                                                <span class="overline-title">WIDTH</span>
+                                                                            </div>
+                                                                            <input type="number" class="form-control"
+                                                                                   id="height"
+                                                                                   name="height"
+                                                                                   placeholder="3000">
+                                                                        </div>
                                                                     </div>
-                                                                    <input type="number" class="form-control"
-                                                                       id="height"
-                                                                       name="height"
-                                                                       value="3000">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label class="form-label" for="width">ارتفاع
+                                                                            مدرک به پیکسل PX</label>
+                                                                        <div class="form-control-wrap">
+                                                                            <div class="form-text-hint">
+                                                                                <span class="overline-title">HEIGHT</span>
+                                                                            </div>
+                                                                            <input type="number" class="form-control"
+                                                                                   id="width"
+                                                                                   name="width"
+                                                                                   placeholder="3000">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="width">ارتفاع عکس به پیکسل PX</label>
-                                                                <div class="form-control-wrap">
-                                                                    <div class="form-text-hint">
-                                                                        <span class="overline-title">HEIGHT</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control"
-                                                                       id="width"
-                                                                       name="width"
-                                                                       value="3000">
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
+
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
                                                                 <label class="form-label"
@@ -137,7 +193,7 @@
                                                                         <input type="file"
                                                                             class="custom-file-input"
                                                                             id="image"
-                                                                            name="image">
+                                                                            name="file">
                                                                         <label class="custom-file-label"
                                                                                for="image">فایل را انتخاب کنید
                                                                         </label>

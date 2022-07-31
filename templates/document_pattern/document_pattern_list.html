@@ -36,7 +36,8 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {% for d in document_patterns %}
+                                            {% if document_patterns %}
+                                                {% for d in document_patterns %}
                                                 <tr>
                                                     <th scope="row">{{ forloop.counter }}</th>
                                                     <td>{% if d.title %}{{ d.title }}{% else %}ندارد{% endif %} </td>
@@ -74,6 +75,7 @@
                                                     </td>
                                                 </tr>
                                             {% endfor %}
+                                            {% endif %}
                                             </tbody>
                                         </table>
                                         </div>
