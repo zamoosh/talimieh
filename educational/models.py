@@ -147,27 +147,27 @@ def owner_image(instance, filename):
 class OwnerDocument(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
-    image = models.ImageField(blank=True, null=True)
+    file = models.FileField(blank=True, null=True)
     educational_request = models.ManyToManyField(EducationalRequest)
     eof = models.IntegerField(default=0)
     document_pattern = models.ForeignKey(DocumentPattern, on_delete=models.SET_NULL, null=True)
     extra = models.JSONField(default=dict)
 
     def save(self, *args, **kwargs):
-        if self.image:
+        if self.file:
             if not self.id:
-                img = self.image
-                self.image = None
+                img = self.file
+                self.file = None
                 super(OwnerDocument, self).save()
-                self.image = img
+                self.file = img
         super(OwnerDocument, self).save()
 
     def __str__(self):
         return f' {str(self.id)} {self.title} {self.user.first_name} {self.user.last_name} {str(self.user.id)}'
 
     def delete(self, using=None, keep_parents=False):
-        if self.image:
-            self.image.delete(self.image.name)
+        if self.file:
+            self.file.delete(self.file.name)
         super(OwnerDocument, self).delete()
 
 

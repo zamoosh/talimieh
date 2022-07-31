@@ -120,7 +120,7 @@ def get_uni_degrees(request):
 @login_required
 def get_sections_degrees(request):
     section = DegreeFieldStudy.objects.get(id=request.POST.get('d_id'))
-    degrees = DegreeFieldStudy.objects.filter(parent=section)
+    degrees = DegreeFieldStudy.objects.filter(parent=section, status=True)
     degree_list = []
     for degree in degrees:
         degree_list.append(
