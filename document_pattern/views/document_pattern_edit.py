@@ -12,12 +12,12 @@ def document_pattern_edit(request, doc_id):
             d.types['types'] = DocumentPattern.split_types(request.POST.get('types').split(' '))
         else:
             d.types['types'] = ['jpg', 'png', 'jpeg', 'gif', 'pdf', 'txt', 'word']
-        if request.POST.get('document_type') == '1' or request.POST.get('document_type') == '2':
-            d.document_type = request.POST.get('document_type')
-            if d.document_type == '1':
-                d.extra['width'] = None
-                d.extra['height'] = None
-        d.document_type = request.POST.get('document_type')
+        # if request.POST.get('document_type') == '1' or request.POST.get('document_type') == '2':
+        #     d.document_type = request.POST.get('document_type')
+        #     if d.document_type == '1':
+        #         d.extra['width'] = None
+        #         d.extra['height'] = None
+        # d.document_type = request.POST.get('document_type')
         if not request.POST.get('title'):
             return redirect(reverse('document_pattern:edit', kwargs={'doc_id': doc_id}))
         context['document_pattern'] = d

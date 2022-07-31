@@ -68,13 +68,13 @@
                             icon: 'error',
                             title: `لطفا فایلی با اندازه‌ی کمتر از ${maxSize} مگابایت انتخاب کنید`
                         });
-                        setTimeout(() => {location.reload();}, 1500)
+                        setTimeout(() => {location.reload();}, 1000)
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'لطفا یک فرمت قابل‌قبول انتخاب کنید!'
                         });
-                        setTimeout(() => {location.reload();}, 1500)
+                        setTimeout(() => {location.reload();}, 1000)
                     }
                     inp.value = '';
                     document.getElementById('image').src = '';
@@ -200,10 +200,10 @@
                                                                         <span class="dz-message-text">
                                                                             فرمت‌های قابل قبول: {{ document_pattern.get_types }}
                                                                         </span>
+                                                                        <span class="dz-message-text">
+                                                                            حداکثر سایز: {{ document_pattern.size }}MB
+                                                                        </span>
                                                                         {% if document_pattern.extra.width %}
-                                                                            <span class="dz-message-text">
-                                                                                حداکثر سایز: {{ document_pattern.size }}MB
-                                                                            </span>
                                                                             <span class="dz-message-text mb-2">
                                                                                 حداکثر ابعاد عکس: {{ document_pattern.extra.width }}px × {{ document_pattern.extra.height }}px
                                                                             </span>
