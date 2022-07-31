@@ -56,7 +56,7 @@
                                                 <form action="{% url 'document_pattern:create' %}" method="post" enctype="multipart/form-data">
                                                     {% csrf_token %}
                                                     <div class="row gy-4">
-                                                        <div class="col-12 mb-4">
+                                                        <!--div class="col-12 mb-4">
                                                             <div class="row justify-content-around">
                                                                 <div class="col-6">
                                                                     <div class="preview-block">
@@ -87,7 +87,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div-->
 
 
                                                         <div class="col-sm-6">
@@ -136,35 +136,31 @@
                                                         </div>
 
 
-                                                        <div class="col-6" id="video" style="display: none">
+                                                        <div class="col-6" id="video">
                                                             <div class="row">
                                                                 <div class="col-6">
                                                                     <div class="form-group">
-                                                                        <label class="form-label" for="height">عرض مدرک
-                                                                            به پیکسل PX</label>
+                                                                        <label class="form-label" for="height">عرض مدرک به پیکسل (اختیاری)</label>
                                                                         <div class="form-control-wrap">
                                                                             <div class="form-text-hint">
                                                                                 <span class="overline-title">WIDTH</span>
                                                                             </div>
                                                                             <input type="number" class="form-control"
                                                                                    id="height"
-                                                                                   name="height"
-                                                                                   placeholder="3000">
+                                                                                   name="height">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <div class="form-group">
-                                                                        <label class="form-label" for="width">ارتفاع
-                                                                            مدرک به پیکسل PX</label>
+                                                                        <label class="form-label" for="width">ارتفاع مدرک به پیکسل (اختیاری)</label>
                                                                         <div class="form-control-wrap">
                                                                             <div class="form-text-hint">
                                                                                 <span class="overline-title">HEIGHT</span>
                                                                             </div>
                                                                             <input type="number" class="form-control"
                                                                                    id="width"
-                                                                                   name="width"
-                                                                                   placeholder="3000">
+                                                                                   name="width">
                                                                         </div>
                                                                     </div>
                                                                 </div>
