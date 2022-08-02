@@ -36,8 +36,13 @@ def profile(request):
         user.email = context['req']['email']
         user.ancestor_name = context['req']['ancestor_name']
         user.nick_name = context['req']['nick_name']
+        # TODO: fix validation for passport number it should be unique
         if context['req']['pass_number'].isnumeric():
-            user.pass_number = context['req']['pass_number']
+            if not context['req']['pass_number'] == user.pass_number:  # if not like the previous
+                if not User.objects.filter(pass_number=context['req']['pass_number']).exists():  # if pass doesn't exist
+                    user.pass_number = context['req']['pass_number']
+                else:
+                    request.session['pass_error'] = True
         else:
             request.session['pass_number_err'] = True
             return redirect(reverse('client:profile'))
@@ -102,4 +107,7 @@ def profile(request):
     if request.session.get('whatsapp_err'):
         context['whatsapp_err'] = True
         del request.session['whatsapp_err']
+    if request.session.get('pass_error'):
+        context['pass_error'] = True
+        del request.session['pass_error']
     return render(request, 'client/profile.html', context)

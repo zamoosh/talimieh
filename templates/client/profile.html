@@ -36,6 +36,11 @@
                     place_birth: 'required',
                     place_issue: 'required',
                     pre_number: 'required',
+                    whatsapp: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 10
+                    }
                 },
                 messages: {
                     first_name: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
@@ -47,7 +52,12 @@
                     pass_expiration: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
                     place_birth: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
                     place_issue: 'لطفا این قسمت را پر کنید؛ این قسمت الزامی است',
-                    pre_number: 'انتخاب کنید'
+                    pre_number: 'انتخاب کنید',
+                    whatsapp: {
+                        required: 'لطفا شماره واتساپ را وارد کنید',
+                        minlength: 'شماره باید ۱۰ رقم باشد',
+                        maxlength: 'شماره باید ۱۰ رقم باشد'
+                    }
                 }
             })
         })
@@ -63,33 +73,29 @@
                 alert.css('display', 'none');
                 btn[0].disabled = false;
             }
-
         }
         $(window).on('scroll change click load enter set_text setText', function () {
             passWordChecker();
-        })
+        });
         pass.on('change', function () {
             passWordChecker();
-        })
+        });
         rePass.on('change', function () {
             passWordChecker();
-        })
+        });
 
-        let whatsapp = $('#whatsapp');
-        $(whatsapp).on('keyup keydown', function () {
-            if ($.isNumeric(whatsapp.val())){
-                btn.prop('disabled', false);
-                console.log('numeric');
-            }
-            else
-                btn.prop('disabled', true);
-        })
 
         $(window).on('load', function () {
             setTimeout(function () {
                 $('#confirm_alert').css('display', 'none');
             }, 3000)
         })
+        {% if pass_error %}
+            Swal.fire({
+                title: 'پسورد شما تکراری است!',
+                icon: 'error',
+            })
+        {% endif %}
 
     </script>
 {% endblock %}
@@ -423,7 +429,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6">
+                                                                <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="place_issue">محل صدور</label>
                                                                         <label class="form-label text-danger" for="place_issue">*</label>
@@ -437,7 +443,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6">
+                                                                <div class="col-lg-12">
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="whatsapp">شماره واتساپ</label>
                                                                         <div class="form-control-wrap">
@@ -448,14 +454,16 @@
                                                                                             type="number"
                                                                                             class="form-control"
                                                                                             id="whatsapp"
+                                                                                            placeholder="AAA-AAA-AAAA"
                                                                                             value="{% if request.user.whatsapp %}{{ request.user|get_whatsapp_number }}{% endif %}">
+                                                                                    <small class="text-danger whatsapp"></small>
                                                                                 </div>
                                                                                 <div class="col-md-4">
                                                                                     <select name="pre_number"
                                                                                             id="pre_number" required
                                                                                             class="form-control form-control-select">
-                                                                                        <option {% if request.user.whatsapp|whatsapp_contains:'+93' %}selected{% endif %} value="+93">93+</option>
-                                                                                        <option {% if request.user.whatsapp|whatsapp_contains:'+946' %}selected{% endif %} value="+946">946+</option>
+                                                                                        <option {% if request.user.whatsapp|whatsapp_contains:'+93' %}selected{% endif %} value="+93">افغانستان</option>
+                                                                                        <option {% if request.user.whatsapp|whatsapp_contains:'+946' %}selected{% endif %} value="+946">عراق</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
@@ -512,7 +520,11 @@
                                                         <div class="user-account-info py-0"><h6
                                                                 class="overline-title-alt">
                                                             شماره دانشجویی</h6>
-                                                            <div class="user-balance">{{ request.user.student_num }}</div>
+                                                            <div class="user-balance">
+                                                                {% if request.user.student_num %}
+                                                                    {{ request.user.student_num }}
+                                                                {% endif %}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 {% endif %}

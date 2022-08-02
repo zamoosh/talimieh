@@ -12,12 +12,7 @@ def is_student(user):
 
 @register.filter(name='get_whatsapp_number')
 def get_whatsapp_number(user):
-    wh_number = user.whatsapp
-    if len(wh_number) < 10:
-        return wh_number
-    while len(wh_number) != 10:
-        wh_number = wh_number.replace(wh_number[0], '', 1)
-    return wh_number
+    return user.whatsapp[:-11:-1][::-1]
 
 
 @register.filter(name='whatsapp_contains')

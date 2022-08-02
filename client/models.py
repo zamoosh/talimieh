@@ -17,7 +17,7 @@ class User(AbstractUser):
     father_name = models.CharField(max_length=15, null=True, blank=True)
     ancestor_name = models.CharField(max_length=15, null=True, blank=True)
     nick_name = models.CharField(max_length=15, null=True, blank=True)
-    pass_number = models.CharField(max_length=25, null=True, blank=True)
+    pass_number = models.CharField(max_length=25, null=True, blank=True, unique=True)
     birth_date = models.DateField(auto_now_add=True)
     pass_issue_date = models.DateField(auto_now_add=True)
     pass_expiration = models.DateField(auto_now_add=True)
